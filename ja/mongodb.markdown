@@ -91,17 +91,17 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 最初に、私たちは6つの概念を理解する必要があります。
 
-1. MongoDB has the same concept of a 'database' with which you are likely already familiar (or a schema for you Oracle folks).  Within a MongoDB instance you can have zero or more databases, each acting as high-level containers for everything else.
+1. MongoDBはあなたが既に慣れ親しんでいる`データベース`と同じ概念を持っています(あるいはOracleでいうところのスキーマ)。MongoDBインスタンスの中には0個以上のデータベースを持つことが出来、それぞれは高レベルコンテナの様に作用します。
 
-2. A database can have zero or more 'collections'. A collection shares enough in common with a traditional 'table' that you can safely think of the two as the same thing.
+2. データベースは0個以上の`コレクション`を持つことが出来ます。コレクションは従来の`テーブル`とほぼ共通しているので、2つが同じものだと思っても支障は無いでしょう。
 
-3. Collections are made up of zero or more 'documents'. Again, a document can safely be thought of as a 'row'.
+3. コレクションは0個以上の`ドキュメント`を作成できます。先ほどと同様にドキュメントを`行`と思って構いません。
 
-4. A document is made up of one or more 'fields', which you can probably guess are a lot like 'columns'.
+4. ドキュメントは1つ以上の`フィールド`を作成できます。あなたは恐らくこれを`列`に似ていると推測できるでしょう。
 
-5. 'Indexes' in MongoDB function much like their RDBMS counterparts.
+5. MongoDBでの`インデックス`機能はRDBMSのものとよく似ています。
 
-6. 'Cursors' are different than the other five concepts but they are important enough, and often overlooked, that I think they are worthy of their own discussion.  The important thing to understand about cursors is that when you ask MongoDB for data, it returns a cursor, which we can do things to, such as counting or skipping ahead, without actually pulling down data.
+6. `カーソル`はこれまでの5つの概念とは異なりますが、とても重要で見落とされがちですので詳しく説明する必要があると思います。カーソルについて理解べき重要な事は、カウントやスキップの様な操作は実際にデータを引き出すこと無くMongoDBにデータを問い合わせた際に返却されるカーソルに対して行われるいう事です。
 
 To recap, MongoDB is made up of `databases` which contain `collections`. A `collection` is made up of `documents`. Each `document` is made up of `fields`. `Collections` can be `indexed`, which improves lookup and sorting performance. Finally, when we get data from MongoDB we do so through a `cursor` whose actual execution is delayed until necessary.
 
