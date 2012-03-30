@@ -115,7 +115,7 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 余談ですが、あなたが丸カッコ`()`を含めずにメソッドを実行した場合、メソッドの実行ではなくメソッドの本体が表示されます。なぜならこれはJavaScriptシェルだからです。あなたが最初にこれをやった時、`function (...){`という応答が返ってきても驚かないように、この事に触れておきました。たとえば、丸カッコ無しで`db.help`と入力すると`help`メソッドの内部実装を見ることが出来ます。
 
-First we'll use the global `use` method to switch databases, go ahead and enter `use learn`. It doesn't matter that the database doesn't really exist yet. The first collection that we create will also create the actual `learn` database. Now that you are inside a database, you can start issuing database commands, like `db.getCollectionNames()`. If you do so, you should get an empty array (`[ ]`). Since collections are schema-less, we don't explicitly need to create them. We can simply insert a document into a new collection. To do so, use the `insert` command, supplying it with the document to insert:
+私たちは最初にグローバルな`use`メソッドを利用してデータベースを切り替えます。どうぞ`use learn`と入力してみて下さい。そのデータベースが実際に存在していなくても構いません。最初のコレクションを`learn`に作成しましょう。今あなたはデータベースの中にいて、`db.getCollectionNames()`という様なデータベースコマンドを発行できます。これを実行すると、恐らく空の配列(`[ ]`)が返ってくるでしょう。コレクションはスキーマレスですので、それらを明確に作成する必要はありません。私たちは、単純にドキュメントをコレクションに作成する事が出来ます。それでは`insert`コマンドを使ってドキュメントにコレクションを挿入してみましょう。
 
 	db.unicorns.insert({name: 'Aurora', gender: 'f', weight: 450})
 
