@@ -113,7 +113,7 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 どうぞ、`db.help()`と入力してみて下さい。`db`オブジェクトに対して実行可能なコマンド一覧を得ることが出来るでしょう。
 
-A small side note. Because this is a JavaScript shell, if you execute a method and omit the parentheses `()`, you'll see the method body rather than executing the method. I only mention it because the first time you do it and get a response that starts with `function (...){` you won't be surprised. For example, if you enter `db.help` (without the parentheses), you'll see the internal implementation of the `help` method.
+余談ですが、あなたが丸カッコ`()`を含めずにメソッドを実行した場合、メソッドの実行ではなくメソッドの本体が表示されます。なぜならこれはJavaScriptシェルだからです。あなたが最初にこれをやった時、`function (...){`という応答が返ってきても驚かないように、この事に触れておきました。たとえば、丸カッコ無しで`db.help`と入力すると`help`メソッドの内部実装を見ることが出来ます。
 
 First we'll use the global `use` method to switch databases, go ahead and enter `use learn`. It doesn't matter that the database doesn't really exist yet. The first collection that we create will also create the actual `learn` database. Now that you are inside a database, you can start issuing database commands, like `db.getCollectionNames()`. If you do so, you should get an empty array (`[ ]`). Since collections are schema-less, we don't explicitly need to create them. We can simply insert a document into a new collection. To do so, use the `insert` command, supplying it with the document to insert:
 
