@@ -107,7 +107,7 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 なぜ新しい専門用語を利用するのか不思議に思うかもしれません(コレクションとテーブル、ドキュメントと行、フィールドと列)。物事を複雑にするだけでしょうか?これらの概念がリレーショナルデータベースの機能と良く似ているという点でその通りですが、これらは全く同じではありません。主要な違いは、リレーショナルデーターベースが`テーブル`のレベルに`列`を定義しているのに対し、ドキュメント志向データベースは`ドキュメント`のレベルに`フィールド`を定義している事です。`コレクション`の中の`ドキュメント`はそれ自身の独自の`フィールド`を持つことが出来ると言えます。という訳で、`コレクション`は`テーブル`に比べ、より使い易くいコンテナとなり、さらに`ドキュメント`は`行`に比べてより多くの情報を持つようになります。
 
-Although this is important to understand, don't worry if things aren't yet clear. It won't take more than a couple of inserts to see what this truly means. Ultimately, the point is that a collection isn't strict about what goes in it (it's schema-less). Fields are tracked with each individual document. The benefits and drawbacks of this will be explored in a future chapter.
+これを理解することは重要ですが、もしこれをまだ完全に理解出来ていなくても心配することはありません。この本当の意味を確かめる為にはまだもう少し説明が必要でしょう。突き詰めていくとコレクションの中に何が入るかが厳密ではない事が要点です(スキーマレスの事)。フィールドは特定のドキュメントに対して追従します。先の章で利点と欠点に気がつくでしょう。
 
 Let's get hands-on. If you don't have it running already, go ahead and start the `mongod` server as well as a mongo shell. The shell runs JavaScript. There are some global commands you can execute, like `help` or `exit`. Commands that you execute against the current database are executed against the `db` object, such as `db.help()` or `db.stats()` . Commands that you execute against a specific collection, which is what we'll be doing a lot of, are executed against the `db.COLLECTION_NAME` object, such as `db.unicorns.help()` or `db.unicorns.count()`.
 
