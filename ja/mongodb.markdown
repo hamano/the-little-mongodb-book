@@ -36,9 +36,11 @@ MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてラ�
 \clearpage
 
 ## Introduction ##
- > It's not my fault the chapters are short, MongoDB is just easy to learn.
+ > この章が短い事は私の誤りではありません、MongoDBを学ぶ事はとても簡単です。
 
-It is often said that technology moves at a blazing pace. It's true that there is an ever growing list of new technologies and techniques being released. However, I've long been of the opinion that the fundamental technologies used by programmers move at a rather slow pace. One could spend years   learning little yet remain relevant. What is striking though is the speed at which established technologies get replaced. Seemingly over-night, long established technologies find themselves threatened by shifts in developer focus.
+しばしば、技術は激しい速度で変化していると言われます。それは新しい技術と技術手法が公開され続けているという点で真実ですが、私の見解ではプログラマによって利用される基礎的な技術の変化はかなり遅いと考えています。
+One could spend years learning little yet remain relevant.
+注目すべき所は確立した技術が置きかえられる速度です。気がつくと、長い歴史を持つ技術がまるで一晩で開発者の関心の転移に脅かされているようです。
 
 Nothing could be more representative of this sudden shift than the progress of NoSQL technologies against well-established relational databases. It almost seems like one day the web was being driven by a few RDBMS' and the next, five or so NoSQL solutions had established themselves as worthy solutions.
 
