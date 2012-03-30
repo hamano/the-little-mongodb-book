@@ -52,8 +52,8 @@ One could spend years learning little yet remain relevant.
 
 もう気がついているかもしれませんが、私たちはMongoDBという用語と同じ意味でMongoと呼ぶことがあります。
 
-## Getting Started ##
-Most of this book will focus on core MongoDB functionality. We'll therefore rely on the MongoDB shell. While the shell is useful to learn as well as being a useful administrative tool, your code will use a MongoDB driver.
+## はじめよう ##
+この本の大部分はMongoDBの機能面に注目します。その為に私たちはMongoDBシェルを利用します。MongoDBドライバを利用するようになるまで、MongoDBシェルは学習に役立つだけでなく、便利な管理ツールとなるでしょう。
 
 This does bring up the first thing you should know about MongoDB: its drivers. MongoDB has a [number of official drivers](http://www.mongodb.org/display/DOCS/Drivers) for various languages. These drivers can be thought of as the various database drivers you are probably already familiar with. On top of these drivers, the development community has built more language/framework-specific libraries. For example, [NoRM](https://github.com/atheken/NoRM) is a C# library which implements LINQ, and [MongoMapper](https://github.com/jnunemaker/mongomapper) is a Ruby library which is ActiveRecord-friendly. Whether you choose to program directly against the core MongoDB drivers or some higher-level library is up to you. I point this out only because many people new to MongoDB are confused as to why there are both official drivers and community libraries - the former generally focuses on core communication/connectivity with MongoDB and the latter with more language and framework specific implementations.
 
