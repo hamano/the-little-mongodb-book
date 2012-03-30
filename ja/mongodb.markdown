@@ -80,7 +80,7 @@ Windowsユーザーの為の例を示すと、もしダウンロードファイ�
 
 無駄を少なくする為に、ご自由に`bin`フォルダをパスに追加して下さい。MacOSXとLinuxユーザーはほとんど同じやり方に従うことが出来ます。あなたがすべきことはパスを変更することくらいです。
 
-Hopefully you now have MonogDB up and running. If you get an error, read the output carefully - the server is quite good at explaining what's wrong.
+うまくいけば今あなたはMonogDBを実行しているでしょう。もしエラーが起こったらならメッセージを注意深く読んで下さい。サーバーは何がおかしいのかを丁寧に説明してくれます。
 
 You can now launch `mongo` (without the *d*) which will connect a shell to your running server. Try entering `db.version()` to make sure everything's working as it should. Hopefully you'll see the version number you installed.
 
