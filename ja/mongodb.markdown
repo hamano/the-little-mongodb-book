@@ -86,10 +86,10 @@ Windowsユーザーの為の例を示すと、もしダウンロードファイ�
 
 \clearpage
 
-## Chapter 1 - The Basics ##
-We begin our journey by getting to know the basic mechanics of working with MongoDB. Obviously this is core to understanding MongoDB, but it should also help us answer higher-level questions about where MongoDB fits.
+## 1章 - 基礎 ##
+MongoDBの動作の基本的な機構を知ることからはじめましょう。当然これはMongoDBの核心を理解することです。しかしこれはMongoDBについての高レベルな質問答えを見つけ出す為にも役立ちます。
 
-To get started, there are six simple concepts we need to understand.
+最初に、私たちは6つの概念を理解する必要があります。
 
 1. MongoDB has the same concept of a 'database' with which you are likely already familiar (or a schema for you Oracle folks).  Within a MongoDB instance you can have zero or more databases, each acting as high-level containers for everything else.
 
