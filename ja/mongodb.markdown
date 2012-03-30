@@ -48,9 +48,9 @@ One could spend years learning little yet remain relevant.
 
 何よりもまず初めに、NoSQLが何を意味しているのかを説明すべきでしょう。それは人によって異なる意味を持つ広義の用語です。私は個人的に、それをデータストレージの役割を果たすシステムという意味で使用しています。言い換えれば、(私にとっての)NoSQLはあなたが執着する単一のシステムに必ずしも責任を持つようなものではありません。歴史的に見て、リレーショナルデータベースベンダーはどんなサイズにも適応する万能なソリューションとしてソフトウェアを位置づけてきました。NoSQLスタックはMySQLといったリレーショナルデータベースの様に利用する事も出来るでしょうが、NoSQLは与えられた仕事を達成する為の最適なツールとしてより小さい単位の役割に向かう傾向があります。そして、Redisもまた参照性能というシステムの特定部位に執着し、同じようにHadoopもデータ処理に集中的です。簡単に言うと、NoSQLはオープンであり、既存のものの代替や付加的なパターンを意識し、データを管理する為のツールです。
 
-You might be wondering where MongoDB fits into all of this. As a document-oriented database, Mongo is a more generalized NoSQL solution. It should be viewed as an alternative to relational databases. Like relational databases, it too can benefit from being paired with some of the more specialized NoSQL solutions. MongoDB has advantages and drawbacks, which we'll cover in later parts of this book.
+あなたはMongoDBが多くの事に適応する事に驚くかもしれません。Mongoはドキュメント志向データベースとしてよりNoSQLソリューションに汎用化されています。それはリレーショナルデータベースの代替の様に見られるでしょうが、リレーショナルデータベースと比較すると、もっと専門化したNoSQLソリューションにおいて恩恵を得ることが出来ます。MongoDBには利点と欠点がありますのでそれには後ほどこの本の中で触れます。
 
-As you may have noticed, we use the terms MongoDB and Mongo interchangeably.
+もう気がついているかもしれませんが、私たちはMongoDBという用語と同じ意味でMongoと呼ぶことがあります。
 
 ## Getting Started ##
 Most of this book will focus on core MongoDB functionality. We'll therefore rely on the MongoDB shell. While the shell is useful to learn as well as being a useful administrative tool, your code will use a MongoDB driver.
