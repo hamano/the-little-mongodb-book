@@ -60,17 +60,21 @@ MongoDBについてまず最初に知るべきことを取り上げます: そ�
 あなたがこれを読み終えると、あなたがMongoDBを楽しむようになり、I encourage you to play with MongoDB to replicate what I demonstrate as well as to explore questions that might come up on your own.
 MongoDBの準備と実行は簡単です、今から数分の時間をかけてセットアップしてみましょう。
 
-1. Head over to the [official download page](http://www.mongodb.org/downloads) and grab the binaries from the first row (the recommended stable version) for your operating system of choice. For development purposes, you can pick either 32-bit or 64-bit.
+ 1. [公式ダウンロードページ](http://www.mongodb.org/downloads)へ進み、一番上の行からOSを選択してバイナリを手に入れましょう(安定バージョンを推奨)。開発目的であれば32ビット64ビットのどちらを選んでも構いません。
 
-2. Extract the archive (wherever you want) and navigate to the `bin` subfolder. Don't execute anything just yet, but know that `mongod` is the server process and `mongo` is the client shell - these are the two executables we'll be spending most of our time with.
+ 2. アーカイブを適当な場所に展開し、`bin`サブフォルダへ移動します。まだ何も実行しないこと、`mongod`がサーバープロセスであり、`mongo`がクライアントシェルであることは知っておいて下さい。その2つはこれから私たちが最も時間を費やす実行ファイルです。
 
-3. Create a new text file in the `bin` subfolder named `mongodb.config`
+ 3. `bin`サブフォルダの中に`mongodb.config`という名前で新しいテキストファイルを作成します
 
-4. Add a single line to your mongodb.config: `dbpath=PATH_TO_WHERE_YOU_WANT_TO_STORE_YOUR_DATABASE_FILES`. For example, on Windows you might do `dbpath=c:\mongodb\data` and on Linux you might do `dbpath=/etc/mongodb/data`.
+ 4. `mongodb.config`に以下の1行を追記します:
 
-5. Make sure the `dbpath` you specified exists
+        dbpath=PATH_TO_WHERE_YOU_WANT_TO_STORE_YOUR_DATABASE_FILES
 
-6. Launch mongod with the `--config /path/to/your/mongodb.config` parameter.
+    例えば、Windowsでは`dbpath=c:\mongodb\data`を指定し、Linuxでは`dbpath=/etc/mongodb/data`と指定します。
+
+ 5. 指定した`dbpath`を作成する
+
+ 6. mongodを`--config /path/to/your/mongodb.config`パラメーターを付けて起動します。
 
 As an example for Windows users, if you extracted the downloaded file to `c:\mongodb\` and you created `c:\mongodb\data\` then within `c:\mongodb\bin\mongodb.config` you would specify `dbpath=c:\mongodb\data\`. You could then launch `mongod` from a command prompt via `c:\mongodb\bin\mongod --config c:\mongodb\bin\mongodb.config`.
 
