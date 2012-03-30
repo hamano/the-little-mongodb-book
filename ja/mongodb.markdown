@@ -35,7 +35,7 @@ MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてラ�
 
 \clearpage
 
-## Introduction ##
+## 序章 ##
  > この章が短い事は私の誤りではありません、MongoDBを学ぶ事はとても簡単です。
 
 しばしば、技術は激しい速度で変化していると言われます。それは新しい技術と技術手法が公開され続けているという点で真実ですが、私の見解ではプログラマによって利用される基礎的な技術の変化はかなり遅いと考えています。
@@ -44,7 +44,7 @@ One could spend years learning little yet remain relevant.
 
 既に確立されているリレーショナルデーターベースに反発して発展してきたNoSQLはこの様な急転換の典型的な事例です。5年後、またはNoSQLが十分普及したいつの日か、昔のWebはRDBMSで動いていたと言われる様になるかもしれません。
 
-Even though these transitions seem to happen overnight, the reality is that they can take years to become accepted practice. The initial enthusiasm is driven by a relatively small set of developers and companies. Solutions are refined, lessons learned and seeing that a new technology is here to stay, others slowly try it for themselves. Again, this is particularly true in the case of NoSQL where many solutions aren't replacements for more traditional storage solutions, but rather address a specific need in addition to what one might get from traditional offerings.
+たとえこれらの技術が一晩で推移したとしても、実際的な実務でこれらが受け入れられるには何年もがかかります。初期の情熱は比較的小規模な会社や開発者によって突き動かされます。新しい技術は彼らのような人々の挑戦によってゆっくりと普及しソリューションや教育環境が洗練されていきます。念の為、NoSQLは昔ながらのストレージソリューションを置き換える手段ではないという事については大部分は真実です。しかしある特定の分野では従来のものに優る価値を必要とします。
 
 Having said all of that, the first thing we ought to do is explain what is meant by NoSQL. It's a broad term that means different things to different people. Personally, I use it very broadly to mean a system that plays a part in the storage of data. Put another way, NoSQL (again, for me), is the belief that your persistence layer isn't necessarily the responsibility of a single system. Where relational database vendors have historically tried to position their software as a one-size-fits-all solution, NoSQL leans towards smaller units of responsibility where the best tool for a given job can be leveraged. So, your NoSQL stack might still leverage a relational database, say MySQL, but it'll also contain Redis as a persistence lookup for specific parts of the system as well as Hadoop for your intensive data processing. Put simply, NoSQL is about being open and aware of alternative, existing and additional patterns and tools for managing your data.
 
