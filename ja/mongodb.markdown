@@ -78,7 +78,7 @@ MongoDBの準備と実行は簡単です、今から数分の時間をかけて�
 
 Windowsユーザーの為の例を示すと、もしダウンロードファイルを`c:\mongodb\`に展開したのなら`c:\mongodb\bin\mongodb.config`に`dbpath=c:\mongodb\data\`を指定すると、`c:\mongodb\data\`が作成されます。次に、コマンドプロンプトから `c:\mongodb\bin\mongod --config c:\mongodb\bin\mongodb.config`を実行して`mongod`を起動します。
 
-Feel free to add the `bin` folder to your path to make all of this less verbose. MacOSX and Linux users can follow almost identical directions. The only thing you should have to change are the paths.
+無駄を少なくする為に、ご自由に`bin`フォルダをパスに追加して下さい。MacOSXとLinuxユーザーはほとんど同じやり方に従うことが出来ます。あなたがすべきことはパスを変更することくらいです。
 
 Hopefully you now have MonogDB up and running. If you get an error, read the output carefully - the server is quite good at explaining what's wrong.
 
