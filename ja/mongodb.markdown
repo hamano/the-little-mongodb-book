@@ -57,7 +57,8 @@ One could spend years learning little yet remain relevant.
 
 MongoDBについてまず最初に知るべきことを取り上げます: それはドライバです。MongoDBは各種プログラミング言語向けに[数多くの公式ドライバ](http://www.mongodb.org/display/DOCS/Drivers)が用意されています。これらのドライバは恐らくあなたがすでに慣れ親しんでいる各種データーベースのドライバと似たようなものだと考えて良いでしょう。これらのドライバに加えて、開発コミュニティでは更にプログラミング言語/フレームワーク用のライブラリが開発されています。例えば、[NoRM](https://github.com/atheken/NoRM)はLINQを実装したC#のライブラリで、[MongoMapper](https://github.com/jnunemaker/mongomapper)はActiveRecordと親和性の高いRubyライブラリです。プログラムから直接MongoDBのコアドライバを利用するか、他の高級なライブラリを選択するかはあなた次第です。何故公式ドライバとコミュニティライブラリの両方が存在するのかについてMongoDBに不慣れな多くの人に混乱があるようなので説明しておきます。前者はMongoDBの中核的な通信と接続性に、後者はよりプログラミング言語や特定のフレームワークの実装に集中しています。
 
-As you read through this, I encourage you to play with MongoDB to replicate what I demonstrate as well as to explore questions that might come up on your own. It's easy to get up and running with MongoDB, so let's take a few minutes now to set things up.
+あなたがこれを読み終えると、あなたがMongoDBを楽しむようになり、I encourage you to play with MongoDB to replicate what I demonstrate as well as to explore questions that might come up on your own.
+MongoDBの準備と実行は簡単です、今から数分の時間をかけてセットアップしてみましょう。
 
 1. Head over to the [official download page](http://www.mongodb.org/downloads) and grab the binaries from the first row (the recommended stable version) for your operating system of choice. For development purposes, you can pick either 32-bit or 64-bit.
 
