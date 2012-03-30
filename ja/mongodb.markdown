@@ -109,7 +109,7 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 これを理解することは重要ですが、もしこれをまだ完全に理解出来ていなくても心配することはありません。この本当の意味を確かめる為にはまだもう少し説明が必要でしょう。突き詰めていくとコレクションの中に何が入るかが厳密ではない事が要点です(スキーマレスの事)。フィールドは特定のドキュメントに対して追従します。先の章で利点と欠点に気がつくでしょう。
 
-Let's get hands-on. If you don't have it running already, go ahead and start the `mongod` server as well as a mongo shell. The shell runs JavaScript. There are some global commands you can execute, like `help` or `exit`. Commands that you execute against the current database are executed against the `db` object, such as `db.help()` or `db.stats()` . Commands that you execute against a specific collection, which is what we'll be doing a lot of, are executed against the `db.COLLECTION_NAME` object, such as `db.unicorns.help()` or `db.unicorns.count()`.
+さあハンズオンをはじめましょう。まだ動かしていないのなら、どうぞ`mongod`サーバーとmongoシェルを起動して下さい。シェルはJavaScriptが動きます。`help`や`exit`の様な、幾つかのグローバルコマンドを実行することが出来ます。例えば、`db.help()`や`db.stats()`といったコマンドは、現在のデータベース`db`オブジェクトに対して実行します。`db.unicorns.help()`や`db.unicorns.count()`といったコマンドは、`db.COLLECTION_NAME`オブジェクトの様に、指定したそれぞれのコレクションに対して実行を行います。
 
 Go ahead and enter `db.help()`, you'll get a list of commands that you can execute against the `db` object.
 
