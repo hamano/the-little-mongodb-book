@@ -42,7 +42,7 @@ MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてラ�
 One could spend years learning little yet remain relevant.
 注目すべき所は確立した技術が置きかえられる速度です。気がつくと、長い歴史を持つ技術がまるで一晩で開発者の関心の転移に脅かされているようです。
 
-Nothing could be more representative of this sudden shift than the progress of NoSQL technologies against well-established relational databases. It almost seems like one day the web was being driven by a few RDBMS' and the next, five or so NoSQL solutions had established themselves as worthy solutions.
+既に確立されているリレーショナルデーターベースに反発して発展してきたNoSQLはこの様な急転換の典型的な事例です。5年後、またはNoSQLが十分普及したいつの日か、昔のWebはRDBMSで動いていたと言われる様になるかもしれません。
 
 Even though these transitions seem to happen overnight, the reality is that they can take years to become accepted practice. The initial enthusiasm is driven by a relatively small set of developers and companies. Solutions are refined, lessons learned and seeing that a new technology is here to stay, others slowly try it for themselves. Again, this is particularly true in the case of NoSQL where many solutions aren't replacements for more traditional storage solutions, but rather address a specific need in addition to what one might get from traditional offerings.
 
