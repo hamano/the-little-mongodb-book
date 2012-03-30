@@ -1,35 +1,37 @@
 \thispagestyle{empty}
 \changepage{}{}{}{-1.5cm}{}{2cm}{}{}{}
-![The Little MongoDB Book, By Karl Seguin](title.png)\
+![MongoDBの薄い本, By Karl Seguin](title.png)\
 
 \clearpage
 \changepage{}{}{}{1.5cm}{}{-2cm}{}{}{}
 
-## About This Book ##
+# MongoDBの薄い本
 
-### License ###
-The Little MongoDB Book book is licensed under the Attribution-NonCommercial 3.0 Unported license. **You should not have paid for this book.**
+## この本について ##
 
-You are basically free to copy, distribute, modify or display the book. However, I ask that you always attribute the book to me, Karl Seguin and do not use it for commercial purposes.
+### ライセンス ###
+MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてライセンスされています。*あなたはこの本の為にお金を支払う必要はありません。*
 
-You can see the full text of the license at:
+この本を複製、改変、展示する事は基本的に自由です。しかし、この本は常に私(カール・セガン)に帰属するように求めます。そして私はこれを商用目的で使用する事はありません。
+
+以下にライセンスの全文があります:
 
 <http://creativecommons.org/licenses/by-nc/3.0/legalcode>
 
-### About The Author ###
-Karl Seguin is a developer with experience across various fields and technologies. He's an expert .NET and Ruby developer.  He's a semi-active contributor to OSS projects, a technical writer and an occasional speaker. With respect to MongoDB, he was a core contributor to the C# MongoDB library NoRM, wrote the interactive tutorial [mongly](http://mongly.com) as well as the [Mongo Web Admin](https://github.com/karlseguin/Mongo-Web-Admin). His free service for casual game developers, [mogade.com](http://mogade.com/), is powered by MongoDB.
+### 著者について ###
+カール・セガンは幅広い経験と技術を持った開発者です。 彼は.Netのエキスパートであると同時にRubyの開発者です。彼はOSSプロジェクトのセミアクティブな貢献者であり、テクニカルライターや時々講演を行っています。MongoDBに関して、彼はC#のMongoDBライブラリNoRMの主要な貢献者であり、インタラクティブ・チュートリアル[mongly](http://mongly.com)や[Mongo Web Admin](https://github.com/karlseguin/Mongo-Web-Admin)を書きました。彼のカジュアルなゲーム開発者の為のサービス、[mogade.com](http://mogade.com/)はMongoDBで稼動しています。
 
-Karl has since written [The Little Redis Book](http://openmymind.net/2012/1/23/The-Little-Redis-Book/)
+カールは過去に[Redisの薄い本](http://openmymind.net/2012/1/23/The-Little-Redis-Book/) を書いています。
 
-His blog can be found at <http://openmymind.net>, and he tweets via [@karlseguin](http://twitter.com/karlseguin)
+彼のブログは<http://openmymind.net>、つぶやきは[@karlseguin](http://twitter.com/karlseguin)で見つかります。
 
-### With Thanks To ###
-A special thanks to [Perry Neal](http://twitter.com/perryneal) for lending me his eyes, mind and passion. You provided me with invaluable help. Thank you.
+### 謝辞 ###
+[Perry Neal](http://twitter.com/perryneal)が私に彼の目と意見と情熱を貸してくれた事に感謝します。ありがとう。
 
-### Latest Version ###
-The latest source of this book is available at:
+### 最新バージョン ###
+この本の最新のソースはこちら:
 
-<http://github.com/karlseguin/the-little-mongodb-book>.
+<http://github.com/karlseguin/the-little-mongodb-book>
 
 \clearpage
 
