@@ -703,7 +703,7 @@ In this chapter we looked a various commands, tools and performance details of u
 
 \clearpage
 
-## Conclusion ##
-You should have enough information to start using MongoDB in a real project. There's more to MongoDB than what we've covered, but your next priority should be putting together what we've learned, and getting familiar with the driver you'll be using. The [MongoDB website](http://www.mongodb.com/) has a lot of useful information. The official [MongoDB user group](http://groups.google.com/group/mongodb-user) is a great place to ask questions.
+## 結論 ##
+実際のプロジェクトでMongoDBの使用を開始するには、十分な情報を持っている必要があります。ここで紹介してきたもの他にも、MongoDBの情報はまだまだあります。しかし、次に優先すべきことは学んだことをまとめ、使用するであろうドライバに慣れることです。 [MongoDBのWebサイト](http://www.mongodb.com/) には、多くの有用な情報があります。公式には、 [MongoDBのユーザー·グループ](http://groups.google.com/group/mongodb-user) が質問をする絶好の場所です。
 
-NoSQL was born not only out of necessity, but also out of an interest to try new approaches. It is an acknowledgement that our field is ever advancing and that if we don't try, and sometimes fail, we can never succeed. This, I think, is a good way to lead our professional lives.
+NoSQLは、新しいアプローチへの挑戦に対する興味からだけでなく、必然性から生まれました。それは、私たちのフィールドは常に進歩していて、挑戦や、時々の失敗をしなければ、決して成功することができないということの確認です。これは、私が思うに、我々のプロフェッショナルな生活を送るための良い方法です。
