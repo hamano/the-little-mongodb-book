@@ -111,7 +111,7 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 さあハンズオンをはじめましょう。まだ動かしていないのなら、どうぞ`mongod`サーバーとmongoシェルを起動して下さい。シェルはJavaScriptが動きます。`help`や`exit`の様な、幾つかのグローバルコマンドを実行することが出来ます。例えば、`db.help()`や`db.stats()`といったコマンドは、現在のデータベース`db`オブジェクトに対して実行します。`db.unicorns.help()`や`db.unicorns.count()`といったコマンドは、`db.COLLECTION_NAME`オブジェクトの様に、指定したそれぞれのコレクションに対して実行を行います。
 
-Go ahead and enter `db.help()`, you'll get a list of commands that you can execute against the `db` object.
+どうぞ、`db.help()`と入力してみて下さい。`db`オブジェクトに対して実行可能なコマンド一覧を得ることが出来るでしょう。
 
 A small side note. Because this is a JavaScript shell, if you execute a method and omit the parentheses `()`, you'll see the method body rather than executing the method. I only mention it because the first time you do it and get a response that starts with `function (...){` you won't be surprised. For example, if you enter `db.help` (without the parentheses), you'll see the internal implementation of the `help` method.
 
