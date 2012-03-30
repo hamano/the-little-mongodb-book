@@ -119,9 +119,9 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 	db.unicorns.insert({name: 'Aurora', gender: 'f', weight: 450})
 
-The above line is executing `insert` against the `unicorns` collection, passing it a single argument. Internally MongoDB uses a binary serialized JSON format. Externally, this means that we use JSON a lot, as is the case with our parameters. If we execute `db.getCollectionNames()` now, we'll actually see two collections: `unicorns` and `system.indexes`. `system.indexes` is created once per database and contains the information on our database's index.
+上記のコマンドは一つの引数を受け取り`unicorns`コレクションに対して`insert`を行います。MongoDBの内部ではシリアライズされたJSONフォーマットを利用します。今、`db.getCollectionNames()`を実行すると、実際には2つのコレクション`unicorns`と`system.indexes`を確認できます。`system.indexes`はデータベースのインデックス情報が格納され、データベース毎にひとつ作成されます。
 
-You can now use the `find` command against `unicorns` to return a list of documents:
+これで、`unicorns`に対し`find`コマンドを使用してドキュメントのリストを取得出来るようになりました。
 
 	db.unicorns.find()
 
