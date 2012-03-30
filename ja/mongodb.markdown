@@ -82,7 +82,7 @@ Windowsユーザーの為の例を示すと、もしダウンロードファイ�
 
 うまくいけば今あなたはMonogDBを実行しているでしょう。もしエラーが起こったらならメッセージを注意深く読んで下さい。サーバーは何がおかしいのかを丁寧に説明してくれます。
 
-You can now launch `mongo` (without the *d*) which will connect a shell to your running server. Try entering `db.version()` to make sure everything's working as it should. Hopefully you'll see the version number you installed.
+あなたは`mongo`(*d*は付かない)を起動し、実行中のサーバーのシェルに接続する事が出来ます。全てが動作しているか確認するために`db.version()`と入力してみて下さい、うまくいっていればインストールされているバージョンを確認することが出来るでしょう。
 
 \clearpage
 
