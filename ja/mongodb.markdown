@@ -279,7 +279,7 @@ Do remember that we are looking at MongoDB from the point of view of its shell. 
 
 \clearpage
 
-## 3章 - Mastering Find ##
+## 3章 - 検索の習得 ##
 Chapter 1 provided a superficial look at the `find` command. There's more to `find` than understanding `selectors` though. We already mentioned that the result from `find` is a `cursor`. We'll now look at exactly what this means in more detail.
 
 ### Field Selection ###
@@ -628,29 +628,30 @@ This is the first chapter where we covered something truly different. If it made
 \clearpage
 
 ## 7章 - パフォーマンスとツール ##
-In this last chapter, we look at a few performance topics as well as some of the tools available to MongoDB developers. We won't dive deeply into either topic, but we will examine the most import aspects of each.
+最後の章では、パフォーマンスに関する話題とMongoDB開発者に有効な幾つかのツールを見ていきます。どちらの話題にも深くは追求しませんがそれぞれの重要な側面を検討します。
 
-### Indexes ###
-At the very beginning we saw the special `system.indexes` collection which contains information on all the indexes in our database. Indexes in MongoDB work a lot like indexes in a relational database: they help improve query and sorting performance. Indexes are created via `ensureIndex`:
+### インデックス ###
+まず最初に、特別な`system.indexes`コレクションの中に含まれるデータベースのインデックス情報を見て行きましょう。MongoDBのインデックスはリレーショナルデータベースのインデックスと同じように動作します。すなわち、これらはクエリーやソートのパフォーマンスを改善するのに役立ちます。インデックスは`ensureIndex`を呼んで作成されます:
 
 	// where "name" is the fieldname
 	db.unicorns.ensureIndex({name: 1});
 
-And dropped via `dropIndex`:
+そして、`dropIndex`を呼んで削除します:
 
 	db.unicorns.dropIndex({name: 1});
 
-A unique index can be created by supplying a second parameter and setting `unique` to `true`:
+2番目のパラメーターに`{unique: true}`に設定することでユニークインデックスを作成できます。
 
 	db.unicorns.ensureIndex({name: 1}, {unique: true});
 
-Indexes can be created on embedded fields (again, using the dot-notation) and on array fields. We can also create compound indexes:
+インデックスは埋めこまれたフィールドと配列フィールドに対して作成できます。
+複合インデックスも作成できます:
 
 	db.unicorns.ensureIndex({name: 1, vampires: -1});
 
-The order of your index (1 for ascending, -1 for descending) doesn't matter for a single key index, but it can have an impact for compound indexes when you are sorting or using a range condition.
+インデックスの順序(1は昇順、-1は降順)は単一のキーインデックスでは問題となりませんが、複合キーでソートやレンジ条件を利用した際に影響があります。
 
-The [indexes page](http://www.mongodb.org/display/DOCS/Indexes) has additional information on indexes.
+インデックスに関する詳しい情報は[indexes page](http://www.mongodb.org/display/DOCS/Indexes)にあります。
 
 ### Explain ###
 To see whether or not your queries are using an index, you can use the `explain` method on a cursor:
