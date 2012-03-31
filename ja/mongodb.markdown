@@ -204,6 +204,7 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 ### 章のまとめ ###
 We haven't looked at the `update` command yet, or some of the fancier things we can do with `find`. However, we did get MongoDB up and running, looked briefly at the `insert` and `remove` commands (there isn't much more than what we've seen). We also introduced `find` and saw what MongoDB `selectors` were all about. We've had a good start and laid a solid foundation for things to come. Believe it or not, you actually know most of what there is to know about MongoDB - it really is meant to be quick to learn and easy to use. I strongly urge you to play with your local copy before moving on. Insert different documents, possibly in new collections, and get familiar with different selectors. Use `find`, `count` and `remove`. After a few tries on your own, things that might have seemed awkward at first will hopefully fall into place.
 
+
 \clearpage
 
 ## 2章 - 更新 ##
@@ -654,13 +655,14 @@ This is the first chapter where we covered something truly different. If it made
 インデックスに関する詳しい情報は[indexes page](http://www.mongodb.org/display/DOCS/Indexes)にあります。
 
 ### Explain ###
-To see whether or not your queries are using an index, you can use the `explain` method on a cursor:
+ インデックスを使用しているかに関わらず、カーソルに対し`explain`メソッドを使うことが出来ます:
 
 	db.unicorns.find().explain()
 
 The output tells us that a `BasicCursor` was used (which means non-indexed), 12 objects were scanned, how long it took, what index, if any was used as well as a few other pieces of useful information.
+出力は`BasicCursor`が利用され(インデックスを使用していない事を意味します)、12のオブジェクトをスキャンしてどれくらいの時間がかかったのかなど、その他の便利な情報も教えてくれます。
 
-If we change our query to use an index, we'll see that a `BtreeCursor` was used, as well as the index used to fulfill the request:
+もしインデックスを利用するように変更した場合`BtreeCursor`が利用されていることを確認できます。この場合、インデックスはうまく利用できているでしょう:
 
 	db.unicorns.find({name: 'Pilot'}).explain()
 
