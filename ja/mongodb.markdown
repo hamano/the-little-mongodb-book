@@ -1,5 +1,5 @@
-# MongoDBの薄い本
-Karl Seguin 著 / Tsukasa Hamano 訳
+% MongoDBの薄い本
+% Karl Seguin 著 / Tsukasa Hamano 訳
 
 ## この本について ##
 
