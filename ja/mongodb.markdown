@@ -662,22 +662,22 @@ You can obtain statistics on a database by typing `db.stats()`. Most of the info
 ### Web Interface ###
 Included in the information displayed on MongoDB's startup was a link to a web-based administrative tool (you might still be able to see if if you scroll your command/terminal window up to the point where you started `mongod`). You can access this by pointing your browser to <http://localhost:28017/>. To get the most out of it, you'll want to add `rest=true` to your config and restart the `mongod` process. The web interface gives you a lot of insight into the current state of your server.
 
-### Profiler ###
-You can enable the MongoDB profiler by executing:
+### プロファイラ ###
+以下を実行をする事でMongoDBプロファイラを有効にできます:
 
 	db.setProfilingLevel(2);
 
-With it enabled, we can run a command:
+有効にした後に、以下のコマンドを実行します:
 
 	db.unicorns.find({weight: {$gt: 600}});
 
-And then examine the profiler:
+そして、プロファイラを観察して下さい:
 
 	db.system.profile.find()
 
-The output tells us what was run and when, how many documents were scanned, and how much data was returned.
+この出力は何がいつどれ程のドキュメントを走査し、どれ程のデータが返却されたかを教えてくれます。
 
-You can disable the profiler by calling `setProfileLevel` again but changing the argument to `0`. Another option is to specify `1` which will only profile queries that take more than 100 milliseconds. Or, you can specify the minimum time, in milliseconds, with a second parameter:
+再度、引数を`0``に変えてsetProfileLevel`を呼ぶことでプロファイラを無効に出来ます。他のオプションは`1`を指定することで100ミリ秒以上のクエリーのみをプロファイリングします。もしくは2番目のパラメータに最小時間をミリ秒で指定することが出来ます。
 
 	//profile anything that takes more than 1 second
 	db.setProfilingLevel(1, 1000);
