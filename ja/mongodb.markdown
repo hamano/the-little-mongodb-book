@@ -695,34 +695,34 @@ Included in the information displayed on MongoDB's startup was a link to a web-b
 
 この出力は何がいつどれ程のドキュメントを走査し、どれ程のデータが返却されたかを教えてくれます。
 
-再度、引数を`0``に変えてsetProfileLevel`を呼ぶことでプロファイラを無効に出来ます。他のオプションは`1`を指定することで100ミリ秒以上のクエリーのみをプロファイリングします。もしくは2番目のパラメータに最小時間をミリ秒で指定することが出来ます。
+再度、引数を`0``に変えて`setProfileLevel`を呼ぶことでプロファイラを無効に出来ます。他のオプションは`1`を指定することで100ミリ秒以上のクエリーのみをプロファイリングします。もしくは2番目のパラメータに最小時間をミリ秒で指定することが出来ます。
 
 	//profile anything that takes more than 1 second
 	db.setProfilingLevel(1, 1000);
 
 ### バックアップとリストア ###
-Within the MongoDB `bin` folder is a `mongodump` executable. Simply executing `mongodump` will connect to localhost and backup all of your databases to a `dump` subfolder. You can type `mongodump --help` to see additional options. Common options are `--db DBNAME` to back up a specific database and `--collection COLLECTIONAME` to back up a specific collection. You can then use the `mongorestore` executable, located in the same `bin` folder, to restore a previously made backup. Again, the `--db` and `--collection` can be specified to restore a specific database and/or collection.
+MongoDBには`bin`の中に`mongodump`という実行ファイルが付属しています。単純に`mongodump`を実行すると、ローカルホストに接続して全てのデータベースを`dump`サブフォルダ以下にバックアップします。`mongodump --help`とタイプすると追加のオプションを確認できます。指定したデータベースをバックアップする`--db DBNAME`と、指定したコレクションをバックアップする`--collection COLLECTIONAME`は共通です。次に、同じ`bin`フォルダにある`mongorestore`実行ファイルを使うことで、以前のバックアップをリストアできます。同じように、`--db`と`--collection`はオプションはリストアするデータベースとコレクションを指定します
 
-For example, to back up our `learn` database to a `backup` folder, we'd execute (this is its own executable which you run in a command/terminal window, not within the mongo shell itself):
+例えば、`learn`データベースを`backup`フォルダにバックアップするには以下を実行します(これ実行ファイルですのでmongoシェルではなく、ターミナルウィンドウでコマンドを実行します):
 
 	mongodump --db learn --out backup
 
-To restore only the `unicorns` collection, we could then do:
+`unicorns`コレクションのみをリストアするにはこの様に実行します:
 
 	mongorestore --collection unicorns backup/learn/unicorns.bson
 
-It's worth pointing out that `mongoexport` and `mongoimport` are two other executables which can be used to export and import data from JSON or CSV. For example, we can get a JSON output by doing:
+`mongoexport`と`mongoimport`という２つの実行ファイルはJSONまたはCSV形式でエクスポートとインポートできることを指摘しておきます。例えばJSON形式で出力するには以下のようにします:
 
 	mongoexport --db learn -collection unicorns
 
-And a CSV output by doing:
+そして、CSV形式での出力はこうします:
 
 	mongoexport --db learn -collection unicorns --csv -fields name,weight,vampires
 
-Note that `mongoexport` and `mongoimport` cannot always represent your data. Only `mongodump` and `mongorestore` should ever be used for actual backups.
+`mongoexport`と`mongoimport`は完全にあなたのデータを表現できない事に注意して下さい。`mongodump`と`mongorestore`のみを実際のバックアップでは利用すべきです。
 
-### In This Chapter ###
-In this chapter we looked a various commands, tools and performance details of using MongoDB. We haven't touched on everything, but we've looked at the most common ones. Indexing in MongoDB is similar to indexing with relational databases, as are many of the tools. However, with MongoDB, many of these are to the point and simple to use.
+### 章のまとめ ###
+この章では、MongoDBで利用する様々なコマンドやツールやパフォーマンスの詳細を見てきました。全てに触れる事は出来ませんでしたが最も一般的なものを紹介しました。MongoDBのインデックス化がリレーショナルデータベースのインデックス化とよく似ているのと同様に、ツールの多くも同じです。しかしMongoDBの方がわかり易くて単純に利用できるものが多いでしょう。
 
 \clearpage
 
