@@ -191,13 +191,13 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 上記は全ての女性のユニコーンの中から、りんごかオレンジが好き、もしくは体重が500ポンド未満の条件で検索します。
 
-There's something pretty neat going on in our last example. You might have already noticed, but the `loves` field is an array. MongoDB supports arrays as first class objects. This is an incredibly handy feature. Once you start using it, you wonder how you ever lived without it. What's more interesting is how easy selecting based on an array value is: `{loves: 'watermelon'}` will return any document where `watermelon` is a value of `loves`.
+最後に示した例にはとても素敵なものがあります。すでに知っていると思いますが`loves`フィールドは配列です。MongoDBはファーストクラスオブジェクトとしての配列をサポートしています。これはとんでもなく便利な機能です。一度これを使ってしまうと、これ無しでは生活できなくなる恐れがあります。何よりも興味深いのは配列の値に基づいて簡単に選択できることです。`{loves: 'watermelon'}` は`loves`の値に`watermelon`を持つドキュメントを返します。
 
-There are more available operators than what we've seen so far. The most flexible being `$where` which lets us supply JavaScript to execute on the server. These are all described in the [Advanced Queries](http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries) section of the MongoDB website. What we've covered so far though is the basics you'll need to get started. It's also what you'll end up using most of the time.
+これまでに見てきた他に、演算子はまだまだあります。最も柔軟な`$where`は指定したJavaScriptをサーバー上で実行します。MongoDBのWebサイトの[Advanced Queries](http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries)の項に全てが記載されています。これまでに紹介してきたものはあなたが使い始めるのに必要な基本です。もっと使いこなせるようになるには多くの時間がかかるでしょう。
 
-We've seen how these selectors can be used with the `find` command. They can also be used with the `remove` command which we've briefly looked at, the `count` command, which we haven't looked at but you can probably figure out, and the `update` command which we'll spend more time with later on.
+これまでセレクターは`find`コマンドで利用できることを見てきました。これらは以前ちょっとだけ利用した`remove`コマンドやまだ使っていない`count`コマンド、後で出てくる`update`コマンドでも利用できます。
 
-The `ObjectId` which MongoDB generated for our `_id` field can be selected like so:
+`ObjectId`はMongoDBにが生成した`_id`フィールドを選択するために利用します:
 
 	db.unicorns.find({_id: ObjectId("TheObjectId")})
 
