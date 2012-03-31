@@ -1,11 +1,5 @@
-\thispagestyle{empty}
-\changepage{}{}{}{-1.5cm}{}{2cm}{}{}{}
-![MongoDBの薄い本, By Karl Seguin](title.png)\
-
-\clearpage
-\changepage{}{}{}{1.5cm}{}{-2cm}{}{}{}
-
 # MongoDBの薄い本
+Karl Seguin 著 / Tsukasa Hamano 訳
 
 ## この本について ##
 
