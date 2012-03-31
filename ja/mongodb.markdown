@@ -675,7 +675,7 @@ MongoDB replication works similarly to how relational database replication works
  While replication can improve performance (by distributing reads), its main purpose is to increase reliability. Combining replication with sharding is a common approach. For example, each shard could be made up of a master and a slave. (Technically you'll also need an arbiter to help break a tie should two slaves try to become masters. But an arbiter requires very few resources and can be used for multiple shards.)
 
 ### 統計 ###
-You can obtain statistics on a database by typing `db.stats()`. Most of the information deals with the size of your database. You can also get statistics on a collection, say `unicorns`, by typing `db.unicorns.stats()`. Again, most of this information relates to the size of your collection.
+あなたは`db.stats()`とタイプすることでデータベースの統計を取得できます。データベースのサイズは最もよく扱う情報です。`db.unicorns.stats()`とタイプすることで`unicorns`というコレクションの統計を取得することも出来ます。同様にこのコレクションのサイズに関する情報も有用です。
 
 ### Webインターフェース ###
 MongoDBを起動すると、Webベースの管理ツールに関する情報が含まれています(`mongod`を起動した時点までターミナルウィンドウをスクロールすればその様子を確認できるでしょう)。あなたはブラウザで<http://localhost:28017/>を開いてアクセス出来ます。設定ファイルに`rest=true`を追加して`mongod`プロセスを再起動すると、さらにこれを有効に活用出来るでしょう。このWebインターフェースはサーバの現在の状態についての洞察を与えてくれます。
