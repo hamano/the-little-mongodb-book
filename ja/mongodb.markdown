@@ -173,21 +173,23 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
                         loves: ['grape', 'watermelon'], weight: 704,
                         gender: 'm', vampires: 165});
 
-Now that we have data, we can master selectors. `{field: value}` is used to find any documents where `field` is equal to `value`. `{field1: value1, field2: value2}` is how we do an `and` statement. The special `$lt`, `$lte`, `$gt`, `$gte` and `$ne` are used for less than, less than or equal, greater than, greater than or equal and not equal operations. For example, to get all male unicorns that weigh more than 700 pounds, we could do:
+データが入ったのでこれでセレクターを習得できます。`{field: value}`は`field`というフィールドが`value`と等しいドキュメントを検索します。`{field1: value1, field2: value2}`は`and`式で検索します。`$lt`、 `$lte`、 `$gt`、 `$gte`、 `$ne`はそれぞれ、未満、以下、より多い、以上、非等価、を意味する特別な演算子です。例えば、性別が男で体重が700ポンドより大きいユニコーンを探すにはこのようにします:
 
 	db.unicorns.find({gender: 'm', weight: {$gt: 700}})
-	//or (not quite the same thing, but for demonstration purposes)
+	//もしくは、(あまり良くないですが、デモの為に)
 	db.unicorns.find({gender: {$ne: 'f'}, weight: {$gte: 701}})
 
-The `$exists` operator is used for matching the presence or absence of a field, for example:
+`$exists`演算子はフィールドの存在や欠如のマッチに利用します。例えば:
 
 	db.unicorns.find({vampires: {$exists: false}})
 
-Should return a single document. If we want to OR rather than AND we use the `$or` operator and assign it to an array of values we want or'd:
+ひとつのドキュメントが返ってくるはずです。ANDではなくORを利用したい場合、`$or`演算子を利用して、ORをとりたい式を配列で指定します。
 
-	db.unicorns.find({gender: 'f', $or: [{loves: 'apple'}, {loves: 'orange'}, {weight: {$lt: 500}}]})
+	db.unicorns.find({gender: 'f', $or: [{loves: 'apple'},
+                                         {loves: 'orange'},
+                                         {weight: {$lt: 500}}]})
 
-The above will return all female unicorns which either love apples or oranges or weigh less than 500 pounds.
+上記は全ての女性のユニコーンの中から、りんごかオレンジが好き、もしくは体重が500ポンド未満の条件で検索します。
 
 There's something pretty neat going on in our last example. You might have already noticed, but the `loves` field is an array. MongoDB supports arrays as first class objects. This is an incredibly handy feature. Once you start using it, you wonder how you ever lived without it. What's more interesting is how easy selecting based on an array value is: `{loves: 'watermelon'}` will return any document where `watermelon` is a value of `loves`.
 
