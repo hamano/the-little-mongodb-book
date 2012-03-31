@@ -703,7 +703,7 @@ In this chapter we looked a various commands, tools and performance details of u
 \clearpage
 
 ## まとめ ##
-実際のプロジェクトでMongoDBを使い始める為には十分な情報を持つべきです。ここで紹介してきたものの他にも、MongoDBの情報はまだまだあります。しかし、あなたが次に優先すべき事は、これまでに学んできた事を組み合わせて、利用予定のドライバに慣れる事です。[MongoDBのウェブサイト](http://www.mongodb.com/)には数多くの役立つ情報があります。公式な[MongoDBユーザーグループ](http://groups.google.com/group/mongodb-user)は質問を尋ねるには最適な場所です。
+実際のプロジェクトでMongoDBを使い始める為には十分な情報を持つべきです。ここで紹介してきた事の他にも、MongoDBの情報はまだまだあります。しかし、あなたが次に優先すべき事は、これまでに学んできた事を組み合わせて、利用予定のドライバに慣れる事です。[MongoDBのウェブサイト](http://www.mongodb.com/)には数多くの役立つ情報があります。公式な[MongoDBユーザーグループ](http://groups.google.com/group/mongodb-user)は質問を尋ねるには最適な場所です。
 
 NoSQLは必然性によって生み出されただけではなく、新しいアプローチへの興味深い試みでもあります。この分野の認知と発展は私たちが時々失敗し、挑戦しなければ成功はありえません。私が思うに、これは私たちがプロとして活躍するための近道となるでしょう。
 
