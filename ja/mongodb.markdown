@@ -125,17 +125,17 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 	db.unicorns.find()
 
-Notice that, in addition to the data you specified, there's an `_id` field. Every document must have a unique `_id` field. You can either generate one yourself or let MongoDB generate an ObjectId for you. Most of the time you'll probably want to let MongoDB generate it for you. By default, the `_id` field is indexed - which explains why the `system.indexes` collection was created. You can look at `system.indexes`:
+あなたが指定したデータには`_id`フィールドが追加されていることに注目して下さい。全てのドキュメントはユニークな`_id`フィールドを持たなければなりません。あなたは、MongoDBに生成させるかこのオブジェクトIDを自分自身で生成する事になります。先程`system.indexes`コレクションが作成された理由は、デフォルトで`_id`フィールドはインデックス化されているからであると説明できます。あなたは以下のようにして`system.indexes`を参照できます:
 
 	db.system.indexes.find()
 
-What you're seeing is the name of the index, the database and collection it was created against and the fields included in the index.
+あなたはインデックスを含むフィールドに対して作成されたデータベースやコレクションのインデックス名を確認することが出来ます。
 
-Now, back to our discussion about schema-less collections. Insert a totally different document into `unicorns`, such as:
+スキーマレスコレクションの話に戻りましょう。`unicorns`以下のような完全に異なるドキュメントを入れてみます:
 
 	db.unicorns.insert({name: 'Leto', gender: 'm', home: 'Arrakeen', worm: false})
 
-And, again use `find` to list the documents. Once we know a bit more, we'll discuss this interesting behavior of MongoDB, but hopefully you are starting to understand why the more traditional terminology wasn't a good fit.
+再度`find`を利用してドキュメントを表示してみて下さい。MongoDBの興味深い振る舞いについて前に少しだけ話しました、何故従来の技術うまく適応しなかったのかのかが解り始めてたのではないかと思います。
 
 ### Mastering Selectors ###
 In addition to the six concepts we've explored, there's one practical aspect of MongoDB you need to have a good grasp of before moving to more advanced topics: query selectors. A MongoDB query selector is like the `where` clause of an SQL statement. As such, you use it when finding, counting, updating and removing documents from collections. A selector is a JSON object , the simplest of which is `{}` which matches all documents (`null` works too). If we wanted to find all female unicorns, we could use `{gender:'f'}`.
