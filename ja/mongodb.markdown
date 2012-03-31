@@ -131,10 +131,10 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 再度`find`を利用してドキュメントを表示してみて下さい。MongoDBの興味深い振る舞いについて前に少しだけ話しました、何故従来の技術うまく適応しなかったのかのかが解り始めてたのではないかと思います。
 
-### Mastering Selectors ###
-In addition to the six concepts we've explored, there's one practical aspect of MongoDB you need to have a good grasp of before moving to more advanced topics: query selectors. A MongoDB query selector is like the `where` clause of an SQL statement. As such, you use it when finding, counting, updating and removing documents from collections. A selector is a JSON object , the simplest of which is `{}` which matches all documents (`null` works too). If we wanted to find all female unicorns, we could use `{gender:'f'}`.
+### セレクターの習得 ###
+次の話題に進む前に、先程説明した6つの概念に加え、MongoDBの実用面でしっかりと理解すべきことがあります。それはクエリーセレクターです。MongoDBのクエリーセレクターはSQL構文の`where`節によく似ています。そういうわけで、これはドキュメントを見つけ出したり、数えたり、更新したり、削除したりする際に使用します。セレクターはJSONオブジェクトです。最も単純な`{}`は全てのドキュメントにマッチします(`null`も同じです)。もし女性ドキュメントを見つけたい場合、`{gender:'f'}`と指定します。
 
-Before delving too deeply into selectors, let's set up some data to play with. First, remove what we've put so far in the `unicorns` collection via: `db.unicorns.remove()` (since we aren't supplying a selector, it'll remove all documents). Now, issue the following inserts to get some data we can play with (I suggest you copy and paste this):
+セレクターについて掘り下げていく前に、実演の為の幾つかのデータをセットアップしましょう。まず最初に、これまでに`unicorns`コレクションに入れたドキュメントを`db.unicorns.remove()`を実行して削除します(セレクターを指定していないので、全てのドキュメントが削除されます)。さて、以下を実行して実演に必要なデータを挿入しましょう(コピペ推奨):
 
 	db.unicorns.insert({name: 'Horny', dob: new Date(1992,2,13,7,47), loves: ['carrot','papaya'], weight: 600, gender: 'm', vampires: 63});
 	db.unicorns.insert({name: 'Aurora', dob: new Date(1991, 0, 24, 13, 0), loves: ['carrot', 'grape'], weight: 450, gender: 'f', vampires: 43});
