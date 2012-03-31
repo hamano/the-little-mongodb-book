@@ -15,7 +15,7 @@ MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてラ�
 ### 著者について ###
 カール・セガンは幅広い経験と技術を持った開発者です。 彼は.Netのエキスパートであると同時にRubyの開発者です。彼はOSSプロジェクトのセミアクティブな貢献者であり、テクニカルライターや時々講演を行っています。MongoDBに関して、彼はC#のMongoDBライブラリNoRMの主要な貢献者であり、インタラクティブ・チュートリアル[mongly](http://mongly.com)や[Mongo Web Admin](https://github.com/karlseguin/Mongo-Web-Admin)を書きました。彼のカジュアルなゲーム開発者の為のサービス、[mogade.com](http://mogade.com/)はMongoDBで稼動しています。
 
-カールは過去に[Redisの薄い本](http://openmymind.net/2012/1/23/The-Little-Redis-Book/) を書いています。
+カールは過去に[Redisの薄い本](http://openmymind.net/2012/1/23/The-Little-Redis-Book/)も書いています。
 
 彼のブログは<http://openmymind.net>、つぶやきは[@karlseguin](http://twitter.com/karlseguin)で見つかります。
 
