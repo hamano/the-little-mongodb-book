@@ -659,17 +659,16 @@ This is the first chapter where we covered something truly different. If it made
 
 	db.unicorns.find().explain()
 
-The output tells us that a `BasicCursor` was used (which means non-indexed), 12 objects were scanned, how long it took, what index, if any was used as well as a few other pieces of useful information.
 出力は`BasicCursor`が利用され(インデックスを使用していない事を意味します)、12のオブジェクトをスキャンしてどれくらいの時間がかかったのかなど、その他の便利な情報も教えてくれます。
 
 もしインデックスを利用するように変更した場合`BtreeCursor`が利用されていることを確認できます。この場合、インデックスはうまく利用できているでしょう:
 
 	db.unicorns.find({name: 'Pilot'}).explain()
 
-### Fire And Forget Writes ###
-We previously mentioned that, by default, writes in MongoDB are fire-and-forget. This can result in some nice performance gains at the risk of losing data during a crash. An interesting side effect of this type of write is that an error is not returned when an insert/update violates a unique constraint. In order to be notified about a failed write, one must call `db.getLastError()` after an insert. Many drivers abstract this detail away and provide a way to do a *safe* write - often via an extra parameter.
+### 一方向通信書き込み ###
+前述したように、MongoDBの書き込みはデフォルトでは一方向通信(fire-and-forget)です。これによってクラッシュするとデータを失うリスクと引き換えに素晴らしいパフォーマンスを得ることが出来ます。興味深い副作用として、挿入や更新などの書き込みでユニーク制約の違反が発生した場合でもエラーを返却しません。書きこみ失敗について知る為には挿入を行った後に`db.getLastError()`を呼ぶ必要があります。多くのドライバは*安全な*書き込みを行う方法を追加のパラメーターによって抽象化して提供しています。
 
-Unfortunately, the shell automatically does safe inserts, so we can't easily see this behavior in action.
+あいにく、シェルは自動的に安全な挿入を行います。従って私たちはこの動作の振る舞いを簡単に確認することが出来ません。
 
 ### シャーディング ###
 MongoDB supports auto-sharding. Sharding is an approach to scalability which separates your data across multiple servers. A naive implementation might put all of the data for users with a name that starts with A-M on server 1 and the rest on server 2. Thankfully, MongoDB's sharding capabilities far exceed such a simple algorithm. Sharding is a topic well beyond the scope of this book, but you should know that it exists and that you should consider it should your needs grow beyond a single server.
