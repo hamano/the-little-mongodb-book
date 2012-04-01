@@ -671,7 +671,7 @@ This is the first chapter where we covered something truly different. If it made
 あいにく、シェルは自動的に安全な挿入を行います。従って私たちはこの動作の振る舞いを簡単に確認することが出来ません。
 
 ### シャーディング ###
-MongoDB supports auto-sharding. Sharding is an approach to scalability which separates your data across multiple servers. A naive implementation might put all of the data for users with a name that starts with A-M on server 1 and the rest on server 2. Thankfully, MongoDB's sharding capabilities far exceed such a simple algorithm. Sharding is a topic well beyond the scope of this book, but you should know that it exists and that you should consider it should your needs grow beyond a single server.
+MongoDBは自動シャーディングをサポートしています。シャーディングはデータを複数のサーバーに分割してスケーラビリティを高める手法です。単純な実装ではデータの名前がA〜Mで始まるものをサーバー1に、残りをサーバー2に格納するでしょう。有り難いことに、MongoDBのシャーディング能力はその単純なアルゴリズムを上回ります。シャーディングの話題はこの本では取り上げませんが、単一サーバーのデータが限界まで増えた際に、シャーディングの存在と、それついてよく知っている必要があるでしょう。
 
 ### レプリケーション ###
 MongoDB replication works similarly to how relational database replication works. Writes are sent to a single server, the master, which then synchronizes itself to one or more other servers, the slaves. You can control whether reads can happen on slaves or not, which can help distribute your load at the risk of reading slightly stale data. If the master goes down, a slave can be promoted to act as the new master. Again, MongoDB replication is outside the scope of this book.
