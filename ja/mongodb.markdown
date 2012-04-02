@@ -134,7 +134,7 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 ### セレクターの習得 ###
 次の話題に進む前に、先程説明した6つの概念に加え、MongoDBの実用面でしっかりと理解すべきことがあります。それはクエリーセレクターです。MongoDBのクエリーセレクターはSQL構文の`where`節によく似ています。そういうわけで、これはドキュメントを見つけ出したり、数えたり、更新したり、削除したりする際に使用します。セレクターはJSONオブジェクトです。最も単純な`{}`は全てのドキュメントにマッチします(`null`も同じです)。もし女性ドキュメントを見つけたい場合、`{gender:'f'}`と指定します。
 
-セレクターについて掘り下げていく前に、実演の為の幾つかのデータをセットアップしましょう。まず最初に、これまでに`unicorns`コレクションに入れたドキュメントを`db.unicorns.remove()`を実行して削除します(セレクターを指定していないので、全てのドキュメントが削除されます)。さて、以下を実行して実演に必要なデータを挿入しましょう(コピペ推奨):
+セレクターについて掘り下げていく前に、演習の為の幾つかのデータをセットアップしましょう。まず最初に、これまでに`unicorns`コレクションに入れたドキュメントを`db.unicorns.remove()`を実行して削除します(セレクターを指定していないので、全てのドキュメントが削除されます)。さて、以下を実行して演習に必要なデータを挿入しましょう(コピペ推奨):
 
 	db.unicorns.insert({name: 'Horny', dob: new Date(1992,2,13,7,47),
                         loves: ['carrot','papaya'], weight: 600,
@@ -207,16 +207,16 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 \clearpage
 
 ## 2章 - 更新 ##
-In chapter 1 we introduced three of the four CRUD (create, read, update and delete) operations. This chapter is dedicated to the one we skipped over: `update`. `Update` has a few surprising behaviors, which is why we dedicate a chapter to it.
+1章ではCRUD(作成、読み込み、更新、削除)の4つのうちの3つの操作を紹介しました。この章では、省略していた`更新`に専念します。その理由は、`更新`には幾つかの意外な振る舞いを持っているからです。
 
-### Update: Replace Versus $set ###
-In its simplest form, `update` takes 2 arguments: the selector (where) to use and what field to update with. If Roooooodles had gained a bit of weight, we could execute:
+### 更新: Replace と $set ###
+最も単純な形式では、`update`は2つの引数をとります: セレクター(where条件)とアップデートするフィールドです。もしRoooooodlesの体重を少し増やしたい場合、これを実行します:
 
 	db.unicorns.update({name: 'Roooooodles'}, {weight: 590})
 
-(if you've played with your `unicorns` collection and it doesn't have the original data anymore, go ahead and `remove` all documents and re-insert from the code in chapter 1.)
+(もし前回の演習で作成した`unicorns`コレクションを残していない場合、1章に戻って、全てのドキュメントを`remove`し、挿入し直して下さい。)
 
-If this was real code, you'd probably update your records by `_id`, but since I don't know what `_id` MongoDB generated for you, we'll stick to `names`.  Now, if we look at the updated record:
+現実のコードでは、`_id`にを指定してレコードを更新するでしょうが、MongoDBが生成した`_id`はまだ知らないとして、`names`を指定します。アップデートされたレコードを確認する場合、以下のようにします:
 
 	db.unicorns.find({name: 'Roooooodles'})
 
