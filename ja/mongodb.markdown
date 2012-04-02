@@ -202,8 +202,7 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 	db.unicorns.find({_id: ObjectId("TheObjectId")})
 
 ### 章のまとめ ###
-We haven't looked at the `update` command yet, or some of the fancier things we can do with `find`. However, we did get MongoDB up and running, looked briefly at the `insert` and `remove` commands (there isn't much more than what we've seen). We also introduced `find` and saw what MongoDB `selectors` were all about. We've had a good start and laid a solid foundation for things to come. Believe it or not, you actually know most of what there is to know about MongoDB - it really is meant to be quick to learn and easy to use. I strongly urge you to play with your local copy before moving on. Insert different documents, possibly in new collections, and get familiar with different selectors. Use `find`, `count` and `remove`. After a few tries on your own, things that might have seemed awkward at first will hopefully fall into place.
-
+私たちはまだ`update`コマンドや、`find`で出来る幾つかの手の込んだ事は見ていません。しかし、私たちは簡単に`insert`コマンドと`remove`コマンドを確認しました(これまで見てきた以上のものはそれほど多くありません)。私たちは`find`の紹介とMongoDBの`selectors`というものも見てきました。私たちは順調なスタートと、来たるべき時の為の盤石な基礎を築く事が出来ました。信じようと信じまいと、あなたは実際にMongoDBについての殆どの事を知っています(素早く学習し、簡単に使えるようになるという意味でです)。次に移る前に、演習のデータをローカルコピーすることを強く推奨します。恐らく、新しいコレクションで違うドキュメントを挿入したり、セレクターと似たようなものを使います。`find`や`count`や`remove`も使います。いろいろ試しているうちに、なにかマズイ事が起こった場合に最初の状態に戻れるようにしておいた方が良いでしょう。
 
 \clearpage
 
@@ -671,12 +670,12 @@ This is the first chapter where we covered something truly different. If it made
 あいにく、シェルは自動的に安全な挿入を行います。従って私たちはこの動作の振る舞いを簡単に確認することが出来ません。
 
 ### シャーディング ###
-MongoDBは自動シャーディングをサポートしています。シャーディングはデータを複数のサーバーに分割してスケーラビリティを高める手法です。単純な実装ではデータの名前がA〜Mで始まるものをサーバー1に、残りをサーバー2に格納するでしょう。有り難いことに、MongoDBのシャーディング能力はその単純なアルゴリズムを上回ります。シャーディングの話題はこの本では取り上げませんが、単一サーバーのデータが限界まで増えた際に、シャーディングの存在と、それついてよく知っている必要があるでしょう。
+MongoDBは自動シャーディングをサポートしています。シャーディングはデータを複数のサーバーに分割してスケーラビリティを高める手法です。単純な実装ではデータの名前がA〜Mで始まるものをサーバー1に、残りをサーバー2に格納するでしょう。有り難いことに、MongoDBのシャーディング能力はその単純なアルゴリズムを上回ります。シャーディングの話題はこの本では取り上げませんが、単一サーバーのデータが限界まで増えた際に、あなたはシャーディングの存在と、それついてよく知っている必要があるでしょう。
 
 ### レプリケーション ###
-MongoDB replication works similarly to how relational database replication works. Writes are sent to a single server, the master, which then synchronizes itself to one or more other servers, the slaves. You can control whether reads can happen on slaves or not, which can help distribute your load at the risk of reading slightly stale data. If the master goes down, a slave can be promoted to act as the new master. Again, MongoDB replication is outside the scope of this book.
+MongoDBのレプリケーションの動きはリレーショナルデータベースのそれ動作とよく似ています。単一のマスターサーバーに対し書き込みが行われると、他のスレーブサーバに同期とします。あなたはスレーブに対して読み込みリクエストを発生させるかどうかを制御できます。これは古いデータを読み込むリスクを低減させるのに役立ちます。マスターが落ちた場合、スレーブが新しいマスターの役割に昇格することが出来ます。MongoDBのレプリケーションもまた、この本の主題から外れます。
 
- While replication can improve performance (by distributing reads), its main purpose is to increase reliability. Combining replication with sharding is a common approach. For example, each shard could be made up of a master and a slave. (Technically you'll also need an arbiter to help break a tie should two slaves try to become masters. But an arbiter requires very few resources and can be used for multiple shards.)
+レプリケーションの主要な目的は信頼性の向上ですが、読み込みリクエストを分散することでパフォーマンスを改善する事も出来ます。レプリケーションとシャーディングを組み合わせることは一般的な方法です。例えば、それぞれのマスターとスレーブシャードを共有することが出来ます。(厳密には、調停者が2つのスレーブの均衡を破って、マスターになれる様に助ける必要があります。その為に調停者は若干のリソースと、複数のシャードを利用できる事を要求します。)
 
 ### 統計 ###
 あなたは`db.stats()`とタイプすることでデータベースの統計を取得できます。データベースのサイズは最もよく扱う情報です。`db.unicorns.stats()`とタイプすることで`unicorns`というコレクションの統計を取得することも出来ます。同様にこのコレクションのサイズに関する情報も有用です。
