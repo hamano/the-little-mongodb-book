@@ -209,7 +209,7 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 ## 2章 - 更新 ##
 1章ではCRUD(作成、読み込み、更新、削除)の4つのうちの3つの操作を紹介しました。この章では、省略していた`更新`に専念します。その理由は、`更新`には幾つかの意外な振る舞いを持っているからです。
 
-### 更新: Replace と $set ###
+### 更新: 置換 と $set ###
 最も単純な形式では、`update`は2つの引数をとります: セレクター(where条件)とアップデートするフィールドです。もしRoooooodlesの体重を少し増やしたい場合、これを実行します:
 
 	db.unicorns.update({name: 'Roooooodles'}, {weight: 590})
@@ -220,31 +220,31 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 	db.unicorns.find({name: 'Roooooodles'})
 
-You should discover `updates` first surprise. No document is found because the second parameter we supply is used to **replace** the original. In other words, the `update` found a document by `name` and replaced the entire document with the new document (the 2nd parameter). This is different than how SQL's `update` command works. In some situations, this is ideal and can be leveraged for some truly dynamic updates. However, when all you want to do is change the value of one, or a few fields, you are best to use MongoDB's `$set` modifier:
+まずあなたは驚いてしまうでしょう。2番目に指定したパラメータは元のデータを**置き換える**為に使われてしまい、ドキュメントは見つかりません。言い換えると、`update`はドキュメントを`name`で検索し、ドキュメント全体を2番目のパラメータで置き換えます。これはSQLの`update`文と異なる動作です。忠実に動的な更新を行う目的の幾つかの状況では、これは理想的な動作です。しかし、ひとつか複数のフィールドの値を変更したい場合は、MongoDBの`$set`修飾子を利用するのが最適でしょう:
 
 	db.unicorns.update({weight: 590}, {$set: {name: 'Roooooodles', dob: new Date(1979, 7, 18, 18, 44), loves: ['apple'], gender: 'm', vampires: 99}})
 
-This'll reset the lost fields. It won't overwrite the new `weight` since we didn't specify it. Now if we execute:
+これで、失われたフィールドをリセットします。`weight`を指定しなければ上書きできません。以下を実行します:
 
 	db.unicorns.find({name: 'Roooooodles'})
 
-We get the expected result. Therefore, the correct way to have updated the weight in the first place is:
+期待する結果が得られました。従って、最初に行いたかった体重を変更する正しい方法は以下の通りです:
 
 	db.unicorns.update({name: 'Roooooodles'}, {$set: {weight: 590}})
 
-### Update Modifiers ###
-In addition to `$set`, we can leverage other modifiers to do some nifty things. All of these update modifiers work on fields - so your entire document won't be wiped out. For example, the `$inc` modifier is used to increment a field by a certain positive or negative amount. For example, if Pilot was incorrectly awarded a couple vampire kills, we could correct the mistake by executing:
+### 更新修飾子 ###
+`$set`に加えて、その他の修飾子を利用するともっと粋なことが出来ます。これらの更新修飾子は、フィールドに対して作用します。なのでドキュメント全体が消えてしまうことはありません。例えば、`$inc`修飾子はフィールドの値を増やしたり、負の値で減らす事が出来ます。もしPilotが`vampire`を倒した数が間違っていて2つ多かった場合、以下のようにして間違いを修正します:
 
 	db.unicorns.update({name: 'Pilot'}, {$inc: {vampires: -2}})
 
-If Aurora suddenly developed a sweet tooth, we could add a value to her `loves` field via the `$push` modifier:
+もしAuroraが突然甘党になったら、`$push`修飾子を使って、`loves`フィールドに値を追加することが出来ます:
 
 	db.unicorns.update({name: 'Aurora'}, {$push: {loves: 'sugar'}})
 
-The [Updating](http://www.mongodb.org/display/DOCS/Updating) section of the MongoDB website has more information on the other available update modifiers.
+その他の有効な更新修飾子はMongoDB Webサイトの[Updating](http://api.mongodb.org/wiki/current/Updating.html)に情報があります。
 
 ### Upserts ###
-One of `updates` more pleasant surprises is that it fully supports `upserts`. An `upsert` updates the document if found or inserts it if not. Upserts are handy to have in certain situations and, when you run into one, you'll know it. To enable upserting we set a third parameter to `true`.
+`更新`にはもっと驚く愉快なものがあります。その一つは`upserts`を完全にサポートしている事です。`upsert`はドキュメントが見つかった場合に更新を行い、無ければ挿入を行います。`upsert`は見ればすぐ解るし、よくあるシチュエーションで重宝します。`upsert`呼ぶ際に3番目の引数を'true'に設定する事が出来ます。
 
 A mundane example is a hit counter for a website. If we wanted to keep an aggregate count in real time, we'd have to see if the record already existed for the page, and based on that decide to run an update or insert. With the third parameter omitted (or set to false), executing the following won't do anything:
 
