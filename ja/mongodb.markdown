@@ -287,15 +287,15 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 \clearpage
 
-## 3章 - 検索の習得 ##
-Chapter 1 provided a superficial look at the `find` command. There's more to `find` than understanding `selectors` though. We already mentioned that the result from `find` is a `cursor`. We'll now look at exactly what this means in more detail.
+## 3章 - 検索(find)の習得 ##
+1章では、`find`コマンドについて簡単に説明しました。ここでは`find`やセレクターについての理解を深めていきます。`find`が`カーソル`を返却することについては既に述べましたので、もっと正確な意味を見ていきましょう。
 
 ### Field Selection ###
-Before we jump into `cursors`, you should know that `find` takes a second optional parameter. This parameter is the list of fields we want to retrieve. For example, we can get all of the unicorns names by executing:
+`カーソル`ついて学ぶ前に、`find`に任意で設定出来る2番目のパラメータについて知る必要があります。このパラメーターは取得したいフィールドのリストです。例えば、以下の様に実行して、全てのユニコーンの名前を取得出来ます。
 
 	db.unicorns.find(null, {name: 1});
 
-By default, the `_id` field is always returned. We can explicitly exclude it by specifying `{name:1, _id: 0}`.
+デフォルトで、`_id`フィールドは常に返却されます。明示的に`{name:1, _id: 0}`を指定する事でそれを除外する事が出来ます。
 
 Aside from the `_id` field, you cannot mix and match inclusion and exclusion. If you think about it, that actually makes sense. You either want to select or exclude one or more fields explicitly.
 
