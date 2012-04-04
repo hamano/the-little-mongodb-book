@@ -207,7 +207,7 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 \clearpage
 
 ## 2章 - 更新 ##
-1章ではCRUD(作成、読み込み、更新、削除)の4つのうちの3つの操作を紹介しました。この章では、省略していた`更新`に専念します。その理由は、`更新`には幾つかの意外な振る舞いを持っているからです。
+1章ではCRUD(作成、読み込み、更新、削除)の4つのうちの3つの操作を紹介しました。この章では、省略していた`update`に専念します。その理由は、`update`には幾つかの意外な振る舞いを持っているからです。
 
 ### 更新: 置換 と $set ###
 最も単純な形式では、`update`は2つの引数をとります: セレクター(where条件)とアップデートするフィールドです。もしRoooooodlesの体重を少し増やしたい場合、これを実行します:
@@ -246,36 +246,44 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 ### Upserts ###
 `更新`にはもっと驚く愉快なものがあります。その一つは`upserts`を完全にサポートしている事です。`upsert`はドキュメントが見つかった場合に更新を行い、無ければ挿入を行います。`upsert`は見ればすぐ解るし、よくあるシチュエーションで重宝します。`upsert`呼ぶ際に3番目の引数を'true'に設定する事が出来ます。
 
-A mundane example is a hit counter for a website. If we wanted to keep an aggregate count in real time, we'd have to see if the record already existed for the page, and based on that decide to run an update or insert. With the third parameter omitted (or set to false), executing the following won't do anything:
+一般的な例はWebサイトのカウンターです。複数のページのカウンターをリアルタイムに動作させたい場合、ページのレコードが既に存在しているか確認し、更新を行うか挿入を行うか決めなければなりません。3番目の引数を省略(もしくはfalseに設定)して実行すると、以下のようにうまくいきません:
 
 	db.hits.update({page: 'unicorns'}, {$inc: {hits: 1}});
 	db.hits.find();
 
-However, if we enable upserts, the results are quite different:
+しかし、`upserts`を有効にすると違った結果になります。
 
 	db.hits.update({page: 'unicorns'}, {$inc: {hits: 1}}, true);
 	db.hits.find();
 
-Since no documents exists with a field `page` equal to `unicorns`, a new document is inserted. If we execute it a second time, the existing document is updated and `hits` is incremented to 2.
+`page`というフィールドの値が`unicorns`のドキュメントが存在していなければ、新しいドキュメントが挿入されます。2回目を実行すると既存のドキュメントが更新され、`hits`は2に増えます。
 
 	db.hits.update({page: 'unicorns'}, {$inc: {hits: 1}}, true);
 	db.hits.find();
 
-### Multiple Updates ###
-The final surprise `update` has to offer is that, by default, it'll update a single document. So far, for the examples we've looked at, this might seem logical. However, if you executed something like:
+### 複数同時更新 ###
+最後の驚きは、`update`はデフォルトで一つのドキュメントに対してのみ更新を行う事です。これまでの様に、まず例を見て行きましょう。以下のように実行します:
 
 	db.unicorns.update({}, {$set: {vaccinated: true }});
 	db.unicorns.find({vaccinated: true});
 
-You'd likely expect to find all of your precious unicorns to be vaccinated. To get the behavior you desire, a fourth parameter must be set to true:
+恐らくあなたは全てのかわいいユニコーン達が予防接種を受けた(vaccinated)と期待するでしょう。あなたが望む様な振る舞いを行うには、4番目のパラメータをtrueに設定する必要があります:
 
 	db.unicorns.update({}, {$set: {vaccinated: true }}, false, true);
 	db.unicorns.find({vaccinated: true});
 
-### In This Chapter ###
-This chapter concluded our introduction to the basic CRUD operations available against a collection. We looked at `update` in detail and observed three interesting behaviors. First, unlike an SQL update, MongoDB's `update` replaces the actual document. Because of this the `$set` modifier is quite useful. Secondly, `update` supports an intuitive `upsert` which is particularly useful when paired with the `$inc` modifier. Finally, by default, `update` only updates the first found document.
+### 章のまとめ ###
+この章では、コレクションに対して有効なCRUD操作を紹介しました。私たちは`update`の詳細を確認し、3つの興味深い振る舞いを観察しました。まず、MongoDBの`update`はSQLの`update`と異なり、ドキュメント全体を置き換えます。そんな訳で`$set`修飾子はとても便利です。次に、`update`は直感的な`upsert`をサポートしています。これは`$inc`修飾子と一緒に使うと非常に便利です。最後に、デフォルトで`update`は最初にみつけたドキュメントしか更新しません。
 
-Do remember that we are looking at MongoDB from the point of view of its shell. The driver and library you use could alter these default behaviors or expose a different API. For example, the Ruby driver merges the last two parameters into a single hash: `{:upsert => false, :multi => false}`. Similarly, the PHP driver, merges the last two parameters into an array: `array('upsert' => false, 'multiple' => false)`. 
+私たちはシェルの視点からMongoDBを見てきた事を思い出して下さい。ドライバやライブラリの場合でも、デフォルトの振る舞いを切り替えて使用したり、異なるAPIに触れる事になります。
+
+例えば、Rubyのドライバでは最後2つのパラメータを一つのハッシュにまとめています:
+
+    {:upsert => false, :multi => false}
+
+同様に、PHPのドライバも最後2つのパラメータを配列にまとめています。
+
+    array('upsert' => false, 'multiple' => false)
 
 \clearpage
 
@@ -633,7 +641,7 @@ This is the first chapter where we covered something truly different. If it made
 ### インデックス ###
 まず最初に、特別な`system.indexes`コレクションの中に含まれるデータベースのインデックス情報を見て行きましょう。MongoDBのインデックスはリレーショナルデータベースのインデックスと同じように動作します。すなわち、これらはクエリーやソートのパフォーマンスを改善するのに役立ちます。インデックスは`ensureIndex`を呼んで作成されます:
 
-	// where "name" is the fieldname
+	// この "name" はフィールド名です
 	db.unicorns.ensureIndex({name: 1});
 
 そして、`dropIndex`を呼んで削除します:
