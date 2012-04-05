@@ -32,9 +32,7 @@ MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてラ�
 ## 序章 ##
  > この章が短い事は私の誤りではありません、MongoDBを学ぶ事はとても簡単です。
 
-しばしば、技術は激しい速度で変化していると言われます。それは新しい技術と技術手法が公開され続けているという点で真実ですが、私の見解ではプログラマによって利用される基礎的な技術の変化はかなり遅いと考えています。
-One could spend years learning little yet remain relevant.
-注目すべき所は確立した技術が置きかえられる速度です。気がつくと、長い歴史を持つ技術がまるで一晩で開発者の関心の転移に脅かされているようです。
+しばしば、技術は激しい速度で変化していると言われます。それは新しい技術と技術手法が公開され続けているという点で真実ですが、私の見解ではプログラマによって利用される基礎的な技術の変化はかなり遅いと考えています。しかし、誰しもが過去のものになろうとする技術に学習コストを費やしたいとは思わないでしょう。注目すべき点は確立した技術が置きかえられる速度です。気がつくと、長い歴史を持つ技術がまるで一晩で開発者の関心の転移に脅かされているようです。
 
 既に確立されているリレーショナルデーターベースに反発して発展してきたNoSQLはこの様な急転換の典型的な事例です。5年後、またはNoSQLが十分普及したいつの日か、昔のWebはRDBMSで動いていたと言われる様になるかもしれません。
 
@@ -51,8 +49,7 @@ One could spend years learning little yet remain relevant.
 
 MongoDBについてまず最初に知るべきことを取り上げます: それはドライバです。MongoDBは各種プログラミング言語向けに[数多くの公式ドライバ](http://www.mongodb.org/display/DOCS/Drivers)が用意されています。これらのドライバは恐らくあなたがすでに慣れ親しんでいる各種データーベースのドライバと似たようなものだと考えて良いでしょう。これらのドライバに加えて、開発コミュニティでは更にプログラミング言語/フレームワーク用のライブラリが開発されています。例えば、[NoRM](https://github.com/atheken/NoRM)はLINQを実装したC#のライブラリで、[MongoMapper](https://github.com/jnunemaker/mongomapper)はActiveRecordと親和性の高いRubyライブラリです。プログラムから直接MongoDBのコアドライバを利用するか、他の高級なライブラリを選択するかはあなた次第です。何故公式ドライバとコミュニティライブラリの両方が存在するのかについてMongoDBに不慣れな多くの人に混乱があるようなので説明しておきます。前者はMongoDBの中核的な通信と接続性に、後者はよりプログラミング言語や特定のフレームワークの実装に集中しています。
 
-あなたがこれを読み終えると、あなたがMongoDBを楽しむようになり、I encourage you to play with MongoDB to replicate what I demonstrate as well as to explore questions that might come up on your own.
-MongoDBの準備と実行は簡単です、今から数分の時間をかけてセットアップしてみましょう。
+これを読みながらあなたが実際に演習を反復し、自分自身で疑問を解決していく事を奨励します。MongoDBの準備と実行は簡単です、今から数分の時間をかけてセットアップしてみましょう。
 
  1. [公式ダウンロードページ](http://www.mongodb.org/downloads)へ進み、一番上の行からOSを選択してバイナリを手に入れましょう(安定バージョンを推奨)。開発目的であれば32ビット64ビットのどちらを選んでも構いません。
 
@@ -206,10 +203,10 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 \clearpage
 
-## 2章 - 更新 ##
+## 2章 - 更新(Update) ##
 1章ではCRUD(作成、読み込み、更新、削除)の4つのうちの3つの操作を紹介しました。この章では、省略していた`update`に専念します。その理由は、`update`には幾つかの意外な振る舞いを持っているからです。
 
-### 更新: 置換 と $set ###
+### 置換(Replace) と $set ###
 最も単純な形式では、`update`は2つの引数をとります: セレクター(where条件)とアップデートするフィールドです。もしRoooooodlesの体重を少し増やしたい場合、これを実行します:
 
 	db.unicorns.update({name: 'Roooooodles'}, {weight: 590})
@@ -232,7 +229,7 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 	db.unicorns.update({name: 'Roooooodles'}, {$set: {weight: 590}})
 
-### 更新修飾子 ###
+### 更新修飾子(Modifier) ###
 `$set`に加えて、その他の修飾子を利用するともっと粋なことが出来ます。これらの更新修飾子は、フィールドに対して作用します。なのでドキュメント全体が消えてしまうことはありません。例えば、`$inc`修飾子はフィールドの値を増やしたり、負の値で減らす事が出来ます。もしPilotが`vampire`を倒した数が間違っていて2つ多かった場合、以下のようにして間違いを修正します:
 
 	db.unicorns.update({name: 'Pilot'}, {$inc: {vampires: -2}})
@@ -244,7 +241,7 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 その他の有効な更新修飾子はMongoDB Webサイトの[Updating](http://api.mongodb.org/wiki/current/Updating.html)に情報があります。
 
 ### Upserts ###
-`更新`にはもっと驚く愉快なものがあります。その一つは`upserts`を完全にサポートしている事です。`upsert`はドキュメントが見つかった場合に更新を行い、無ければ挿入を行います。`upsert`は見ればすぐ解るし、よくあるシチュエーションで重宝します。`upsert`呼ぶ際に3番目の引数を'true'に設定する事が出来ます。
+`update`にはもっと驚く愉快なものがあります。その一つは`upserts`を完全にサポートしている事です。`upsert`はドキュメントが見つかった場合に更新を行い、無ければ挿入を行います。`upsert`は見ればすぐ解るし、よくあるシチュエーションで重宝します。`upsert`呼ぶ際に3番目の引数を'true'に設定する事が出来ます。
 
 一般的な例はWebサイトのカウンターです。複数のページのカウンターをリアルタイムに動作させたい場合、ページのレコードが既に存在しているか確認し、更新を行うか挿入を行うか決めなければなりません。3番目の引数を省略(もしくはfalseに設定)して実行すると、以下のようにうまくいきません:
 
@@ -287,47 +284,47 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 \clearpage
 
-## 3章 - 検索(find)の習得 ##
+## 3章 - 検索(Find)の習得 ##
 1章では、`find`コマンドについて簡単に説明しました。ここでは`find`やセレクターについての理解を深めていきます。`find`が`カーソル`を返却することについては既に述べましたので、もっと正確な意味を見ていきましょう。
 
-### Field Selection ###
+### フィールド選択 ###
 `カーソル`ついて学ぶ前に、`find`に任意で設定出来る2番目のパラメータについて知る必要があります。このパラメーターは取得したいフィールドのリストです。例えば、以下の様に実行して、全てのユニコーンの名前を取得出来ます。
 
 	db.unicorns.find(null, {name: 1});
 
 デフォルトで、`_id`フィールドは常に返却されます。明示的に`{name:1, _id: 0}`を指定する事でそれを除外する事が出来ます。
 
-Aside from the `_id` field, you cannot mix and match inclusion and exclusion. If you think about it, that actually makes sense. You either want to select or exclude one or more fields explicitly.
+`_id`に関する余談ですが、包含条件と排他条件を混ぜることが出来るのかどうか、気になるかもしれません。あなたはフィールドを含めるか除くかのどちらかを選択することが出来ます。
 
-### Ordering ###
-A few times now I've mentioned that `find` returns a cursor whose execution is delayed until needed. However, what you've no doubt observed from the shell is that `find` executes immediately. This is a behavior of the shell only. We can observe the true behavior of `cursors` by looking at one of the methods we can chain to `find`. The first that we'll look at is `sort`. `sort` works a lot like the field selection from the previous section. We specify the fields we want to sort on, using 1 for ascending and -1 for descending. For example:
+### 順序 ###
+これまでに何度か、`find`が必要な時に遅延して実行されるカーソルを返却する事に言及しました。しかし、まだあなたはこれをシェルから直接'find'を実行して自分の目で観測していません。この振る舞いはシェルのみとなります。カーソルの本当の振る舞いは`find`に一つのメソッドを連結することで観測することが出来ます。昇順でソートを行いたい場合はフィールドと1を指定し、降順で行いたい場合は-1を指定します。例えば:
 
-	//heaviest unicorns first
+	//最も重い最初のユニコーン
 	db.unicorns.find().sort({weight: -1})
 
 	//by vampire name then vampire kills:
 	db.unicorns.find().sort({name: 1, vampires: -1})
 
-Like with a relational database, MongoDB can use an index for sorting. We'll look at indexes in more detail later on. However, you should know that MongoDB limits the size of your sort without an index. That is, if you try to sort a large result set which can't use an index, you'll get an error. Some people see this as a limitation. In truth, I wish more databases had the capability to refuse to run unoptimized queries. (I won't turn every MongoDB drawback into a positive, but I've seen enough poorly optimized databases that I sincerely wish they had a strict-mode.)
+リレーショナルデータベースの様に、MongoDBもソートの為にインデックスを利用出来ます。インデックスの詳細は後で詳しく見ていきますが、MongoDBにはインデックスを使用しない場合にソートのサイズ制限があることを知っておく必要があります。すなわち、もし巨大な結果に対してソートを行おうとするとエラーが返ってきます。実際の話、その他のデータベースでにも、最適化されていないクエリーを拒否する機能があった方が良いと考えています。(私はこの動作をMongoDBの欠点とは考えていませんし、データベースの最適化が下手な人達にこの機能を使って欲しいと強く願っています。)
 
-### Paging ###
-Paging results can be accomplished via the `limit` and `skip` cursor methods. To get the second and third heaviest unicorn, we could do:
+### ページング ###
+ページングの結果はcursorの`limit`メソッドや`skip`メソッドを利用して遂行できます。2番目と3番目に重いユニコーンを得るにはこうやります:
 
 	db.unicorns.find().sort({weight: -1}).limit(2).skip(1)
 
-Using `limit` in conjunction with `sort`, is a good way to avoid running into problems when sorting on non-indexed fields.
+`limit`と`sort`を組み合わせると、インデックス化されていないフィールドでソートする場合の問題を避けるのに役立ちます。
 
-### Count ###
-The shell makes it possible to execute a `count` directly on a collection, such as:
+### カウント ###
+シェルではcollectionに対して直接`count`を呼び出す事が出来ます。例えば:
 
 	db.unicorns.count({vampires: {$gt: 50}})
 
-In reality, `count` is actually a `cursor` method, the shell simply provides a shortcut. Drivers which don't provide such a shortcut need to be executed like this (which will also work in the shell):
+実際には`count`は`cursor`のメソッドであり、シェルは単純なショートカットを提供しているだけです。この様なショートカットを提供しないドライバでは以下の様に実行する必要があります(これはシェルでも動きます):
 
 	db.unicorns.find({vampires: {$gt: 50}}).count()
 
-### In This Chapter ###
-Using `find` and `cursors` is a straightforward proposition. There are a few additional commands that we'll either cover in later chapters or which only serve edge cases, but, by now, you should be getting pretty comfortable working in the mongo shell and understanding the fundamentals of MongoDB.
+### 章のまとめ ###
+`find`や`cursors`の率直な使われ方を見てきました。これらの他に、あとの章で触れるコマンドや特別な状況で使われるコマンドが存在しますが、あなたは既にMongoDBの基礎を理解し、mongoシェルを安心して触れるようになったでしょう。
 
 \clearpage
 
