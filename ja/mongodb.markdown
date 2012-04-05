@@ -329,12 +329,14 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 \clearpage
 
 ## 4章 - データモデリング ##
-Let's shift gears and have a more abstract conversation about MongoDB. Explaining a few new terms and some new syntax is a trivial task. Having a conversation about modeling with a new paradigm isn't as easy. The truth is that most of us are still finding out what works and what doesn't when it comes to modeling with these new technologies. It's a conversation we can start having, but ultimately you'll have to practice and learn on real code.
+さて、MongoDBのもっと抽象的な話題に移っていきましょう。幾つかの新しい用語や、些細な機能の新しい文法について説明していきます。新しいパラダイムであるモデリングについての話題は簡単ではありません。モデリングに関する新しい技術について、大抵の人々はまだ何が役に立ちそうでないのかをよく知りません。まずは講話から始めますが、最終的には実際のコードで学び、練習を行っていきます。
 
 Compared to most NoSQL solutions, document-oriented databases are probably the least different, compared to relational databases, when it comes to modeling. The differences which exist are subtle but that doesn't mean they aren't important.
 
 ### No Joins ###
-The first and most fundamental difference that you'll need to get comfortable with is MongoDB's lack of joins. I don't know the specific reason why some type of join syntax isn't supported in MongoDB, but I do know that joins are generally seen as non-scalable. That is, once you start to horizontally split your data, you end up performing your joins on the client (the application server) anyways. Regardless of the reasons, the fact remains that data *is* relational, and MongoDB doesn't support joins.
+The first and most fundamental difference that you'll need to get comfortable with is MongoDB's lack of joins.
+I don't know the specific reason why some type of join syntax isn't supported in MongoDB, but I do know that joins are generally seen as non-scalable.
+That is, once you start to horizontally split your data, you end up performing your joins on the client (the application server) anyways. Regardless of the reasons, the fact remains that data *is* relational, and MongoDB doesn't support joins.
 
 Without knowing anything else, to live in a join-less world, we have to do joins ourselves within our application's code. Essentially we need to issue a second query to `find` the relevant data. Setting our data up isn't any different than declaring a foreign key in a relational database. Let's give a little less focus to our beautiful `unicorns` and a bit more time to our `employees`. The first thing we'll do is create an employee (I'm providing an explicit `_id` so that we can build coherent examples)
 
