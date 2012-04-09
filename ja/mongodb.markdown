@@ -329,57 +329,56 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 \clearpage
 
 ## 4章 - データモデリング ##
-さて、MongoDBのもっと抽象的な話題に移っていきましょう。幾つかの新しい用語や、些細な機能の新しい文法について説明していきます。新しいパラダイムであるモデリングについての話題は簡単ではありません。モデリングに関する新しい技術について、大抵の人々はまだ何が役に立ちそうでないのかをよく知りません。まずは講話から始めますが、最終的には実際のコードで学び、練習を行っていきます。
+さて、MongoDBのもっと抽象的な話題に移っていきましょう。幾つかの新しい用語や、些細な機能の新しい文法について説明していきます。新しいパラダイムであるモデリングについての話題は簡単ではありません。モデリングに関する新しい技術について、大抵の人々はまだ何が役に立ち、役に立たないのかをよく知りません。まずは講話から始めますが、最終的には実際のコードで学び、実践を行っていきます。
 
-Compared to most NoSQL solutions, document-oriented databases are probably the least different, compared to relational databases, when it comes to modeling. The differences which exist are subtle but that doesn't mean they aren't important.
+モデリングに関して言えば、ドキュメント指向データベースである多くのNoSQLソリューションとリレーショナルデータベースを比較して大した違いは在りません。しかし違いが少ないからといってそれらが重要で無い訳ではありません。
 
-### No Joins ###
-The first and most fundamental difference that you'll need to get comfortable with is MongoDB's lack of joins.
-I don't know the specific reason why some type of join syntax isn't supported in MongoDB, but I do know that joins are generally seen as non-scalable.
-That is, once you start to horizontally split your data, you end up performing your joins on the client (the application server) anyways. Regardless of the reasons, the fact remains that data *is* relational, and MongoDB doesn't support joins.
+### Joinは在りません ###
+まず最初に、最も根本的な違いであるMongoDBにJoinが存在しない事に対して安心する必要があるでしょう。MongoDBが何故joinの文法をサポートしていないのか、特別な理由を私は知りませんが、Joinがスケーラブルでない事は一般的に知られています。すなわち、一度データの水平分割を行うと、最終的にクライアント(アプリケーションサーバー)側でJoinを行う事になります。理由はどうあれ、データはリレーショナルである事に変り在りませんが、MongoDBはJoinをサポートしていません。
 
-Without knowing anything else, to live in a join-less world, we have to do joins ourselves within our application's code. Essentially we need to issue a second query to `find` the relevant data. Setting our data up isn't any different than declaring a foreign key in a relational database. Let's give a little less focus to our beautiful `unicorns` and a bit more time to our `employees`. The first thing we'll do is create an employee (I'm providing an explicit `_id` so that we can build coherent examples)
+とにかく、Join無しの世界で生活するためにはアプリケーションのコード内でJoinを行わなくてはなりません。それには基本的に2度目の`find`クエリーを発行してデータを取得する必要があります。これから準備するデータはリレーショナルデータベースの外部キーと違いはありません。しばらく素敵な`unicorns`コレクションから視点を外して、`employees`コレクションに注目してみましょう。まず最初に、社員を作成します。(分かり易く説明する為に、`_id`フィールドを明示的に指定しています)
 
 	db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d730"), name: 'Leto'})
 
-Now let's add a couple employees and set their manager as `Leto`:
+さて、`Leto`がマネージャーとなる様に設定した社員を何人か追加してみましょう:
 
 	db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d731"), name: 'Duncan', manager: ObjectId("4d85c7039ab0fd70a117d730")});
 	db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d732"), name: 'Moneo', manager: ObjectId("4d85c7039ab0fd70a117d730")});
 
+(上記に倣って、`_id`はユニークになる必要があります。
+ここで実際に指定した`ObjectId`を、以降も同じ様に使用する事になります。)
 
-(It's worth repeating that the `_id` can be any unique value. Since you'd likely use an `ObjectId` in real life, we'll use them here as well.)
-
-Of course, to find all of Leto's employees, one simply executes:
+言うまでもなく、Letoの社員を検索するには単純に以下を実行します:
 
 	db.employees.find({manager: ObjectId("4d85c7039ab0fd70a117d730")})
 
-There's nothing magical here. In the worst cases, most of the time, the lack of join will merely require an extra query (likely indexed).
+これは何の変哲もありません。
+最悪の場合、joinの欠如はただ単に余分なクエリーが多くの時間を占めるかもしれません
+(恐らくインデックス化されているでしょうが)。
 
-#### Arrays and Embedded Documents ####
-Just because MongoDB doesn't have joins doesn't mean it doesn't have a few tricks up its sleeve. Remember when we quickly saw that MongoDB supports arrays as first class objects of a document? It turns out that this is incredibly handy when dealing with many-to-one or many-to-many relationships. As a simple example, if an employee could have two managers, we could simply store these in an array:
+#### 配列と埋め込みドキュメント ####
+MongoDBがjoinを持たないと言うだけで、切り札が無いという意味ではありません。MongoDBのドキュメントがファーストクラスオブジェクトとしての配列をサポートしてい事を簡単に確認したのを思い出してください。これは、多対一、多対多の関係を表現する際にとても器用に役立つ事が分かります。簡単な例として、社員が複数のマネージャーを持つ場合、単純にこれらを配列で格納する事が出来ます:
 
 	db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d733"), name: 'Siona', manager: [ObjectId("4d85c7039ab0fd70a117d730"), ObjectId("4d85c7039ab0fd70a117d732")] })
 
-Of particular interest is that, for some documents, `manager` can be a scalar value, while for others it can be an array. Our original `find` query will work for both:
+得に興味深い事は、ドキュメントはスカラ値であっても構わないし、配列であっても構わないという点です。最初の`find`クエリーはどちらであっても動作します:
 
 	db.employees.find({manager: ObjectId("4d85c7039ab0fd70a117d730")})
 
-You'll quickly find that arrays of values are much more convenient to deal with than many-to-many join-tables.
+これによって、多対多のjoinテーブルよりもっと便利に素早く配列の値を見つけることが出来ます。
 
-Besides arrays, MongoDB also supports embedded documents. Go ahead and try inserting a document with a nested document, such as:
+配列に加えて、MongoDBは埋め込みドキュメントをサポートしています。次に進んで入れ子になったドキュメントを挿入してみてください:
 
 	db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d734"), name: 'Ghanima', family: {mother: 'Chani', father: 'Paul', brother: ObjectId("4d85c7039ab0fd70a117d730")}})
 
-In case you are wondering, embedded documents can be queried using a dot-notation:
+驚くでしょうが、埋め込みドキュメントはクエリーにドット表記を使用できます:
 
 	db.employees.find({'family.mother': 'Chani'})
 
-We'll briefly talk about where embedded documents fit and how you should use them.
+後ほど、埋め込みドキュメントがどの様な場所に適合し、どの様に使用するかを簡単に説明します。
 
 #### DBRef ####
-MongoDB supports something known as `DBRef` which is a convention many drivers support. When a driver encounters a `DBRef` it can automatically pull the referenced document. A `DBRef` includes the collection and id of the referenced document. It generally serves a pretty specific purpose: when documents from the same collection might reference documents from a different collection from each other. That is, the `DBRef` for document1 might point to a document in `managers` whereas the `DBRef` for document2 might point to a document in `employees`.
-
+MongoDBは`DBRef`と言われる習慣を多くのドライバーでサポートしています。ドライバが`DBRef`に遭遇すると、自動的に参照先のドキュメントを取得します。`DBRef`はコレクションやドキュメントの参照IDを含みます。これは一般的に特定の目的に対して提供される機能です。例えばドキュメントが同じコレクションのドキュメントから参照され、異なるコレクションからも同じドキュメントを参照するような場合です。つまり、ドキュメント1が`managers`のドキュメントを指し示す`DBRef`である一方、ドキュメント2が`employees`のドキュメントを指し示す事が出来ます。
 
 #### Denormalization ####
 Yet another alternative to using joins is to denormalize your data. Historically, denormalization was reserved for performance-sensitive code, or when data should be snapshotted (like in an audit log). However, with the ever-growing popularity of NoSQL, many of which don't have joins, denormalization as part of normal modeling is becoming increasingly common. This doesn't mean you should duplicate every piece of information in every document. However, rather than letting fear of duplicate data drive your design decisions, consider modeling your data based on what information belongs to what document.
@@ -475,16 +474,16 @@ The message from this chapter is that MongoDB, in most cases, can replace a rela
 \clearpage
 
 ## 6章 - MapReduce ##
-MapReduce is an approach to data processing which has two significant benefits over more traditional solutions. The first, and main, reason it was developed is performance. In theory, MapReduce can be parallelized, allowing very large sets of data to be processed across many cores/CPUs/machines. As we just mentioned, this isn't something MongoDB is currently able to take advantage of. The second benefit of MapReduce is that you get to write real code to do your processing. Compared to what you'd be able to do with SQL, MapReduce code is infinitely richer and lets you push the envelope further before you need to use a more specialized solution.
+MapReduceは、従来のソリューションを上回る2つの有用な利点を持ったデータ処理手法です。最初であり、かつ主要な目的はパフォーマンスを発達させる事です。理論上では、MapReduceは並行化によって、巨大なデータセットを多くのCPUやマシンで処理するする事が出来ます。最初に述べておくと、MongoDBは現在の所この利点はありません。MapReduceの2番目の利点は実際に書いたコードで処理することが出来るという事です。SQLと比べて何を行えるのか比較すると、MapReduceのコードは特別なソリューションを利用すること無く機能を拡張し、飛躍的に豊かな柔軟性を提供します。
 
-MapReduce is a pattern that has grown in popularity, and you can make use of it almost anywhere; C#, Ruby, Java, Python and so on all have implementations. I want to warn you that at first this'll seem very different and complicated. Don't get frustrated, take your time and play with it yourself. This is worth understanding whether you are using MongoDB or not.
+MapReduceは注目を集めているパターンです、あなたは、C#, Ruby, Java, Pythonなど、ほとんど全ての実装でこれを利用することが出来ます。それらはまったく異なっていて複雑に見える事を警告しておきます。挫折せず時間をかけて学んで見てください。これはMongoDBの利用に関わらず理解しておく価値があります。
 
-### A Mix of Theory and Practice ###
-MapReduce is a two-step process. First you map and then you reduce. The mapping step transforms the inputted documents and emits a key=>value pair (the key and/or value can be complex). The reduce gets a key and the array of values emitted for that key and produces the final result. We'll look at each step, and the output of each step.
+### 理論と実践 ###
+MapReduceは2段階の処理に分かれています。最初にmapを行い、次にreduceを行います。mappingの段階で入力されたドキュメントを変換し、key=>valueのペアを発行します(キーと値は複合化可能です)。reduceの段階で発行されたキーと値の配列から処理を行った最終的な結果を集約します。それでは各段階での出力を見ていきましょう。
 
-The example that we'll be using is to generate a report of the number of hits, per day, we get on a resource (say a webpage). This is the *hello world* of MapReduce. For our purposes, we'll rely on a `hits` collection with two fields: `resource` and `date`. Our desired output is a breakdown by `resource`, `year`, `month`, `day` and `count`.
+ここでは、(Webページの)リソースに対して日別のアクセス数のレポートを生成する例を使用します。これはMapReduceの*hello world*です。目的は、`hits`コレクションに2つのフィールド: `resource`と`date`を入力として利用し、求められる出力は`resource`、`year`、`month`、`day`、`count`に分割されている事です。
 
-Given the following data in `hits`:
+`hits`に以下のデータがあります:
 
 	resource     date
 	index        Jan 20 2010 4:30
@@ -498,7 +497,7 @@ Given the following data in `hits`:
 	index        Jan 21 2010 9:30
 	index        Jan 22 2010 5:00
 
-We'd expect the following output:
+以下の出力を期待しているとします:
 
 	resource  year   month   day   count
 	index     2010   1       20    3
@@ -629,8 +628,8 @@ When you do this, any existing data in `hit_stats` is lost. If we did `{out: {me
 
 The third parameter takes additional options, for example we could filter, sort and limit the documents that we want analyzed. We can also supply a `finalize` method to be applied to the results after the `reduce` step.
 
-### In This Chapter ###
-This is the first chapter where we covered something truly different. If it made you uncomfortable, remember that you can always use MongoDB's other [aggregation capabilities](http://www.mongodb.org/display/DOCS/Aggregation) for simpler scenarios. Ultimately though, MapReduce is one of MongoDB's most compelling features. The key to really understanding how to write your map and reduce functions is to visualize and understand the way your intermediary data will look coming out of `map` and heading into `reduce`.
+### 章のまとめ ###
+これは、これまでに触れてきた内容とはまったく異なる最初の章でした。もし不安が残るようであれば、MongoDBのその他の[aggregation capabilities](http://www.mongodb.org/display/DOCS/Aggregation)を参照することが出来ます。最後になりますが、MapReduceはMongoDBの最も強力な機能のひとつです。正しく理解するための鍵は、あなたの書いたmapとreduce関数を思い浮かべ、`map`を出てから`reduce`に入る前の中間データを理解する事です。
 
 \clearpage
 
