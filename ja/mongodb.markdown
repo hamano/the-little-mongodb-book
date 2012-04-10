@@ -342,8 +342,10 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 
 さて、`Leto`がマネージャーとなる様に設定した社員を何人か追加してみましょう:
 
-	db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d731"), name: 'Duncan', manager: ObjectId("4d85c7039ab0fd70a117d730")});
-	db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d732"), name: 'Moneo', manager: ObjectId("4d85c7039ab0fd70a117d730")});
+	db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d731"), name: 'Duncan',
+                         manager: ObjectId("4d85c7039ab0fd70a117d730")});
+	db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d732"), name: 'Moneo',
+                         manager: ObjectId("4d85c7039ab0fd70a117d730")});
 
 (上記に倣って、`_id`はユニークになる必要があります。
 ここで実際に指定した`ObjectId`を、以降も同じ様に使用する事になります。)
@@ -359,7 +361,9 @@ MongoDBの動作の基本的な機構を知ることからはじめましょう�
 #### 配列と埋め込みドキュメント ####
 MongoDBがjoinを持たないと言うだけで、切り札が無いという意味ではありません。MongoDBのドキュメントがファーストクラスオブジェクトとしての配列をサポートしてい事を簡単に確認したのを思い出してください。これは、多対一、多対多の関係を表現する際にとても器用に役立つ事が分かります。簡単な例として、社員が複数のマネージャーを持つ場合、単純にこれらを配列で格納する事が出来ます:
 
-	db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d733"), name: 'Siona', manager: [ObjectId("4d85c7039ab0fd70a117d730"), ObjectId("4d85c7039ab0fd70a117d732")] })
+	db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d733"), name: 'Siona',
+                         manager: [ObjectId("4d85c7039ab0fd70a117d730"),
+                                   ObjectId("4d85c7039ab0fd70a117d732")]})
 
 得に興味深い事は、ドキュメントはスカラ値であっても構わないし、配列であっても構わないという点です。最初の`find`クエリーはどちらであっても動作します:
 
@@ -369,7 +373,10 @@ MongoDBがjoinを持たないと言うだけで、切り札が無いという意
 
 配列に加えて、MongoDBは埋め込みドキュメントをサポートしています。次に進んで入れ子になったドキュメントを挿入してみてください:
 
-	db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d734"), name: 'Ghanima', family: {mother: 'Chani', father: 'Paul', brother: ObjectId("4d85c7039ab0fd70a117d730")}})
+	db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d734"), name: 'Ghanima',
+                         family: {mother: 'Chani',
+                                  father: 'Paul',
+                                  brother: ObjectId("4d85c7039ab0fd70a117d730")}})
 
 驚くでしょうが、埋め込みドキュメントはクエリーにドット表記を使用できます:
 
@@ -380,12 +387,16 @@ MongoDBがjoinを持たないと言うだけで、切り札が無いという意
 #### DBRef ####
 MongoDBは`DBRef`と言われる習慣を多くのドライバーでサポートしています。ドライバが`DBRef`に遭遇すると、自動的に参照先のドキュメントを取得します。`DBRef`はコレクションやドキュメントの参照IDを含みます。これは一般的に特定の目的に対して提供される機能です。例えばドキュメントが同じコレクションのドキュメントから参照され、異なるコレクションからも同じドキュメントを参照するような場合です。つまり、ドキュメント1が`managers`のドキュメントを指し示す`DBRef`である一方、ドキュメント2が`employees`のドキュメントを指し示す事が出来ます。
 
-#### Denormalization ####
-Yet another alternative to using joins is to denormalize your data. Historically, denormalization was reserved for performance-sensitive code, or when data should be snapshotted (like in an audit log). However, with the ever-growing popularity of NoSQL, many of which don't have joins, denormalization as part of normal modeling is becoming increasingly common. This doesn't mean you should duplicate every piece of information in every document. However, rather than letting fear of duplicate data drive your design decisions, consider modeling your data based on what information belongs to what document.
+#### 非正規化 ####
+joinを使う事の代わりのもうひとつの代替は、データを非正規化する事です。従来、非正規化はパフォーマンス特化の為やデータの速記(ログの様な)の為に利用されてきました。ところが、NoSQLの人気が高まるにつれて、joinを行わないことや非正規化は次第に一般的なモデリング手法として認められるようになってきました。これは全てのドキュメントであらゆる情報が重複するという意味ではありません。けれども、その方がかえって重複を恐れずに、データがどの情報に基づいていて、どのドキュメントに属しているかをよく考えてモデリングし、設計を行う傾向があります。
 
-For example, say you are writing a forum application. The traditional way to associate a specific `user` with a `post` is via a `userid` column within `posts`. With such a model, you can't display `posts` without retrieving (joining to) `users`. A possible alternative is simply to store the `name` as well as the `userid` with each `post`. You could even do so with an embedded document, like `user: {id: ObjectId('Something'), name: 'Leto'}`. Yes, if you let users change their name, you'll have to update each document (which is 1 extra query).
+例えば、掲示板のWEBアプリケーションを作っているとします。伝統的な方法では、`posts`テーブルにある`ユーザーID`によって`ユーザー`と`投稿`を紐付けます。この様なモデルでは`users`テーブルを検索(もしくはjoin)しなければ`投稿`を表示することが出来ません。埋め込みドキュメントがあればこういう事も出来るでしょう:
 
-Adjusting to this kind of approach won't come easy to some. In a lot of cases it won't even make sense to do this. Don't be afraid to experiment with this approach though. It's not only suitable in some circumstances, but it can also be the right way to do it.
+    `user: {id: ObjectId('Something'), name: 'Leto'}`
+
+もちろんこうした場合、ユーザーが名前を変更すると全てのドキュメントを更新しなければなりません(一度のクエリーで済みます)。
+
+この種の取り組みを調整する事はそれほど簡単ではありません。多くの場合、この様な調整は非常識で効果が無いかもしれません。しかし、この取り組みへの実験を恐れないでください。状況によっては適切ではありませんが、その取り組みが効果的で正しい対処になることもあるでしょう。
 
 #### Which Should You Choose? ####
 Arrays of ids are always a useful strategy when dealing with one-to-many or many-to-many scenarios. It's probably safe to say that `DBRef` aren't used very often, though you can certainly experiment and play with them. That generally leaves new developers unsure about using embedded documents versus doing manual referencing.
@@ -479,7 +490,7 @@ MapReduceは、従来のソリューションを上回る2つの有用な利点�
 MapReduceは注目を集めているパターンです、あなたは、C#, Ruby, Java, Pythonなど、ほとんど全ての実装でこれを利用することが出来ます。それらはまったく異なっていて複雑に見える事を警告しておきます。挫折せず時間をかけて学んで見てください。これはMongoDBの利用に関わらず理解しておく価値があります。
 
 ### 理論と実践 ###
-MapReduceは2段階の処理に分かれています。最初にmapを行い、次にreduceを行います。mappingの段階で入力されたドキュメントを変換し、key=>valueのペアを発行します(キーと値は複合化可能です)。reduceの段階で発行されたキーと値の配列から処理を行った最終的な結果を集約します。それでは各段階での出力を見ていきましょう。
+MapReduceは2段階の処理に分かれています。最初にmapを行い、次にreduceを行います。mappingの段階で入力されたドキュメントを変換し、key=>valueのペアをemitします(キーと値は複合化可能です)。reduceの段階でemitされたキーと値の配列から処理を行った最終的な結果を集約します。それでは各段階での出力を見ていきましょう。
 
 ここでは、(Webページの)リソースに対して日別のアクセス数のレポートを生成する例を使用します。これはMapReduceの*hello world*です。目的は、`hits`コレクションに2つのフィールド: `resource`と`date`を入力として利用し、求められる出力は`resource`、`year`、`month`、`day`、`count`に分割されている事です。
 
@@ -506,50 +517,66 @@ MapReduceは2段階の処理に分かれています。最初にmapを行い、�
 	index     2010   1       21    2
 	index     2010   1       22    1
 
-(The nice thing about this type of approach to analytics is that by storing the output, reports are fast to generate and data growth is controlled (per resource that we track, we'll add at most 1 document per day.)
+この種のアクセス解析の良い所は、レポートを素早く生成して出力を保存し、増え続けるデータを抑制出来る事です。(1日毎に解析するページの数だけのドキュメントが追加されます。)
 
-For the time being, focus on understanding the concept. At the end of this chapter, sample data and code will be given for you to try on your own.
+当面は、概念の理解に集中します。章の最後の方でサンプルデータとコードを利用して自分自身で試してみましょう。
 
-The first thing to do is look at the map function. The goal of map is to make it emit a value which can be reduced. It's possible for map to emit 0 or more times. In our case, it'll always emit once (which is common). Imagine map as looping through each document in hits. For each document we want to emit a key with resource, year, month and day, and a simple value of 1:
+まず初めに、以下のmap関数を見てください。mapの目的はreduce出来るような値を生成し、emitする事です。mapは0回以上emitする事が可能です。今回の場合、全て共通に一度だけemitを行います。このmap関数はhitsコレクションのドキュメント毎にループしていると想像して下さい。ドキュメント毎に、キーをresource, year, month, day指定し、値には単純に1を指定してemitします:
 
-	function() {
-		var key = {
-		    resource: this.resource,
-		    year: this.date.getFullYear(),
-		    month: this.date.getMonth(),
-		    day: this.date.getDate()
-		};
-		emit(key, {count: 1});
-	}
+    function() {
+        var key = {
+            resource: this.resource,
+            year: this.date.getFullYear(),
+            month: this.date.getMonth(),
+            day: this.date.getDate()
+        };
+        emit(key, {count: 1});
+    }
 
-`this` refers to the current document being inspected. Hopefully what'll help make this clear for you is to see what the output of the mapping step is. Using our above data, the complete output would be:
+`this`はループ中のドキュメントを参照します。恐らくは、map段階の後にどの様なデータが出力されるかを確認する事が、理解の助けになるでしょう。前記した入力データを利用すると、map完了後のデータは以下の様になります:
 
-	{resource: 'index', year: 2010, month: 0, day: 20} => [{count: 1}, {count: 1}, {count:1}]
-	{resource: 'about', year: 2010, month: 0, day: 20} => [{count: 1}]
-	{resource: 'about', year: 2010, month: 0, day: 21} => [{count: 1}, {count: 1}, {count:1}]
-	{resource: 'index', year: 2010, month: 0, day: 21} => [{count: 1}, {count: 1}]
-	{resource: 'index', year: 2010, month: 0, day: 22} => [{count: 1}]
+	{resource: 'index', year: 2010, month: 0, day: 20}
+    => [{count: 1}, {count: 1}, {count:1}]
+    
+	{resource: 'about', year: 2010, month: 0, day: 20}
+    => [{count: 1}]
+    
+	{resource: 'about', year: 2010, month: 0, day: 21}
+    => [{count: 1}, {count: 1}, {count:1}]
+    
+	{resource: 'index', year: 2010, month: 0, day: 21}
+    => [{count: 1}, {count: 1}]
+    
+	{resource: 'index', year: 2010, month: 0, day: 22}
+    => [{count: 1}]
 
-Understanding this intermediary step is the key to understanding MapReduce. The values from emit are grouped together, as arrays, by key. .NET and Java developers can think of it as being of type `IDictionary<object, IList<object>>` (.NET) or `HashMap<Object, ArrayList>` (Java).
+この中間段階を理解することが、MapReduceを理解する事の鍵です。emit後のキーに対応する値は、配列としてまとめられています。.NETやJava開発者は`IDictionary<object, IList<object>>`(.Net)や`HashMap<Object, ArrayList>`(Java)の様な物だと思って構いません。
 
-Let's change our map function in some contrived way:
+それでは、map関数を不自然に変更してみましょう:
 
-	function() {
-		var key = {resource: this.resource, year: this.date.getFullYear(), month: this.date.getMonth(), day: this.date.getDate()};
-		if (this.resource == 'index' && this.date.getHours() == 4) {
-			emit(key, {count: 5});
-		} else {
-			emit(key, {count: 1});
-		}
-	}
+    function() {
+        var key = {
+            resource: this.resource,
+            year: this.date.getFullYear(),
+            month: this.date.getMonth(),
+            day: this.date.getDate()
+        };
+        if (this.resource == 'index' && this.date.getHours() == 4) {
+            emit(key, {count: 5});
+        } else {
+            emit(key, {count: 1});
+        }
+    }
 
-The first intermediary output would change to:
+中間段階の出力は以下の様に変わります:
 
-	{resource: 'index', year: 2010, month: 0, day: 20} => [{count: 5}, {count: 1}, {count:1}]
+	{resource: 'index', year: 2010, month: 0, day: 20}
+    => [{count: 5}, {count: 1}, {count:1}]
 
-Notice how each emit generates a new value which is grouped by our key.
+キーに対応してemitで生成される値が、どの様にまとめられているかに注目して下さい。
 
-The reduce function takes each of these intermediary results and outputs a final result. Here's what ours looks like:
+reduce関数はこれらの中間結果を受け取り、最終的な結果として出力します。
+以下を見て下さい:
 
 	function(key, values) {
 		var sum = 0;
@@ -559,7 +586,7 @@ The reduce function takes each of these intermediary results and outputs a final
 		return {count: sum};
 	};
 
-Which would output:
+以下の出力を得られます:
 
 	{resource: 'index', year: 2010, month: 0, day: 20} => {count: 3}
 	{resource: 'about', year: 2010, month: 0, day: 20} => {count: 1}
@@ -567,24 +594,28 @@ Which would output:
 	{resource: 'index', year: 2010, month: 0, day: 21} => {count: 2}
 	{resource: 'index', year: 2010, month: 0, day: 22} => {count: 1}
 
-Technically, the output in MongoDB is:
+正確には、MongoDBはこの様に出力します:
 
 	_id: {resource: 'home', year: 2010, month: 0, day: 20}, value: {count: 3}
 
-Hopefully you've noticed that this is the final result we were after.
+これが目的の結果である事に気が付きましたでしょうか。
 
-If you've really been paying attention, you might be asking yourself *why didn't we simply use `sum = values.length`?* This would seem like an efficient approach when you are essentially summing an array of 1s. The fact is that reduce isn't always called with a full and perfect set of intermediate data. For example, instead of being called with:
+注意深く見て来たのであれば、あなたはこんな疑問を持つかもしれません *なぜ単純に`sum = values.length`を利用しないのですか?*原則として`{count: 1}`しか合計しない場合、この方法は効果的の様に見えます。答えは、reduceは常に完全な中間データを渡されて呼び出されるとは限らないという事です。例えば、reduceは以下の様に呼ばれるかもしれないし:
 
-	{resource: 'home', year: 2010, month: 0, day: 20} => [{count: 1}, {count: 1}, {count:1}]
+	{resource: 'home', year: 2010, month: 0, day: 20}
+    => [{count: 1}, {count: 1}, {count:1}]
 
-Reduce could be called with:
+以下の様に呼ばれるかもしれません:
 
-	{resource: 'home', year: 2010, month: 0, day: 20} => [{count: 1}, {count: 1}]
-	{resource: 'home', year: 2010, month: 0, day: 20} => [{count: 2}, {count: 1}]
+	{resource: 'home', year: 2010, month: 0, day: 20}
+    => [{count: 1}, {count: 1}]
+    
+	{resource: 'home', year: 2010, month: 0, day: 20}
+    => [{count: 2}, {count: 1}]
 
-The final output is the same (3), the path taken is simply different. As such, reduce must always be idempotent. That is, calling reduce multiple times should generate the same result as calling it once.
+最終的な出力は同じく(3)ですが単純に経緯が異なります。reduceは常に冪等であると言えます。つまり、reduceが何回呼ばれたとしても、1回呼ばれた場合と同じ結果にならなくてはなりません。
 
-We aren't going to cover it here but it's common to chain reduce methods when performing more complex analysis.
+ここでは触れませんが、より複雑な解析を行う場合、reduceメソッドを連鎖する事は一般的です。
 
 ### Pure Practical ###
 With MongoDB we use the `mapReduce` command on a collection. `mapReduce` takes a map function, a reduce function and an output directive. In our shell we can create and pass a JavaScript function. From most libraries you supply a string of your functions (which is a bit ugly). First though, let's create our simple data set:
