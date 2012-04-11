@@ -1,0 +1,29 @@
+\documentclass[a4paper,12pt]{jsarticle}
+
+\usepackage{book}
+\usepackage[dvipdfm]{graphicx}
+\usepackage{ctable}
+\usepackage{enumerate}
+
+% title
+\title{$title$}
+\author{$author$}
+\date{$date$}
+
+% document
+\begin{document}
+\maketitle
+
+\begin{center}
+\includegraphics{title.eps}
+\end{center}
+
+\clearpage
+
+$if(toc)$
+\tableofcontents
+\clearpage
+$endif$
+
+$body$
+\end{document}

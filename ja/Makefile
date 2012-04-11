@@ -7,7 +7,7 @@ mongodb.epub: mongodb.markdown
 	pandoc -o $@ $^
 
 mongodb.tex: mongodb.markdown
-	pandoc -f markdown -t latex --base-header-level=1 --chapters --template=book.tmpl $^ | nkf -j > $@
+	pandoc -f markdown -t latex --base-header-level=1 --chapters --template=mongodb.tmpl $^ | nkf -j > $@
 
 mongodb.dvi: mongodb.tex
 	platex $^
