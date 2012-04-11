@@ -617,8 +617,8 @@ reduce関数はこれらの中間結果を受け取り、最終的な結果と�
 
 ここでは触れませんが、より複雑な解析を行う場合、reduceメソッドを連鎖する事は一般的です。
 
-### Pure Practical ###
-With MongoDB we use the `mapReduce` command on a collection. `mapReduce` takes a map function, a reduce function and an output directive. In our shell we can create and pass a JavaScript function. From most libraries you supply a string of your functions (which is a bit ugly). First though, let's create our simple data set:
+### ひたすら練習 ###
+MongoDBでは、コレクションに対して`mapReduce`コマンドを呼び出してMapReduceを実行します。`mapReduce`には引数にmap関数とreduce関数、そして出力ディレクティブを引き渡します。mongodbのシェルではJavaScriptの関数を定義して解釈します。多くのライブラリでは関数を文字列で引き渡します(ちょっとカッコ悪いけど)。まずはこれらのデータを入力してみましょう:
 
 	db.hits.insert({resource: 'index', date: new Date(2010, 0, 20, 4, 30)});
 	db.hits.insert({resource: 'index', date: new Date(2010, 0, 20, 5, 30)});
@@ -631,10 +631,14 @@ With MongoDB we use the `mapReduce` command on a collection. `mapReduce` takes a
 	db.hits.insert({resource: 'index', date: new Date(2010, 0, 21, 9, 30)});
 	db.hits.insert({resource: 'index', date: new Date(2010, 0, 22, 5, 0)});
 
-Now we can create our map and reduce functions (the MongoDB shell accepts multi-line statements, you'll see *...* after hitting enter to indicate more text is expected):
+続いてmapとreduce関数を定義します(MongoDBのシェルは複数行の命令文を解釈します。*...*は引き続きテキストが入力される事を期待しています):
 
 	var map = function() {
-		var key = {resource: this.resource, year: this.date.getFullYear(), month: this.date.getMonth(), day: this.date.getDate()};
+		var key = {resource: this.resource,
+                   year: this.date.getFullYear(),
+                   month: this.date.getMonth(),
+                   day: this.date.getDate()
+                  };
 		emit(key, {count: 1});
 	};
 
@@ -646,7 +650,7 @@ Now we can create our map and reduce functions (the MongoDB shell accepts multi-
 		return {count: sum};
 	};
 
-Which we can use the `mapReduce` command against our `hits` collection by doing:
+`hits`コレクションに対して、この様にして`mapReduce`コマンドを実行します:
 
 	db.hits.mapReduce(map, reduce, {out: {inline:1}})
 
