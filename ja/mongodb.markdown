@@ -6,7 +6,7 @@
 ### ライセンス ###
 MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてライセンスされています。*あなたはこの本の為にお金を支払う必要はありません。*
 
-この本を複製、改変、展示する事は基本的に自由です。しかし、この本は常に私(カール・セガン)に帰属するように求めます。そして私はこれを商用目的で使用する事はありません。
+この本を複製、改変、展示することは基本的に自由です。しかし、この本は常に私(カール・セガン)に帰属するように求めます。そして私はこれを商用目的で使用する事はありません。
 
 以下にライセンスの全文があります:
 
@@ -20,7 +20,7 @@ MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてラ�
 彼のブログは<http://openmymind.net>、つぶやきは[@karlseguin](http://twitter.com/karlseguin)で見つかります。
 
 ### 謝辞 ###
-[Perry Neal](http://twitter.com/perryneal)が私に彼の目と意見と情熱を貸してくれた事に感謝します。ありがとう。
+[Perry Neal](http://twitter.com/perryneal)が私に彼の目と意見と情熱を貸してくれたことに感謝します。ありがとう。
 
 ### 最新バージョン ###
 この本の最新のソースはこちら:
@@ -30,7 +30,7 @@ MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてラ�
 \clearpage
 
 ## 序章 ##
- > この章が短い事は私の誤りではありません、MongoDBを学ぶ事はとても簡単です。
+ > この章が短いことは私の誤りではありません、MongoDBを学ぶ事はとても簡単です。
 
 しばしば、技術は激しい速度で変化していると言われます。それは新しい技術と技術手法が公開され続けているという点で真実ですが、私の見解ではプログラマによって利用される基礎的な技術の変化はかなり遅いと考えています。しかし、誰しもが過去のものになろうとする技術に学習コストを費やしたいとは思わないでしょう。注目すべき点は確立した技術が置きかえられる速度です。気がつくと、長い歴史を持つ技術がまるで一晩で開発者の関心の転移に脅かされているようです。
 
@@ -398,8 +398,8 @@ joinを使う事の代わりのもうひとつの代替は、データを非正�
 
 この種の取り組みを調整する事はそれほど簡単ではありません。多くの場合、この様な調整は非常識で効果が無いかもしれません。しかし、この取り組みへの実験を恐れないでください。状況によっては適切ではありませんが、その取り組みが効果的で正しい対処になることもあるでしょう。
 
-#### Which Should You Choose? ####
-Arrays of ids are always a useful strategy when dealing with one-to-many or many-to-many scenarios. It's probably safe to say that `DBRef` aren't used very often, though you can certainly experiment and play with them. That generally leaves new developers unsure about using embedded documents versus doing manual referencing.
+#### どちらを選ぶ? ####
+1対多や多対多の関係のシナリオでIDを配列にする事は有用な戦略です。`DBRef`は実験的に利用することは出来ますがそれほど利用頻度は多くないと言っても間違いではないと思います。一般的な新しい開発者にとって、埋め込みドキュメントを利用するか、手動で参照を行うか悩んでしまう事がよくあります。
 
 First, you should know that an individual document is currently limited to 4 megabytes in size. Knowing that documents have a size limit, though quite generous, gives you some idea of how they are intended to be used. At this point, it seems like most developers lean heavily on manual references for most of their relationships. Embedded documents are frequently leveraged, but mostly for small pieces of data which we want to always pull with the parent document. A real world example I've used is to store an `accounts` document with each user, something like:
 
@@ -650,21 +650,21 @@ MongoDBでは、コレクションに対して`mapReduce`コマンドを呼び�
 		return {count: sum};
 	};
 
-`hits`コレクションに対して、この様にして`mapReduce`コマンドを実行します:
+`hits`コレクションに対して、`mapReduce`コマンドをこの様に実行します:
 
 	db.hits.mapReduce(map, reduce, {out: {inline:1}})
 
-If you run the above, you should see the desired output. Setting `out` to `inline` means that the output from `mapReduce` is immediately streamed back to us. This is currently limited for results that are 16 megabytes or less. We could instead specify `{out: 'hit_stats'}` and have the results stored in the `hit_stats` collections:
+上記を実行すると、期待した出力が表示されます。`out: {inline:1}`を設定すると、`mapReduce`の処理結果が順次表示されます。この機能は現在の所結果のサイズが16MByte以下に制限されています。代わりに、`{out: 'hit_stats'}`と指定することで結果を`hit_stats`コレクションに格納することが出来ます:
 
 	db.hits.mapReduce(map, reduce, {out: 'hit_stats'});
 	db.hit_stats.find();
 
-When you do this, any existing data in `hit_stats` is lost. If we did `{out: {merge: 'hit_stats'}}` existing keys would be replaced with the new values and new keys would be inserted as new documents. Finally, we can `out` using a `reduce` function to handle more advanced cases (such an doing an upsert).
+これを行うと、既存の`hit_stats`にある既存のデータは消えてしまいます。もし`{out: {merge: 'hit_stats'}}`を指定したのであれば、既存のキーは上書きされ、新しいキーは新しいドキュメントとして挿入されます。最後に、高度な使い方として、`reduce`関数で`out`を操作することが可能です(upsertの様な使い方が出来ます)
 
-The third parameter takes additional options, for example we could filter, sort and limit the documents that we want analyzed. We can also supply a `finalize` method to be applied to the results after the `reduce` step.
+3番目の引数は追加のオプションを渡します。例えば、解析したいドキュメントを制限したり、フィルタやソートを行うことが出来ます。`finalize`メソッドを渡すと、`reduce`後の段階結果にこの関数を適用することもできます。
 
 ### 章のまとめ ###
-これは、これまでに触れてきた内容とはまったく異なる最初の章でした。もし不安が残るようであれば、MongoDBのその他の[aggregation capabilities](http://www.mongodb.org/display/DOCS/Aggregation)を参照することが出来ます。最後になりますが、MapReduceはMongoDBの最も強力な機能のひとつです。正しく理解するための鍵は、あなたの書いたmapとreduce関数を思い浮かべ、`map`を出てから`reduce`に入る前の中間データを理解する事です。
+これは、これまでに触れてきた内容とはまったく異なる最初の章でした。もし不安が残るようであれば、MongoDBのその他の[aggregation capabilities](http://www.mongodb.org/display/DOCS/Aggregation)を参照することが出来ます。最後になりますが、MapReduceはMongoDBの最も強力な機能のひとつです。正しく理解するための鍵は、あなたの書いたmapとreduce関数を思い浮かべ、`map`を出てから`reduce`に入る前の中間データを理解することです。
 
 \clearpage
 
@@ -716,7 +716,7 @@ MongoDBは自動シャーディングをサポートしています。シャー�
 ### レプリケーション ###
 MongoDBのレプリケーションの動きはリレーショナルデータベースのそれ動作とよく似ています。単一のマスターサーバーに対し書き込みが行われると、他のスレーブサーバに同期とします。あなたはスレーブに対して読み込みリクエストを発生させるかどうかを制御できます。これは古いデータを読み込むリスクを低減させるのに役立ちます。マスターが落ちた場合、スレーブが新しいマスターの役割に昇格することが出来ます。MongoDBのレプリケーションもまた、この本の主題から外れます。
 
-レプリケーションの主要な目的は信頼性の向上ですが、読み込みリクエストを分散することでパフォーマンスを改善する事も出来ます。レプリケーションとシャーディングを組み合わせることは一般的な方法です。例えば、それぞれのマスターとスレーブシャードを共有することが出来ます。(厳密には、調停者が2つのスレーブの均衡を破って、マスターになれる様に助ける必要があります。その為に調停者は若干のリソースと、複数のシャードを利用できる事を要求します。)
+レプリケーションの主要な目的は信頼性の向上ですが、読み込みリクエストを分散することでパフォーマンスを改善することも出来ます。レプリケーションとシャーディングを組み合わせることは一般的な方法です。例えば、それぞれのマスターとスレーブシャードを共有することが出来ます。(厳密には、調停者が2つのスレーブの均衡を破って、マスターになれる様に助ける必要があります。その為に調停者は若干のリソースと、複数のシャードを利用できる事を要求します。)
 
 ### 統計 ###
 あなたは`db.stats()`とタイプすることでデータベースの統計を取得できます。データベースのサイズは最もよく扱う情報です。`db.unicorns.stats()`とタイプすることで`unicorns`というコレクションの統計を取得することも出来ます。同様にこのコレクションのサイズに関する情報も有用です。
@@ -725,7 +725,7 @@ MongoDBのレプリケーションの動きはリレーショナルデータベ�
 MongoDBを起動すると、Webベースの管理ツールに関する情報が含まれています(`mongod`を起動した時点までターミナルウィンドウをスクロールすればその様子を確認できるでしょう)。あなたはブラウザで<http://localhost:28017/>を開いてアクセス出来ます。設定ファイルに`rest=true`を追加して`mongod`プロセスを再起動すると、さらにこれを有効に活用出来るでしょう。このWebインターフェースはサーバの現在の状態についての洞察を与えてくれます。
 
 ### プロファイラ ###
-以下を実行をする事でMongoDBプロファイラを有効にできます:
+以下を実行をすることでMongoDBプロファイラを有効にできます:
 
 	db.setProfilingLevel(2);
 
@@ -763,10 +763,10 @@ MongoDBには`bin`の中に`mongodump`という実行ファイルが付属して
 
 	mongoexport --db learn -collection unicorns --csv -fields name,weight,vampires
 
-`mongoexport`と`mongoimport`は完全にあなたのデータを表現できない事に注意して下さい。`mongodump`と`mongorestore`のみを実際のバックアップでは利用すべきです。
+`mongoexport`と`mongoimport`は完全にあなたのデータを表現できないことに注意して下さい。`mongodump`と`mongorestore`のみを実際のバックアップでは利用すべきです。
 
 ### 章のまとめ ###
-この章では、MongoDBで利用する様々なコマンドやツールやパフォーマンスの詳細を見てきました。全てに触れる事は出来ませんでしたが最も一般的なものを紹介しました。MongoDBのインデックス化がリレーショナルデータベースのインデックス化とよく似ているのと同様に、ツールの多くも同じです。しかしMongoDBの方がわかり易くて単純に利用できるものが多いでしょう。
+この章では、MongoDBで利用する様々なコマンドやツールやパフォーマンスの詳細を見てきました。全てに触れることは出来ませんでしたが最も一般的なものを紹介しました。MongoDBのインデックス化がリレーショナルデータベースのインデックス化とよく似ているのと同様に、ツールの多くも同じです。しかしMongoDBの方がわかり易くて単純に利用できるものが多いでしょう。
 
 \clearpage
 
