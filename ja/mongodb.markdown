@@ -401,11 +401,12 @@ joinを使う事の代わりのもうひとつの代替は、データを非正�
 #### どちらを選ぶ? ####
 1対多や多対多の関係のシナリオでIDを配列にする事は有用な戦略です。`DBRef`は実験的に利用することは出来ますがそれほど利用頻度は多くないと言っても間違いではないと思います。一般的な新しい開発者にとって、埋め込みドキュメントを利用するか、手動で参照を行うか悩んでしまう事がよくあります。
 
-First, you should know that an individual document is currently limited to 4 megabytes in size. Knowing that documents have a size limit, though quite generous, gives you some idea of how they are intended to be used. At this point, it seems like most developers lean heavily on manual references for most of their relationships. Embedded documents are frequently leveraged, but mostly for small pieces of data which we want to always pull with the parent document. A real world example I've used is to store an `accounts` document with each user, something like:
+まず、個々のドキュメントのサイズは4MByteまでに制限されていることを知らなければなりません。ドキュメントのサイズに制限があるとわかった所で、気前よく替りにどの様にすれば良いかのアイディアを提供しましょう。現在の所、開発者が巨大なリレーションを行いたい場合、大抵は手動で参照しなければならない様に思われます。埋め込みドキュメントは頻繁に利用されますが、データの小片は親ドキュメントと同時に取得したい場合が殆どです。
+実例として、`accounts`コレクションに以下のユーザーを格納してみます:
 
 	db.users.insert({name: 'leto', email: 'leto@dune.gov', account: {allowed_gholas: 5, spice_ration: 10}})
 
-That doesn't mean you should underestimate the power of embedded documents or write them off as something of minor utility. Having your data model map directly to your objects makes things a lot simpler and often does remove the need to join. This is especially true when you consider that MongoDB lets you query and index fields of an embedded document.
+これを単に手っ取り早く書き込むための只のユーティリティだと過小評価してはいけません。直接ドキュメントを持つ事は、データモデルをより単純にし、多くの場合Joinの必要性を無くします。これは、埋め込みドキュメントのインデックスフィールドや、クエリーを考慮すると、特にあてはまります。
 
 ### Few or Many Collections ###
 Given that collections don't enforce any schema, it's entirely possible to build a system using a single collection with a mismatch of documents.  From what I've seen, most MongoDB systems are laid out similarly to what you'd find in a relational system. In other words, if it would be a table in a relational database, it'll likely be a collection in MongoDB (many-to-many join tables being an important exception).
