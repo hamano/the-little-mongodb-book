@@ -7,7 +7,6 @@
 MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてライセンスされています。*あなたはこの本の為にお金を支払う必要はありません。*
 
 この本を複製、改変、展示することは基本的に自由です。しかし、この本は常に私(カール・セガン)に帰属するように求めます。そして私はこれを商用目的で使用する事はありません。
-
 以下にライセンスの全文があります:
 
 <http://creativecommons.org/licenses/by-nc/3.0/legalcode>
@@ -22,8 +21,15 @@ MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてラ�
 ### 謝辞 ###
 [Perry Neal](http://twitter.com/perryneal)が私に彼の目と意見と情熱を貸してくれたことに感謝します。ありがとう。
 
+<!--
+### 最新バージョン ###
+この本の最新のソースはこちら:
+
+<http://github.com/karlseguin/the-little-mongodb-book>
+-->
+
 ### 訳者より ###
-翻訳を手伝ってくれた田村さんに感謝します。
+間違い、誤訳などありましたら[@hamano](http://twitter.com/hamano)まで連絡下さい。翻訳を手伝ってくれた田村さん([@tamura__246](http://twitter.com/tamura__246))に感謝します。
 
 翻訳版の最新のソースはこちら:
 
@@ -32,13 +38,6 @@ MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてラ�
 原書の最新のソースはこちら:
 
 <http://github.com/karlseguin/the-little-mongodb-book>
-
-<!--
-### 最新バージョン ###
-この本の最新のソースはこちら:
-
-<http://github.com/karlseguin/the-little-mongodb-book>
--->
 
 \clearpage
 
@@ -421,15 +420,15 @@ joinを使う事の代わりのもうひとつの代替は、データを非正�
 
 これを単に手っ取り早く書き込むための只のユーティリティだと過小評価してはいけません。直接ドキュメントを持つ事は、データモデルをより単純にし、多くの場合Joinの必要性を無くします。これは、埋め込みドキュメントのインデックスフィールドや、クエリーを考慮すると、特にあてはまります。
 
-### Few or Many Collections ###
-Given that collections don't enforce any schema, it's entirely possible to build a system using a single collection with a mismatch of documents.  From what I've seen, most MongoDB systems are laid out similarly to what you'd find in a relational system. In other words, if it would be a table in a relational database, it'll likely be a collection in MongoDB (many-to-many join tables being an important exception).
+### 少ないコレクションと多いコレクション ###
+コレクションがスキーマを強要しないのであれば、ドキュメントの不整合を許容して完全に単一コレクションでシステムを構築することも可能です。私の見た所、多くのMongoDBのシステムはよくあるリレーショナルデータベースと同じように設計されて使われているようです。言い換えると、リレーショナルデータベースのテーブルは多くはMongoDBのコレクションで置き換えることが可能です。(多対多のJoinは重要な例外です)。
 
-The conversation gets even more interesting when you consider embedded documents. The example that frequently comes up is a blog. Should you have a `posts` collection and a `comments` collection, or should each `post` have an array of `comments` embedded within it. Setting aside the 4MB limit for the time being (all of Hamlet is less than 200KB, just how popular is your blog?), most developers still prefer to separate things out. It's simply cleaner and more explicit.
+埋め込みドキュメントについて考えてみると、もっと面白い話題があります。よくある例はブログシステムです。`posts`コレクションと`comments`コレクションを持っているとすると、`posts`コレクションのドキュメントがコメントを持つ様にすることも出来ます。多くの開発者はまだ、コレクションを分割好むようですが、ひとまず4MByteの制限は置いてみてはどうでしょうか(ハムレットの全文は200KByte以下です、あなたのブログはこれより有名なのですか?)。それは単純明快になるでしょう。
 
-There's no hard rule (well, aside from 4MB). Play with different approaches and you'll get a sense of what does and does not feel right.
+4MByteの制限はそれほど難しいルールではありません。ぜひ今までと違った手法を試してみて、何が上手く行って何がうまく行かないのかを自分で確かめてみて下さい。
 
-### In This Chapter ###
-Our goal in this chapter was to provide some helpful guidelines for modeling your data in MongoDB. A starting point if you will. Modeling in a document-oriented system is different, but not too different than a relational world. You have a bit more flexibility and one constraint, but for a new system, things tend to fit quite nicely. The only way you can go wrong is by not trying.
+### 章のまとめ ###
+この章の目標はMongoDBでデータをモデリングする為のガイドラインを示すことでした。ドキュメント志向システムのモデリングはリレーショナルデータベースの世界と異なりますが、それほど多くの違いはありません。あなたは少しの柔軟性と一つの制約を知りましたが、新しいシステムであれば上手く適合させることが出来るでしょう。誤った方向に進む唯一の方法は挑戦を行わない事です。
 
 \clearpage
 
