@@ -437,16 +437,16 @@ joinを使う事の代わりのもうひとつの代替は、データを非正�
 
 \clearpage
 
-## 5章 - When To Use MongoDB ##
-By now you should have a good enough understanding of MongoDB to have a feel for where and how it might fit into your existing system. There are enough new and competing storage technologies that it's easy to get overwhelmed by all of the choices.
+## 5章 - MongoDBをいつ使うか ##
+そろそろ、MongoDBをどこでどのように既存システムに適合するかの感覚を持つため、MongoDBの理解を深める必要があります。MongoDBには十分に新しく、競合するストレージ技術があり、それらすべての選択肢に容易に圧倒されてしまいます。
 
-For me, the most important lesson, which has nothing to do with MongoDB, is that you no longer have to rely on a single solution for dealing with your data. No doubt, a single solution has obvious advantages and for a lot projects, possibly even most, a single solution is the sensible approach. The idea isn't that you must use different technologies, but rather that you can. Only you know whether the benefits of introducing a new solution outweigh the costs.
+私にとって最も重要な教訓(MongoDBと無関係に)は、データを扱うための単一のソリューションにもはや頼る必要がないということです。間違いなく、単一のソリューションは明らかな利点を持っており、多くのプロジェクトにおいておそらく最も賢明なアプローチです。考え方は、異なるテクノロジを使用しなければならないことではなく、異なるテクノロジを使用できるということです。あなただけが、新しいソリューションを導入することの利益がコストを上回るかどうかを知っています。
 
-With that said, I'm hopeful that what you've seen so far has made you see MongoDB as a general solution. It's been mentioned a couple times that document-oriented databases share a lot in common with relational databases. Therefore, rather than tiptoeing around it, let's simply state that MongoDB should be seen as a direct alternative to relational databases. Where one might see Lucene as enhancing a relational database with full text indexing, or Redis as a persistent key-value store, MongoDB is a central repository for your data.
+とは言うものの、これまでに見てきたものは、一般的なソリューションとしてのMongoDBについて理解したものと期待しています。ドキュメント指向のデータベースはリレーショナル·データベースと多くの共通点を共有していることを何度か言及しました。したがって、むしろそれを避けて通るのではなく、MongoDBはリレーショナル·データベースの直接の代替として見られるべきであると簡単に明言しましょう。フルテキストインデックスによるリレーショナルデータベースの拡張としてのLuceneや、永続的なKey-valueストアとしてのRedisの一つと見た場合、MongoDBはデータの中央リポジトリです。
 
-Notice that I didn't call MongoDB a *replacement* for relational databases, but rather an *alternative*. It's a tool that can do what a lot of other tools can do. Some of it MongoDB does better, some of it MongoDB does worse. Let's dissect things a little further.
+MongoDBはリレーショナル·データベースに取って代わるものではなく、代案の一つであると言っていることに注意して下さい。MongoDBは他のツールができる多くのことができるツールです。そのいくつかにおいてはMongoDBは優れており、いくつかにおいてはMongoDBは劣っています。もう少し物事を分析しましょう。
 
-### Schema-less ###
+### スキーマレス ###
 An oft-touted benefit of document-oriented database is that they are schema-less. This makes them much more flexible than traditional database tables. I agree that schema-less is a nice feature, but not for the main reason most people mention.
 
 People talk about schema-less as though you'll suddenly start storing a crazy mismatch of data. There are domains and data sets which can really be a pain to model using relational databases, but I see those as edge cases. Schema-less is cool, but most of your data is going to be highly structured. It's true that having an occasional mismatch can be handy, especially when you introduce new features, but in reality it's nothing a nullable column probably wouldn't solve just as well.
