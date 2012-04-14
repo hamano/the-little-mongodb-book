@@ -438,18 +438,18 @@ joinを使う事の代わりのもうひとつの代替は、データを非正�
 \clearpage
 
 ## 5章 - When To Use MongoDB ##
-By now you should have a good enough understanding of MongoDB to have a feel for where and how it might fit into your existing system. There are enough new and competing storage technologies that it's easy to get overwhelmed by all of the choices.
+既にあなたはMongoDBをどの様にして既存のシステムに適合させるかを十分理解しているはずです。MongoDBには、その他の全ての選択肢を簡単に凌駕する十分新しい競合ストレージ技術があります。
 
-For me, the most important lesson, which has nothing to do with MongoDB, is that you no longer have to rely on a single solution for dealing with your data. No doubt, a single solution has obvious advantages and for a lot projects, possibly even most, a single solution is the sensible approach. The idea isn't that you must use different technologies, but rather that you can. Only you know whether the benefits of introducing a new solution outweigh the costs.
+私にとって最も重要なレッスンはMongoDBとは関係がありません。それはあなたがデータを扱う上で際に単一の解決手段に頼らなくてもよい様にすることです。たしかに、単一の解決手段を利用することは利点があります。多くのプロジェクトで単一の解決手段に限定することは場合によっては賢明な選択でしょう。
 
-With that said, I'm hopeful that what you've seen so far has made you see MongoDB as a general solution. It's been mentioned a couple times that document-oriented databases share a lot in common with relational databases. Therefore, rather than tiptoeing around it, let's simply state that MongoDB should be seen as a direct alternative to relational databases. Where one might see Lucene as enhancing a relational database with full text indexing, or Redis as a persistent key-value store, MongoDB is a central repository for your data.
+そんな訳で、これまで見てきたMongoDBの機能は一般的な解決手段として見なすことを期待しています。ドキュメント志向データベースがリレーショナルデータベースと共通する所が多い点については既に何度か言及してきました。そのために、MongoDBが単純にリレーショナルデータベースの代替になると言い切る事を慎重に扱って来ました。Luceneが全文検索インデックスによってリレーショナルデータベースを強化し、Redisが永続的なKey-Valueストアと見なすことが出来るように、MongoDBはデータの中央レポジトリとして見なすことが出来ます。
 
-Notice that I didn't call MongoDB a *replacement* for relational databases, but rather an *alternative*. It's a tool that can do what a lot of other tools can do. Some of it MongoDB does better, some of it MongoDB does worse. Let's dissect things a little further.
+私はMongoDBがリレーショナルデータベースを*そのまま交換出来る*様なものではなく、どちらかというと*別の代替手段*であると言っていることに注意して下さい。それはその他のツールと同様にツールなのです。MongoDBに向いている事もあれば、向いていない事もあります。それではもう少し詳しく分析してみましょう。
 
-### Schema-less ###
-An oft-touted benefit of document-oriented database is that they are schema-less. This makes them much more flexible than traditional database tables. I agree that schema-less is a nice feature, but not for the main reason most people mention.
+### スキーマレス ###
+ドキュメント指向データベースの利点としてよくもてはやされるのはスキーマレスである事です。これは従来のデータベーステーブルに比べてはるかに柔軟性をもたらします。私はスキーマレスは素晴らしい機能だと認めますが、それが主な理由でない事に多くの人は言及しません。
 
-People talk about schema-less as though you'll suddenly start storing a crazy mismatch of data. There are domains and data sets which can really be a pain to model using relational databases, but I see those as edge cases. Schema-less is cool, but most of your data is going to be highly structured. It's true that having an occasional mismatch can be handy, especially when you introduce new features, but in reality it's nothing a nullable column probably wouldn't solve just as well.
+スキーマレスは突然不整合によって狂ったデータを格納し始めるのではないか、という様な事を人々は話します。たしかにリレーショナルデーターベースと同様のモデルで実際に痛みを伴うデータセットと領域が存在しますが、特殊なケースでしょう。スキーマレスは凄いのですが、殆んどのデータは高度に構造化されてしまいます。特に新しい機能を導入する場合、時々負整合を起こしやすいのは確かです。しかしNULLカラムが実際に上手く解決出来ない様な問題となる事は無いでしょう。
 
 For me, the real benefit of schema-less design is the lack of setup and the reduced friction with OOP. This is particularly true when you're working with a static language. I've worked with MongoDB in both C# and Ruby, and the difference is striking. Ruby's dynamism and its popular ActiveRecord implementations already reduce much of the object-relational impedance mismatch. That isn't to say MongoDB isn't a good match for Ruby, it really is. Rather, I think most Ruby developers would see MongoDB as an incremental improvement, whereas C# or Java developers would see a fundamental shift in how they interact with their data.
 
@@ -497,8 +497,8 @@ You probably already know the answer to this, but MongoDB is obviously younger t
 
 On the positive side, drivers exist for a great many languages, the protocol is modern and simple, and development is happening at blinding speeds. MongoDB is in production at enough companies that concerns about maturity, while valid, are quickly becoming a thing of the past.
 
-### In This Chapter ###
-The message from this chapter is that MongoDB, in most cases, can replace a relational database. It's much simpler and straightforward; it's faster and generally imposes fewer restrictions on application developers. The lack of transactions can be a legitimate and serious concern. However, when people ask *where does MongoDB sit with respect to the new data storage landscape?* the answer is simple: **right in the middle**.
+### 章のまとめ ###
+この章で伝えたかったことは、MongoDBは大抵の場合リレーショナルデータベースを置き換えられるということです。もっと率直に言えば、それは速さの代わりに幾つかの制約をアプリケーション開発者に課します。トランザクションの欠如は正当で重要な懸念です。また、人々は尋ねます *「MongoDBは新しいデータストレージ分野の何処に位置するのでしょうか?」* 答えは単純です: *「ちょうど真ん中あたりだよ」*
 
 \clearpage
 
