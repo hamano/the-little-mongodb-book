@@ -1,11 +1,12 @@
 ## MongoDBの薄い本 ##
 「MongoDBの薄い本」はフリーのMongoDBの入門本「The Little MongoDB Book」の翻訳版です
 
-The book was written shortly after the creation of the [MongoDB interactive tutorial](http://mongly.com). As such, the two can be seen as complementary.
+この本は[MongoDB interactive tutorial](http://mongly.com)が書かれたすぐ後に書かれました。なのでこの２つは補足的になっています。
 
-The book was written by [Karl Seguin](http://openmymind.net), with [Perry Neal](http://twitter.com/perryneal)'s assistance.
+この本は [Karl Seguin](http://openmymind.net)によって書かれ、[Perry Neal](http://twitter.com/perryneal)が手伝いました。
 
-If you liked this book, maybe you'll also like [The Little Redis Book](http://openmymind.net/2012/1/23/The-Little-Redis-Book/).
+If you liked this book, maybe you'll also like 
+この本が気に入ったのなら、きっと [The Little Redis Book](http://openmymind.net/2012/1/23/The-Little-Redis-Book/)も気に入るでしょう。
 
 ## その他の翻訳 ##
 
@@ -20,8 +21,4 @@ If you liked this book, maybe you'll also like [The Little Redis Book](http://op
 この本は無料であり、[Attribution-NonCommercial 3.0 Unportedライセンス](<http://creativecommons.org/licenses/by-nc/3.0/legalcode>)に基づいて配布されています。
 
 ## フォーマット ##
-The book is written in [markdown](http://daringfireball.net/projects/markdown/) and converted to PDF using [PanDoc](http://johnmacfarlane.net/pandoc/). A few LaTex specific commands have been placed in the markdown file to help with pdf-generation (namely for the title page and to create page breaks between chapters).
-
-The LaTex template makes use of [Lena Herrmann's JavaScript highlighter](http://lenaherrmann.net/2010/05/20/javascript-syntax-highlighting-in-the-latex-listings-package).
-
-Kindle and ePub format provided using [PanDoc](http://johnmacfarlane.net/pandoc/). Run make en/mongodb.mobi to generate.
+この本は[markdown](http://daringfireball.net/projects/markdown/) 記法で書かれており、[PanDoc](http://johnmacfarlane.net/pandoc/)を利用してPDFに変換されています。
