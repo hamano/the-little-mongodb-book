@@ -3,9 +3,10 @@
 
 この本は[MongoDB interactive tutorial](http://mongly.com)が書かれたすぐ後に書かれました。なのでこの２つは補足的になっています。
 
-この本は [Karl Seguin](http://openmymind.net)によって書かれ、[Perry Neal](http://twitter.com/perryneal)が手伝いました。
+この本の原書は [Karl Seguin](http://openmymind.net)によって書かれ、[Perry Neal](http://twitter.com/perryneal)が手伝いました。
 
-If you liked this book, maybe you'll also like 
+翻訳版は [濱野](http://twitter.com/hamano)が翻訳し、[田村](http://twitter.com/tamura__246)が手伝いました。
+
 この本が気に入ったのなら、きっと [The Little Redis Book](http://openmymind.net/2012/1/23/The-Little-Redis-Book/)も気に入るでしょう。
 
 ## その他の翻訳 ##
