@@ -1,4 +1,5 @@
 % MongoDBの薄い本
+% The Little MongoDB Book
 % Karl Seguin 著 / Tsukasa Hamano 訳
 
 ## この本について ##
