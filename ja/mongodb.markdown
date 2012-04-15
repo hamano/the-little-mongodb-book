@@ -437,23 +437,23 @@ joinを使う事の代わりのもうひとつの代替は、データを非正�
 
 \clearpage
 
-## 5章 - When To Use MongoDB ##
-既にあなたはMongoDBをどの様にして既存のシステムに適合させるかを十分理解しているはずです。MongoDBには、その他の全ての選択肢を簡単に凌駕する十分新しい競合ストレージ技術があります。
+## 5章 - どんな時MongoDBを利用するか ##
+そろそろ、MongoDBをどこでどの様にして既存のシステムに適合させるかの感覚をつかむために、さらに理解を深める必要があります。MongoDBには、その他多くの選択肢を簡単に凌駕する十分新しい競合ストレージ技術があります。
 
-私にとって最も重要なレッスンはMongoDBとは関係がありません。それはあなたがデータを扱う上で際に単一の解決手段に頼らなくてもよい様にすることです。たしかに、単一の解決手段を利用することは利点があります。多くのプロジェクトで単一の解決手段に限定することは場合によっては賢明な選択でしょう。
+私にとって最も重要な教訓はMongoDBとは関係がありません。それはあなたがデータを扱う上で際に単一の解決手段に頼らなくてもよい様にすることです。たしかに、単一の解決手段を利用することは利点があります。多くのプロジェクトで単一の解決手段に限定することは場合によっては賢明な選択でしょう。異なるテクノロジを使用しなければならないと言うことではなく、異なるテクノロジを使用できるという発想です。あなただけが、新しいソリューションを導入することの利益がコストを上回るかどうかを知っています。
 
 そんな訳で、これまで見てきたMongoDBの機能は一般的な解決手段として見なすことを期待しています。ドキュメント志向データベースがリレーショナルデータベースと共通する所が多い点については既に何度か言及してきました。そのために、MongoDBが単純にリレーショナルデータベースの代替になると言い切る事を慎重に扱って来ました。Luceneが全文検索インデックスによってリレーショナルデータベースを強化し、Redisが永続的なKey-Valueストアと見なすことが出来るように、MongoDBはデータの中央レポジトリとして見なすことが出来ます。
 
-私はMongoDBがリレーショナルデータベースを*そのまま交換出来る*様なものではなく、どちらかというと*別の代替手段*であると言っていることに注意して下さい。それはその他のツールと同様にツールなのです。MongoDBに向いている事もあれば、向いていない事もあります。それではもう少し詳しく分析してみましょう。
+MongoDBはリレーショナルデータベースを*そのまま置き換える*様なものではなく、どちらかというと*別の代替手段*であると言っていることに注意して下さい。それはその他のツールと同様にツールなのです。MongoDBに向いている事もあれば、向いていない事もあります。それではもう少し詳しく分析してみましょう。
 
 ### スキーマレス ###
 ドキュメント指向データベースの利点としてよくもてはやされるのはスキーマレスである事です。これは従来のデータベーステーブルに比べてはるかに柔軟性をもたらします。私はスキーマレスは素晴らしい機能だと認めますが、それが主な理由でない事に多くの人は言及しません。
 
 スキーマレスは突然不整合によって狂ったデータを格納し始めるのではないか、という様な事を人々は話します。たしかにリレーショナルデーターベースと同様のモデルで実際に痛みを伴うデータセットと領域が存在しますが、特殊なケースでしょう。スキーマレスは凄いのですが、殆んどのデータは高度に構造化されてしまいます。特に新しい機能を導入する場合、時々負整合を起こしやすいのは確かです。しかしNULLカラムが実際に上手く解決出来ない様な問題となる事は無いでしょう。
 
-For me, the real benefit of schema-less design is the lack of setup and the reduced friction with OOP. This is particularly true when you're working with a static language. I've worked with MongoDB in both C# and Ruby, and the difference is striking. Ruby's dynamism and its popular ActiveRecord implementations already reduce much of the object-relational impedance mismatch. That isn't to say MongoDB isn't a good match for Ruby, it really is. Rather, I think most Ruby developers would see MongoDB as an incremental improvement, whereas C# or Java developers would see a fundamental shift in how they interact with their data.
+私にとって、スキーマレスの本当の利点はセットアップの省略とオブジェクト志向プログラミングとの摩擦の低減です。これは、静的型付け言語を利用している場合に特に当てはまります。私はこれまでC#とRubyでMongoDBを利用してきましたが、違いは顕著です。Rubyのダイナミズムと有名なActiveRecord実装は既にオブジェクトとリレーショナルDBの摩擦を十分低減しています。それは実際にMongoDBがRubyと上手く適合していないと言っているわけではありません。どちらかというと多くのRuby開発者はMongoDBを追加の改善として見ると思います。一方、C#やJava開発者はこれらのデータ相互作用を根本的な変化として見るでしょう。
 
-Think about it from the perspective of a driver developer. You want to save an object? Serialize it to JSON (technically BSON, but close enough) and send it to MongoDB. There is no property mapping or type mapping. This straightforwardness definitely flows to you, the end developer.
+ドライバ開発者の視点で考えてみて下さい。オブジェクトを保存したいのでしょうか?JSON(正確にはBSONだけど大体同じ)にシリアライズしてMongoDBに送信します。プロパティマッピングや、型マッピングもありません。それは単純明解にアプリケーション開発者に流れていきます。
 
 ### Writes ###
 One area where MongoDB can fit a specialized role is in logging. There are two aspects of MongoDB which make writes quite fast. First, you can send a write command and have it return immediately without waiting for it to actually write. Secondly, with the introduction of journaling in 1.8, and enhancements made in 2.0, you can control the write behavior with respect to data durability. These settings, in addition to specifying how many servers should get your data before being considered successful, are configurable per-write, giving you a great level of control over write performance and data durability.
