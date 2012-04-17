@@ -456,47 +456,43 @@ MongoDBはリレーショナルデータベースを*そのまま置き換える
 
 ドライバ開発者の視点で考えてみて下さい。オブジェクトを保存したいのでしょうか?JSON(正確にはBSONだけど大体同じ)にシリアライズしてMongoDBに送信します。プロパティマッピングや、型マッピングもありません。それは単純明解にアプリケーション開発者に流れていきます。
 
-### Writes ###
-One area where MongoDB can fit a specialized role is in logging. There are two aspects of MongoDB which make writes quite fast. First, you can send a write command and have it return immediately without waiting for it to actually write. Secondly, with the introduction of journaling in 1.8, and enhancements made in 2.0, you can control the write behavior with respect to data durability. These settings, in addition to specifying how many servers should get your data before being considered successful, are configurable per-write, giving you a great level of control over write performance and data durability.
+### 書き込み ###
+MongoDBが適合する専門的な役割のひとつはロギングです。MongoDBには書き込みを速くするための2つの特徴があります。ひとつ目は、送信した書き込み命令は実際の書き込みを待たず即座に復帰する事です。ふたつ目は、バージョン1.8で導入され、2.0で強化されたジャーナリング機能です。これはデータの耐久性に関する振る舞いを制御できる機能です。書き込み毎にこれらの設定を指定することで、サーバーは書き込みを完了する前にデータを取得します。これによって素晴らしい書き込み性能と耐久性が得られます。
 
-In addition to these performance factors, log data is one of those data sets which can often take advantage of schema-less collections. Finally, MongoDB has something called a [capped collection](http://www.mongodb.org/display/DOCS/Capped+Collections). So far, all of the implicitly created collections we've created are just normal collections. We can create a capped collection by using the `db.createCollection` command and flagging it as capped:
+パフォーマンスに加え、ログデータはスキーマレスの利点を活かす事が出来るデータセットの一つです。最後に、MongoDBの[Cappedコレクション](http://www.mongodb.org/display/DOCS/Capped+Collections)と呼ばれる機能を紹介します。これまで作成してきたコレクションは暗黙的に普通のコレクションを作成してきました。cappedコレクションは`db.createCollection`コマンドにフラグを指定して作成します:
 
-	//limit our capped collection to 1 megabyte
+   	// このCappedコレクションを1Mbyteで制限します
 	db.createCollection('logs', {capped: true, size: 1048576})
 
-When our capped collection reaches its 1MB limit, old documents are automatically purged. A limit on the number of documents, rather than the size, can be set using `max`. Capped collections have some interesting properties. For example, you can update a document but it can't grow in size. Also, the insertion order is preserved, so you don't need to add an extra index to get proper time-based sorting.
+この場合、Cappedコレクションが1MByteの上限に達した時、古いドキュメントは自動的に削除されます。ドキュメントのサイズではなく数で制限を行いたい場合、`max`を設定出来ます。Cappedコレクションは幾つかの興味深い性質を持っています。例えば、ドキュメントの更新を行なってもサイズが増え続ける事はありません。また、挿入した順序を維持しているため、時間でソートする為のインデックスを貼る必要はありません。
 
-This is a good place to point out that if you want to know whether your write encountered any errors (as opposed to the default fire-and-forget), you simply issue a follow-up command: `db.getLastError()`. Most drivers encapsulate this as a *safe write*, say by specifying `{:safe => true}` as a second parameter to `insert`.
+発生した書き込みエラーの内容を知りたい場合、ここが説明する丁度良い機会でしょう(一方向通信書き込みとは対照的)。それは簡単なコマンドで取得できます: `db.getLastError()`多くのドライバは`insert`の2番目のパラメータに`{:safe => true}`を指定するなどして、*安全な書き込み*をカプセル化しています。
 
-### Durability ###
-Prior to version 1.8, MongoDB didn't have single-server durability. That is, a server crash would likely result in lost data. The solution had always been to run MongoDB in a multi-server setup (MongoDB supports replication). One of the major features added to 1.8 was journaling. To enable it add a new line with `journal=true` to the `mongodb.config` file we created when we first setup MongoDB (and restart your server if you want it enabled right away). You probably want journaling enabled (it'll be a default in a future release). Although, in some circumstances the extra throughput you get from disabling journaling might be a risk you are willing to take. (It's worth pointing out that some types of applications can easily afford to lose data).
+### 耐久性 ###
+MongoDBバージョン1.8までは単一サーバーの耐久性はありませんでした。サーバーがクラッシュした場合データを失う可能性が高かったのです。ジャーナルングという重要な機能が1.8に追加されるまで、解決策はMongoDBを複数台で構成するしかありませんでした(MongoDBはレプリケーションをサポートしています)。この機能を有効にするには、最初にMongoDBをセットアップした時に生成した`mongodb.config`に`journal=true`という行を追記します(反映させるには再起動が必要です)。これで恐らくジャーナリング機能が有効になったと思います(将来これはデフォルトになるでしょう)。とはいっても、ジャーナリングを無効にした状況と比べて余計な処理が発生するリスクがあります。(それはアプリケーションがデータを見失う可能性があることを指摘しておきます)
 
-Durability is only mentioned here because a lot has been made around MongoDB's lack of single-server durability. This'll likely show up in Google searches for some time to come. Information you find about this missing feature is simply out of date.
+ここで耐久性に関して触れた理由は、MongoDBに関する多くの情報の中で単一サーバーの耐久性に関する情報が不足していたからです。Googleで検索してみれば解りますが、見つかる情報は古くて既に存在しない機能です。
 
-### Full Text Search ###
-True full text search capability is something that'll hopefully come to MongoDB in a future release. With its support for arrays, basic full text search is pretty easy to implement. For something more powerful, you'll need to rely on a solution such as Lucene/Solr. Of course, this is also true of many relational databases.
+### 全文検索 ###
+全文検索は将来のMongoDBの将来のリリースに期待されている機能です。それは配列もサポートしているし、基本的な全文検索をとても簡単に実装できます。もっと強力な検索機能が必要ならば、LuceneやSolrなどと連携させる必要があるでしょう。もちろん、これは他のリレーショナルデーターベースでも同様です。
 
-### Transactions ###
-MongoDB doesn't have transactions. It has two alternatives, one which is great but with limited use, and the other that is a cumbersome but flexible.
+### トランザクション ###
+MongoDBはトランザクションを持っていません。２つの代替手段を持っていて、１つめは素晴らしいのですが利用に制限があります、もうひとつの方法は柔軟性は高いのですが面倒です。
 
-The first is its many atomic operations. These are great, so long as they actually address your problem. We already saw some of the simpler ones, like `$inc` and `$set`. There are also commands like `findAndModify` which can update or delete a document and return it atomically.
+１つめの方法はアトミック操作です。それは素晴らしく実際の問題に適合します。既に`$inc`や`$set`などの単純な例を見てきました。`findAndModify`というドキュメントの更新と削除をアトミックに行うコマンドもあります。
 
-The second, when atomic operations aren't enough, is to fall back to a two-phase commit. A two-phase commit is to transactions what manual dereferencing is to joins. It's a storage-agnostic solution that you do in code.  Two-phase commits are actually quite popular in the relational world as a way to implement transactions across multiple databases. The MongoDB website [has an example](http://www.mongodb.org/display/DOCS/two-phase+commit) illustrating the most common scenario (a transfer of funds). The general idea is that you store the state of the transaction within the actual document being updated and go through the init-pending-commit/rollback steps manually.
+２つめは、アトミック操作が不十分で二層コミットをフォールバックする際に利用します。二層コミットはJoinに手動参照するトランザクションです。それはコードの中で行うストレージから独立した解決手段です。二層コミットは複数のデーターベースにまたがってトランザクションを行う為の方法としてリレーショナルデーターベースの世界ではとても有名です。MongoDBのWebサイトに一般的なシナリオを解説した[例があります](http://www.mongodb.org/display/DOCS/two-phase+commit)(銀行口座)。基本的な考え方は、実際のドキュメントの中にトランザクションの状態を格納し、init-pending-commit/rollbackの段階を手動で行います。
 
-MongoDB's support for nested documents and schema-less design makes two-phase commits slightly less painful, but it still isn't a great process, especially when you are just getting started with it.
+MongoDBがサポートしている入れ子のドキュメントとスキーマレスな設計は二層コミットの痛みを少し和らげます。しかし初心者にとってはまだあまり良い方法では無いでしょう。
 
-### Data Processing ###
-MongoDB relies on MapReduce for most data processing jobs. It has some [basic aggregation](http://www.mongodb.org/display/DOCS/Aggregation) capabilities, but for anything serious, you'll want to use MapReduce. In the next chapter we'll look at MapReduce in detail. For now you can think of it as a very powerful and different way to `group by` (which is an understatement). One of MapReduce's strengths is that it can be parallelized for working with large sets of data. However, MongoDB's implementation relies on JavaScript which is single-threaded. The point? For processing of large data, you'll likely need to rely on something else, such as Hadoop. Thankfully, since the two systems really do complement each other, there's a [MongoDB adapter for Hadoop](https://github.com/mongodb/mongo-hadoop).
+### データ処理 ###
+MongoDBはデータ処理の仕事の殆んどをMapReduceに頼っています。幾つかの[基本集約](http://www.mongodb.org/display/DOCS/Aggregation)機能がありますが、あまり良いものではないのであなたはきっとMapReduceを利用したいと思うでしょう。次の章で、MapReduceの詳細を見ていきます。今の所、MapReduceはとても強力で、`group by`とは別のものだと考えてもかまいません(控えめに言っても)。MapReduceの魅力のひとつは巨大なデータを並列処理出来ることです。しかし、MongoDBの実装はシングルスレッドのJavaScriptに依存しています。
+なにが問題でしょうか?巨大なデータを処理するためにはHadoopの様なものを必要とするでしょう。幸いにも、２つのシステムはお互いに補完する関係にあります。ここに[MongoDB adapter for Hadoop](https://github.com/mongodb/mongo-hadoop)があります。
 
-Of course, parallelizing data processing isn't something relational databases excel at either. There are plans for future versions of MongoDB to be better at handling very large sets of data.
+もちろん並列データ処理はリレーショナルデーターベースの得意とするものでもありません。MongoDBの将来のバージョンで巨大なデータセットをもっと上手く扱えるようにする計画があります。
 
-### Geospatial ###
-A particularly powerful feature of MongoDB is its support for geospatial indexes. This allows you to store x and y coordinates within documents and then find documents that are `$near` a set of coordinates or `$within` a box or circle. This is a feature best explained via some visual aids, so I invite you to try the [5 minute geospatial interactive tutorial](http://tutorial.mongly.com/geo/index), if you want to learn more.
-
-### Tools and Maturity ###
-You probably already know the answer to this, but MongoDB is obviously younger than most relational database systems. This is absolutely something you should consider. How much a factor it plays depends on what you are doing and how you are doing it. Nevertheless, an honest assessment simply can't ignore the fact that MongoDB is younger and the available tooling around isn't great (although the tooling around a lot of very mature relational databases is pretty horrible too!). As an example, the lack of support for base-10 floating point numbers will obviously be a concern (though not necessarily a show-stopper) for systems dealing with money.
-
-On the positive side, drivers exist for a great many languages, the protocol is modern and simple, and development is happening at blinding speeds. MongoDB is in production at enough companies that concerns about maturity, while valid, are quickly becoming a thing of the past.
+### 位置情報 ###
+非常に強力な機能としてMongoDBは位置情報インデックスをサポートしています。xとyの座標をドキュメントに格納し、`$near`で指定した座標で検索したり、`$within`で指定した四角や円で検索を行えます。この機能は図で説明したほうが分かりやすいので[5分間位置情報チュートリアル](http://tutorial.mongly.com/geo/index)を試すことをお勧めします。
 
 ### 章のまとめ ###
 この章で伝えたかったことは、MongoDBは大抵の場合リレーショナルデータベースを置き換えられるということです。もっと率直に言えば、それは速さの代わりに幾つかの制約をアプリケーション開発者に課します。トランザクションの欠如は正当で重要な懸念です。また、人々は尋ねます *「MongoDBは新しいデータストレージ分野の何処に位置するのでしょうか?」* 答えは単純です: *「ちょうど真ん中あたりだよ」*
