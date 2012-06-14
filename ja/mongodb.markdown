@@ -797,11 +797,10 @@ NoSQLは必要性によってのみ生み出されただけではなく、新し
 
 <!--
 # translate status
-commit 5e8d9bcac1f0566d853ea954a5165d5dd369a095
+commit 998fb23dda4be9b2a2e3dd38e3b352ed1519d375
 Author: Karl Seguin <karlseguin@gmail.com>
-Date:   Wed Mar 28 16:51:08 2012 +0800
+Date:   Mon May 7 14:09:09 2012 +0800
 
-    added translation section
-
+    fixed incorrect comment
 
 -->
