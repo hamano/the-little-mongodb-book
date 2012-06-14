@@ -1,9 +1,25 @@
 \documentclass[a4paper,12pt]{jsarticle}
 
-\usepackage{book}
-\usepackage[dvipdfm]{graphicx}
 \usepackage{ctable}
 \usepackage{enumerate}
+\usepackage{book}
+
+\usepackage[
+  dvipdfmx,
+  bookmarks=true,
+  bookmarksnumbered=true,
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  filecolor=blue,
+  pagecolor=blue,
+  urlcolor=blue,
+  pdfstartview={FitH -32768},
+  pdftitle={$title$},
+  pdfsubject={$date$},
+  pdfauthor={$author$},
+  pdfkeywords={},
+]{hyperref}
 
 % title
 \title{$title$}
@@ -12,11 +28,20 @@
 
 % document
 \begin{document}
-\maketitle
-
+%\maketitle
+\begin{titlepage}
 \begin{center}
+\vspace*{4em}
+{\Huge $title$}
+\smallskip\\
+{\Large\itshape $date$}
+\bigskip\\
+{\Large $author$}
+\vspace{8em}
+
 \includegraphics{title.eps}
 \end{center}
+\end{titlepage}
 
 \clearpage
 

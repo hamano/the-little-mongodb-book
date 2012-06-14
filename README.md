@@ -11,12 +11,13 @@
 
 ## その他の翻訳 ##
 
-* [English(原書)](https://github.com/karlseguin/the-little-mongodb-book)
-* [Russian](https://github.com/jsmarkus/the-little-mongodb-book/tree/master/ru)
-* [Chinese](https://github.com/justinyhuang/the-little-mongodb-book-cn)
-* [Italian](https://github.com/nicolaiarocci/the-little-mongodb-book/tree/master/it)
-* [Spanish](https://github.com/uokesita/the-little-mongodb-book/tree/master/es)
-* [Brazilian Portuguese](https://github.com/rafaelgou/the-little-mongodb-book/tree/master/pt_BR)
+* [英語(原書)](https://github.com/karlseguin/the-little-mongodb-book)
+* [ロシア語](https://github.com/jsmarkus/the-little-mongodb-book/tree/master/ru)
+* [中国語](https://github.com/justinyhuang/the-little-mongodb-book-cn)
+* [イタリア語](https://github.com/nicolaiarocci/the-little-mongodb-book/tree/master/it)
+* [スペイン語](https://github.com/uokesita/the-little-mongodb-book/tree/master/es)
+* [ポルトガル語](https://github.com/rafaelgou/the-little-mongodb-book/tree/master/pt_BR)
+* [日本語](http://www.cuspy.org/diary/2012-04-17)
 
 ## ライセンス ##
 この本は無料であり、[Attribution-NonCommercial 3.0 Unportedライセンス](<http://creativecommons.org/licenses/by-nc/3.0/legalcode>)に基づいて配布されています。
