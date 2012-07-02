@@ -1,4 +1,4 @@
-all: mongodb.dvi
+all: mongodb.pdf mongodb.epub
 
 clean:
 	rm -rf *.tex *.log *.out *.aux *.toc *.dvi *.pdf *.epub
