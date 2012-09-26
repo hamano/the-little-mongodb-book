@@ -1,25 +1,22 @@
+%\documentclass[a4paper]{jsarticle}
 \documentclass[a4paper,12pt]{jsarticle}
 
-\usepackage{book}
 \usepackage{ctable}
 \usepackage{enumerate}
+\usepackage[dvipdfmx]{hyperref}
+\usepackage{pxjahyper}
 
-\usepackage[
-  dvipdfmx,
-  bookmarks=true,
-  bookmarksnumbered=true,
-  colorlinks=true,
-  linkcolor=blue,
-  citecolor=blue,
-  filecolor=blue,
-  pagecolor=blue,
-  urlcolor=blue,
-  pdfstartview={FitH -32768},
+\hypersetup{
+  pdfstartview={FitH},
   pdftitle={$title$},
   pdfsubject={$date$},
   pdfauthor={$author$},
   pdfkeywords={},
-]{hyperref}
+}
+
+\usepackage{book}
+%\setcounter{section}{1}
+\renewcommand\textbackslash{\symbol{`\\}}
 
 % title
 \title{$title$}
@@ -31,7 +28,7 @@
 %\maketitle
 \begin{titlepage}
 \begin{flushright}
-{\sf 第1.1版}
+{\sf 第1.2版}
 \end{flushright}
 \vspace*{3em}
 \begin{center}
@@ -40,6 +37,7 @@
 {\Large\it $date$}
 \bigskip\\
 {\Large\bf $author$}
+
 \vspace{8em}
 \includegraphics{title.eps}
 \end{center}
