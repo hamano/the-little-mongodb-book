@@ -1,3 +1,5 @@
+VERSION=`cat VERSION`
+
 all: mongodb.pdf mongodb.epub
 
 clean:
@@ -10,7 +12,7 @@ mongodb.html: mongodb.markdown
 	pandoc -o $@ $<
 
 mongodb.tex: mongodb.tmpl mongodb.markdown
-	pandoc -f markdown -t latex --base-header-level=1 --chapters --toc --template=mongodb.tmpl -V version=1.5 mongodb.markdown > $@
+	pandoc -f markdown -t latex --base-header-level=1 --chapters --toc --template=mongodb.tmpl -V version=$(VERSION) mongodb.markdown > $@
 
 mongodb.dvi: mongodb.tex
 	platex $<
