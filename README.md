@@ -23,4 +23,4 @@
 この本は無料であり、[Attribution-NonCommercial 3.0 Unportedライセンス](<http://creativecommons.org/licenses/by-nc/3.0/legalcode>)に基づいて配布されています。
 
 ## フォーマット ##
-この本は[markdown](http://daringfireball.net/projects/markdown/) 記法で書かれており、[PanDoc](http://johnmacfarlane.net/pandoc/)を利用してPDFに変換されています。
+この本は[Markdown](http://daringfireball.net/projects/markdown/) 記法で書かれており、[Pandoc](http://johnmacfarlane.net/pandoc/)を利用してPDFに変換されています。
