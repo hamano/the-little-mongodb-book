@@ -512,7 +512,9 @@ MapReduceは、従来のソリューションを上回る2つの有用な利点�
 MapReduceは注目を集めているパターンです、あなたは、C#, Ruby, Java, Pythonなど、ほとんど全ての実装でこれを利用することが出来ます。それらはまったく異なっていて複雑に見える事を警告しておきます。挫折せず時間をかけて学んでみてください。これはMongoDBの利用に関わらず理解しておく価値があります。
 
 ### 理論と実践 ###
-MapReduceは2段階の処理に分かれています。最初にmapを行い、次にreduceを行います。mappingの段階で入力されたドキュメントを変換し、key=>valueのペアをemitします(キーと値は複合化可能です)。reduceの段階でemitされたキーと値の配列から処理を行った最終的な結果を集約します。それでは各段階での出力を見ていきましょう。
+MapReduceは2段階の処理に分かれています。最初にmapを行い、次にreduceを行います。mappingの段階で入力されたドキュメントを変換し、key=>valueのペアをemitします(キーと値は複合化可能です)。次にkey/valueペアをkey毎にグループ化します。reduceの段階でemitされたキーと値の配列から処理を行った最終的な結果を集約します。
+
+それでは各段階での出力を見ていきましょう。
 
 ここでは、(Webページの)リソースに対して日別のアクセス数のレポートを生成する例を使用します。これはMapReduceの*hello world*です。目的は、`hits`コレクションに2つのフィールド: `resource`と`date`を入力として利用し、求められる出力は`resource`、`year`、`month`、`day`、`count`に分割されている事です。
 
@@ -555,7 +557,7 @@ MapReduceは2段階の処理に分かれています。最初にmapを行い、�
         emit(key, {count: 1});
     }
 
-`this`はループ中のドキュメントを参照します。恐らくは、map段階の後にどの様なデータが出力されるかを確認する事が、理解の助けになるでしょう。前記した入力データを利用すると、map完了後のデータは以下の様になります:
+`this`はループ中のドキュメントを参照します。恐らくは、map段階の後にどの様なデータが出力されるかを確認する事が、理解の助けになるでしょう。前記した入力データを利用すると、map完了後のデータは以下の様になり、`emit`された値はキー毎に配列としてグループ化されます:
 
 	{resource: 'index', year: 2010, month: 0, day: 20}
     => [{count: 1}, {count: 1}, {count:1}]
@@ -572,7 +574,7 @@ MapReduceは2段階の処理に分かれています。最初にmapを行い、�
 	{resource: 'index', year: 2010, month: 0, day: 22}
     => [{count: 1}]
 
-この中間段階を理解することが、MapReduceを理解する事の鍵です。emit後のキーに対応する値は、配列としてまとめられています。.NETやJava開発者は`IDictionary<object, IList<object>>`(.Net)や`HashMap<Object, ArrayList>`(Java)の様な物だと思って構いません。
+この中間段階を理解することが、MapReduceを理解する事の鍵です。.NETやJava開発者は`IDictionary<object, IList<object>>`(.Net)や`HashMap<Object, ArrayList>`(Java)の様な物だと思って構いません。
 
 それでは、map関数を不自然に変更してみましょう:
 
@@ -618,24 +620,24 @@ reduce関数はこれらの中間結果を受け取り、最終的な結果と�
 
 正確には、MongoDBはこの様に出力します:
 
-	_id: {resource: 'home', year: 2010, month: 0, day: 20}, value: {count: 3}
+	_id: {resource: 'index', year: 2010, month: 0, day: 20}, value: {count: 3}
 
 これが目的の結果である事に気が付きましたでしょうか。
 
 注意深く見て来たのであれば、あなたはこんな疑問を持つかもしれません、なぜ単純に`sum = values.length`を利用しないのですか? 原則として`{count: 1}`しか合計しない場合、この方法は効果的の様に見えます。答えは、reduceは常に完全な中間データを渡されて呼び出されるとは限らないという事です。例えば、reduceは以下の様に呼ばれるかもしれないし:
 
-	{resource: 'home', year: 2010, month: 0, day: 20}
+	{resource: 'index', year: 2010, month: 0, day: 20}
     => [{count: 1}, {count: 1}, {count:1}]
 
 以下の様に呼ばれるかもしれません:
 
-	{resource: 'home', year: 2010, month: 0, day: 20}
+	{resource: 'index', year: 2010, month: 0, day: 20}
     => [{count: 1}, {count: 1}]
     
-	{resource: 'home', year: 2010, month: 0, day: 20}
+	{resource: 'index', year: 2010, month: 0, day: 20}
     => [{count: 2}, {count: 1}]
 
-最終的な出力は同じく(3)ですが単純に経緯が異なります。reduceは常に冪等であると言えます。つまり、reduceが何回呼ばれたとしても、1回呼ばれた場合と同じ結果にならなくてはなりません。
+最終的な出力は同じく(3)ですが経緯が若干異なります。reduceは常に冪等であると言えます。つまり、reduceが何回呼ばれたとしても、1回呼ばれた場合と同じ結果にならなくてはなりません。
 
 ここでは触れませんが、より複雑な解析を行う場合、reduceメソッドを連鎖する事は一般的です。
 
