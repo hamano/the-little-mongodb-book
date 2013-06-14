@@ -30,7 +30,7 @@ MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてラ�
 -->
 
 ### 訳者より ###
-内容の誤りや誤訳などありましたら[@hamano](http://twitter.com/hamano)まで連絡下さい。翻訳を手伝ってくれた[@tamura__246](http://twitter.com/tamura__246)さんと誤字、誤訳を指摘下さった[matsubo](https://github.com/matsubo)さん、[honda0510](https://github.com/honda0510)さん、[@ponta_](https://twitter.com/ponta_)さんに感謝します。
+内容の誤りや誤訳などありましたら[@hamano](http://twitter.com/hamano)まで連絡下さい。翻訳を手伝ってくれた[@tamura__246](http://twitter.com/tamura__246)さんと誤字、誤訳を指摘下さった[matsubo](https://github.com/matsubo)さん、[honda0510](https://github.com/honda0510)さん、[@ponta_](https://twitter.com/ponta_)さん、[ttaka](https://github.com/ttaka)さんに感謝します。
 
 翻訳版の最新のソース:
 <http://github.com/hamano/the-little-mongodb-book>
