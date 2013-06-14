@@ -624,22 +624,30 @@ reduce関数はこれらの中間結果を受け取り、最終的な結果と�
 
 これが目的の結果である事に気が付きましたでしょうか。
 
-注意深く見て来たのであれば、あなたはこんな疑問を持つかもしれません、なぜ単純に`sum = values.length`を利用しないのですか? 原則として`{count: 1}`しか合計しない場合、この方法は効果的の様に見えます。答えは、reduceは常に完全な中間データを渡されて呼び出されるとは限らないという事です。例えば、reduceは以下の様に呼ばれるかもしれないし:
+注意深く見て来たのであれば、あなたはこんな疑問を持つかもしれません、なぜ`sum = values.length`を利用しないのですか? 原則として`{count: 1}`しか合計しない場合、この方法は効果的の様に見えます。しかしこの動作は保証されません。Reduceは何度か部分的にReduceされた値で呼び出される可能性があります。
+これの目的は、reduce関数を複数のスレッドやプロセス、あるいはコンピュータに分散する事を可能にする為です。
+reduce関数の結果は同じreduce関数にフィードバックされます。(データセットが大きくなると、何度も行われるでしょう)
+
+例に戻ると、reduceは以下のような入力で呼び出されるかもしれません:
 
 	{resource: 'index', year: 2010, month: 0, day: 20}
     => [{count: 1}, {count: 1}, {count:1}]
 
-以下の様に呼ばれるかもしれません:
+もしくは以下のように2段階に分かれて呼ばれるかもしれません:
 
+    // ステップ1
 	{resource: 'index', year: 2010, month: 0, day: 20}
     => [{count: 1}, {count: 1}]
     
+    // ステップ2
 	{resource: 'index', year: 2010, month: 0, day: 20}
     => [{count: 2}, {count: 1}]
 
-最終的な出力は同じく(3)ですが経緯が若干異なります。reduceは常に冪等であると言えます。つまり、reduceが何回呼ばれたとしても、1回呼ばれた場合と同じ結果にならなくてはなりません。
+`sum = values.length'を利用した場合、ステップ2の例では誤った答えが返るでしょう。
 
-ここでは触れませんが、より複雑な解析を行う場合、reduceメソッドを連鎖する事は一般的です。
+これは、reduceの出力は同様に入力になり得る構造になっていることを意味します。そして複数回呼び出されたreduceの結果は同じ結果になる必要があります(これは冪等性として知られています)。
+
+最後に、ここでは触れませんでしたが、より複雑な解析を行う場合、reduceメソッドを連鎖する事は一般的です。
 
 ### ひたすら練習 ###
 MongoDBでは、コレクションに対して`mapReduce`コマンドを呼び出してMapReduceを実行します。`mapReduce`には引数にmap関数とreduce関数、そして出力ディレクティブを引き渡します。mongodbのシェルではJavaScriptの関数を定義して解釈します。多くのライブラリでは関数を文字列で引き渡します(ちょっとカッコ悪いけど)。まずはこれらのデータを入力してみましょう:
@@ -806,13 +814,13 @@ NoSQLは必要性によってのみ生み出されただけではなく、新し
 
 <!--
 # translate status
-commit 1035d801df8e5e37efbf96d3a97eb49d8b9b0677
-Merge: 1c0766a f281873
+commit 35406d70b1269788613769d5de94771cc93fd64e
+Merge: 1a6c466 fd22ad8
 Author: Karl Seguin <karl@openmymind.net>
-Date:   Mon Oct 29 05:52:08 2012 -0700
+Date:   Sat Feb 2 18:08:16 2013 -0800
 
-    Merge pull request #22 from Inversion-des/master
+    Merge pull request #29 from meonkeys/master
         
-            typo fixed: import -> important
-
+            Fix typo: imput -> input
+            
 -->
