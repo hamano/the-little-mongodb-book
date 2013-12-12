@@ -72,13 +72,13 @@ MongoDBについてまず最初に知るべきことを取り上げます: そ�
 
         dbpath=PATH_TO_WHERE_YOU_WANT_TO_STORE_YOUR_DATABASE_FILES
 
-    例えば、Windowsでは`bpath=c:¥mongodb¥data`を指定し、Linuxでは`dbpath=/var/lib/mongodb/data`と指定します。
+    例えば、Windowsでは`bpath=c:\mongodb\data`を指定し、Linuxでは`dbpath=/var/lib/mongodb/data`と指定します。
 
  5. 指定した`dbpath`を作成する
 
  6. mongodを`--config /path/to/your/mongodb.config`パラメーターを付けて起動します。
 
-Windowsユーザーの為の例を示すと、もしダウンロードファイルを`c:¥mongodb¥`に展開したのなら`c:¥mongodb¥bin¥mongodb.config`に`dbpath=c:¥mongodb¥data¥`を指定すると、`c:¥mongodb¥data¥`が作成されます。次に、コマンドプロンプトから `c:¥mongodb¥bin¥mongod --config c:¥mongodb¥bin¥mongodb.config`を実行して`mongod`を起動します。
+Windowsユーザーの為の例を示すと、もしダウンロードファイルを`c:\mongodb\`に展開したのなら`c:\mongodb\bin\mongodb.config`に`dbpath=c:\mongodb\data\`を指定すると、`c:\mongodb\data\`が作成されます。次に、コマンドプロンプトから `c:\mongodb\bin\mongod --config c:\mongodb\bin\mongodb.config`を実行して`mongod`を起動します。
 
 無駄を少なくする為に、ご自由に`bin`フォルダをパスに追加して下さい。MacOSXとLinuxユーザーはほとんど同じやり方に従うことが出来ます。あなたがすべきことはパスを変更することくらいです。
 
