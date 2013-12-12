@@ -1,8 +1,13 @@
 include meta.mk
 
-PLATEX=platex
-PANDOC=pandoc
-PANDOC_OPT=--toc --listings
+PLATEX=uplatex
+PANDOC=~/.cabal/bin/pandoc
+#PANDOC=pandoc
+#PANDOC_OPT=--toc --listings --base-header-level=1 --chapters
+PANDOC_OPT=--toc --listings -N
+DVIPDFMX=dvipdfmx
+DVIPDFMX_OPT=-f uptex-hiragino
+#DVIPDFMX_OPT=-f uptex-hiramaru.map
 
 NAME=mongodb
 TEMPLATE=$(NAME).tmpl
@@ -17,7 +22,7 @@ HTML=$(NAME).html
 	$(PLATEX) $<
 
 %.pdf: %.dvi
-	dvipdfmx $^
+	$(DVIPDFMX) $(DVIPDFMX_OPT) $^
 
 all: $(PDF) $(EPUB)
 
@@ -31,7 +36,7 @@ $(HTML): $(SRC)
 	$(PANDOC) -o $@ $<
 
 $(TEX): $(SRC) $(TEMPLATE)
-	$(PANDOC) -f markdown -t latex --base-header-level=1 --chapters $(PANDOC_OPT) -V version="$(VERSION)" -V keywords="$(KEYWORDS)" --template=$(TEMPLATE) $< > $@
+	$(PANDOC) -f markdown -t latex $(PANDOC_OPT) -V version="$(VERSION)" -V pdf_author="$(PDF_AUTHOR)" -V pd_keywords="$(PDF_KEYWORDS)" --template=$(TEMPLATE) $< > $@
 
 $(DVI): $(TEX)
 
