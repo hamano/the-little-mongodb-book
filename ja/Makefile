@@ -3,8 +3,8 @@ include meta.mk
 PLATEX=uplatex
 PANDOC=~/.cabal/bin/pandoc
 #PANDOC=pandoc
-#PANDOC_OPT=--toc --listings --base-header-level=1 --chapters
-PANDOC_OPT=--toc --listings -N
+PANDOC_OPT=--toc --listings -N --chapters
+PANDOC_EPUB_OPT=
 DVIPDFMX=dvipdfmx
 DVIPDFMX_OPT=-f uptex-hiragino
 #DVIPDFMX_OPT=-f uptex-hiramaru.map
@@ -30,7 +30,7 @@ clean:
 	rm -rf *.log *.out *.aux *.toc $(TEX) $(DVI) $(PDF) $(EPUB) $(HTML)
 
 $(EPUB): $(SRC)
-	$(PANDOC) -o $@ $<
+	$(PANDOC) $(PANDOC_EPUB_OPT) -o $@ $<
 
 $(HTML): $(SRC)
 	$(PANDOC) -o $@ $<
