@@ -1,0 +1,241 @@
+%%
+%% This is file `hamacro.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% hamacro.dtx  (with options: `package')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright (C) 2004 by Scott Pakin <scott+dtx@pakin.org>
+%% 
+%% This file may be distributed and/or modified under the conditions of
+%% the LaTeX Project Public License, either version 1.2 of this license
+%% or (at your option) any later version.  The latest version of this
+%% license is in:
+%% 
+%%    http://www.latex-project.org/lppl.txt
+%% 
+%% and version 1.2 or later is part of all distributions of LaTeX version
+%% 1999/12/01 or later.
+%% 
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+\ProvidesPackage{hamacro}
+    [2004/11/05 v1.0 .dtx skeleton file]
+
+\usepackage{xcolor}
+\definecolor{lightgray}{HTML}{D3D3D3}
+\definecolor{gainsboro}{HTML}{DCDCDC}
+\definecolor{azure}{HTML}{F0FFFF}
+\definecolor{darkskyblue}{HTML}{243F8A}
+\definecolor{lightsteelblue}{HTML}{B0C4DE}
+\definecolor{olivegreen}{cmyk}{0.64,0,0.95,0.40}
+\definecolor{cadetblue}{cmyk}{0.62,0.57,0.23,0}
+\definecolor{brown}{cmyk}{0,0.81,1,0.60}
+
+\setlength{\oddsidemargin}{-1truein}
+\addtolength{\oddsidemargin}{0.11\paperwidth}
+\setlength{\evensidemargin}{-1truein}
+\addtolength{\evensidemargin}{0.11\paperwidth}
+\setlength{\marginparwidth}{0.10\paperwidth}
+\setlength{\marginparsep}{0.005\paperwidth}
+\setlength{\textwidth}{\paperwidth}
+\addtolength{\textwidth}{-0.22\paperwidth}
+
+\message{^^J}
+\message{***** Layout Info *****^^J}
+\message{\hoffset: \the\hoffset^^J}
+\message{\voffset: \the\voffset^^J}
+\message{\paperwidth: \the\paperwidth^^J}
+\message{\paperheight: \the\paperheight^^J}
+\message{\textwidth: \the\textwidth^^J}
+\message{\textheight: \the\textheight^^J}
+\message{\oddsidemargin: \the\oddsidemargin^^J}
+\message{\evensidemargin: \the\evensidemargin^^J}
+\message{\marginparwidth: \the\marginparwidth^^J}
+\message{\marginparsep: \the\marginparsep^^J}
+\message{***********************^^J}
+
+\usepackage[dvipdfm]{hyperref}
+\hypersetup{
+  setpagesize=false,
+  bookmarksnumbered=true,
+  colorlinks=true,
+  linkcolor=darkskyblue,
+  citecolor=darkskyblue,
+  filecolor=darkskyblue,
+  urlcolor=darkskyblue
+}
+
+\def\@maketitle{
+  \newpage
+  \null
+  \begin{center}
+    {\LARGE \@title \par}
+  \end{center}
+  \begin{flushright}
+    {\large \@date \par}
+    {\large \@author \par}
+  \end{flushright}
+  \vspace{0.5in}
+}
+
+\usepackage[Conny]{fncychap}
+
+\usepackage[explicit]{titlesec}
+\titleformat{name=\section}[block]
+{\bfseries\LARGE}
+{\color{darkskyblue}{\thesection} \color{black}{#1}}
+{1em}{}
+[\titleline{\color{darkskyblue}\titlerule[1.5pt]}]
+
+\titleformat{name=\section,numberless}[block]
+{\bfseries\LARGE}
+{#1}
+{1em}{}
+[\titleline{\color{darkskyblue}\titlerule[1.5pt]}]
+
+\usepackage{ulem}
+\titleformat{\subsection}[block]
+{\bfseries\Large\def\ULthickness{1.5pt}}
+{\color{darkskyblue}\uline{\thesubsection{} \color{black}{#1}}}{1em}{}
+
+\usepackage{ulem}
+\titleformat{\subsubsection}[block]
+{\bfseries\large}
+{\color{darkskyblue}{\thesubsubsection} \color{black}{#1}}{10em}{}
+
+
+\usepackage[dvipdfm]{hyperref}
+\hypersetup{
+  bookmarks=true,
+  bookmarksnumbered=true,
+  colorlinks=true,
+  linkcolor=darkskyblue,
+  citecolor=darkskyblue,
+  filecolor=darkskyblue,
+  urlcolor=darkskyblue
+}
+
+\let\origemph\emph
+\newcommand{\redemph}[1]
+           {\textcolor{red}{\underline{\origemph{\textcolor{black}{#1}}}}}
+
+\newcommand{\ulemph}[1]
+           {\textbf{\Underline{#1}}}
+
+\newcommand{\bouemph}[1]
+           {\origemph{\bou{#1}}}
+
+
+\usepackage{framed}
+\usepackage{anyfontsize}
+\newcommand{\bigquotemark}{
+  {\fontsize{32pt}{32pt}\selectfont \color{darkskyblue} \textbf{``}}
+  \vskip -2.2em
+  \hskip 0.5zw
+}
+\renewenvironment{quote}{
+  \def\FrameCommand{
+    \color{gray}\vrule width 4pt \hspace{0pt}\color{black}
+    \fboxsep=\FrameSep
+    \fcolorbox{gray}{gainsboro}
+  }
+  \MakeFramed {\advance\hsize-\width \FrameRestore}
+  \parindent 0zw % quoteマークがインデント代わり
+  \vskip -.5em
+  \hskip -1.5zw
+  {\bigquotemark}
+}
+{
+  \smallskip
+  \endMakeFramed
+}
+
+
+\usepackage{fancyvrb}
+\usepackage{relsize}
+
+\renewenvironment{verbatim}{
+  \VerbatimEnvironment
+  \def\FrameCommand{
+    \fboxsep=4truept
+    \fcolorbox{gray}{gainsboro}
+  }
+  \MakeFramed{\advance\hsize-\width \FrameRestore}
+  \tt\fontsize{10.5truept}{1.2em}
+  \begin{Verbatim}}
+{
+  \end{Verbatim}
+  \endMakeFramed
+}
+
+\newenvironment{verbatim60}{
+  \VerbatimEnvironment
+  \def\FrameCommand{
+    \fboxsep=4truept
+    \fcolorbox{gray}{gainsboro}
+  }
+  \MakeFramed{\advance\hsize-\width \FrameRestore}
+  \tt\fontsize{14truept}{1.5em}
+  \begin{Verbatim}}
+{
+  \end{Verbatim}
+  \endMakeFramed
+}
+
+\newenvironment{verbatim40}{
+  \VerbatimEnvironment
+  \def\FrameCommand{
+    \fboxsep=4truept
+    \fcolorbox{gray}{gainsboro}
+  }
+  \MakeFramed{\advance\hsize-\width \FrameRestore}
+  \tt\fontsize{21truept}{21truept}
+  \begin{Verbatim}}
+{
+  \end{Verbatim}
+  \endMakeFramed
+}
+
+\usepackage{listings,jlisting}
+\def\lstlistingname{リスト}
+
+\makeatletter
+\lst@CCPutMacro\lst@ProcessOther {"2D}{\lst@ttfamily{-{}}{-{}}}
+\@empty\z@\@empty
+\makeatother
+
+\makeatletter
+\lst@CCPutMacro\lst@ProcessOther {"2A}{\lst@ttfamily{*{}}{*{}}}
+\@empty\z@\@empty
+\makeatother
+
+
+\lstset{
+  backgroundcolor=\color{gainsboro},
+  basicstyle=\tt\small,
+  identifierstyle=\color{black}
+}
+
+\lstset{
+  language=bash,
+  literate={\#}{{\textcolor{black}{\# }}}1
+}
+
+\lstset{
+  language=C,
+  commentstyle=\color{brown},
+  keywordstyle=\color{olivegreen},
+  ndkeywordstyle=\color{red},
+  stringstyle=\color{purple}\small,
+  showstringspaces=false,
+  breaklines=true,
+  columns=[l]{fullflexible},
+  frame=single
+}
+
+\endinput
+%%
+%% End of file `hamacro.sty'.
