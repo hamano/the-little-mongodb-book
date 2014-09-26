@@ -1,6 +1,12 @@
-% MongoDBの薄い本
-% Karl Seguin 著 / 濱野　司 訳
-% The Little MongoDB Book
+---
+title: MongoDBの薄い本
+subtitle: The Little MongoDB Book
+author: Karl Seguin
+translator: HAMANO Tsukasa
+authors: Karl Seguin 著 / 濱野　司 訳
+keywords: MongoDB 薄い本 チュートリアル
+version: 2.0.1
+---
 
 # この本について # {-}
 
@@ -771,9 +777,9 @@ MongoDBを起動すると、Webベースの管理ツールに関する情報が�
 
 この出力は何がいつどれ程のドキュメントを走査し、どれ程のデータが返却されたかを教えてくれます。
 
-再度、引数を`0`に変えて`setProfileLevel`を呼ぶことでプロファイラを無効に出来ます。他のオプションは`1`を指定することで100ミリ秒以上のクエリーのみをプロファイリングします。もしくは2番目のパラメータに最小時間をミリ秒で指定することが出来ます。
+再度、`setProfileLevel`の引数を`0`に変えて呼び出すことでプロファイラを無効に出来ます。他のオプションは`1`を指定することで100ミリ秒以上のクエリーのみをプロファイリングします。さらに、2番目のパラメータに最小時間をミリ秒で指定することが出来ます。
 
-	//profile anything that takes more than 1 second
+	// 1秒以上のクエリーをプロファイルする
 	db.setProfilingLevel(1, 1000);
 
 ## バックアップとリストア ##

@@ -1,9 +1,9 @@
-include meta.mk
+#include meta.mk
 
 PLATEX=uplatex
 PANDOC=~/.cabal/bin/pandoc
 #PANDOC=pandoc
-PANDOC_OPT=--toc --listings -N --chapters
+PANDOC_OPT=-f markdown+yaml_metadata_block --toc --listings -N --chapters
 PANDOC_EPUB_OPT=
 DVIPDFMX=dvipdfmx
 DVIPDFMX_OPT=-f uptex-hiragino
@@ -36,7 +36,7 @@ $(HTML): $(SRC)
 	$(PANDOC) -o $@ $<
 
 $(TEX): $(SRC) $(TEMPLATE)
-	$(PANDOC) -f markdown -t latex $(PANDOC_OPT) -V version="$(VERSION)" -V pdf_author="$(PDF_AUTHOR)" -V pd_keywords="$(PDF_KEYWORDS)" --template=$(TEMPLATE) $< > $@
+	$(PANDOC) $(PANDOC_OPT) -t latex --template=$(TEMPLATE) $< > $@
 
 $(DVI): $(TEX)
 
