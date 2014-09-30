@@ -24,15 +24,30 @@
 \ProvidesPackage{hamacro}
     [2004/11/05 v1.0 .dtx skeleton file]
 
+\usepackage{color}
 \usepackage{xcolor}
 \definecolor{lightgray}{HTML}{D3D3D3}
 \definecolor{gainsboro}{HTML}{DCDCDC}
 \definecolor{azure}{HTML}{F0FFFF}
-\definecolor{darkskyblue}{HTML}{243F8A}
-\definecolor{lightsteelblue}{HTML}{B0C4DE}
+\definecolor{darkblue}{HTML}{00008B}
+\definecolor{midnightblue}{HTML}{191970}
+\definecolor{lightskyblue}{HTML}{87CEFA}
 \definecolor{olivegreen}{cmyk}{0.64,0,0.95,0.40}
 \definecolor{cadetblue}{cmyk}{0.62,0.57,0.23,0}
 \definecolor{brown}{cmyk}{0,0.81,1,0.60}
+
+\definecolor{lightgreen}{HTML}{90EE90}
+\definecolor{green}{HTML}{008000}
+\definecolor{darkgreen}{HTML}{006400}
+
+
+\colorlet{framerule}{gray}
+\colorlet{framebg}{gainsboro}
+
+\colorlet{linkcolor}{blue}
+\colorlet{accentcolor}{green}
+\colorlet{subcolor}{darkgreen}
+
 
 \setlength{\oddsidemargin}{-1truein}
 \addtolength{\oddsidemargin}{0.11\paperwidth}
@@ -62,10 +77,10 @@
   setpagesize=false,
   bookmarksnumbered=true,
   colorlinks=true,
-  linkcolor=darkskyblue,
-  citecolor=darkskyblue,
-  filecolor=darkskyblue,
-  urlcolor=darkskyblue
+  linkcolor=linkcolor,
+  citecolor=linkcolor,
+  filecolor=linkcolor,
+  urlcolor=linkcolor
 }
 
 \def\@maketitle{
@@ -82,41 +97,55 @@
 }
 
 \usepackage[Conny]{fncychap}
+\ChNameVar{\centering\Huge\sffamily\color{black}}
+\ChTitleAsIs
+\ChTitleVar{\centering\Huge\sffamily\color{black}}
+
+\renewcommand{\DOCH}{
+  \color{subcolor}
+  \mghrulefill{3\RW}\par\nobreak
+  \vskip -0.5\baselineskip
+  \mghrulefill{\RW}\par\nobreak
+  \CNV\FmN{\@chapapp}\space \CNoV\thechapter \postchaptername
+  \par\nobreak
+  \vskip -0.5\baselineskip
+}
+\renewcommand{\DOTI}[1]{
+  \color{subcolor}
+  \mghrulefill{\RW}\par\nobreak
+  \CTV\FmTi{#1}\par\nobreak
+  \vskip 60\p@
+}
+\renewcommand{\DOTIS}[1]{
+  \color{subcolor}
+  \mghrulefill{\RW}\par\nobreak
+  \CTV\FmTi{#1}\par\nobreak
+  \vskip 60\p@
+}
 
 \usepackage[explicit]{titlesec}
 \titleformat{name=\section}[block]
 {\bfseries\LARGE}
-{\color{darkskyblue}{\thesection} \color{black}{#1}}
+{\color{subcolor}{\thesection} \color{black}{#1}}
 {1em}{}
-[\titleline{\color{darkskyblue}\titlerule[1.5pt]}]
+[\titleline{\color{subcolor}\titlerule[1.5pt]}]
 
 \titleformat{name=\section,numberless}[block]
 {\bfseries\LARGE}
 {#1}
 {1em}{}
-[\titleline{\color{darkskyblue}\titlerule[1.5pt]}]
+[\titleline{\color{subcolor}\titlerule[1.5pt]}]
 
 \usepackage{ulem}
 \titleformat{\subsection}[block]
 {\bfseries\Large\def\ULthickness{1.5pt}}
-{\color{darkskyblue}\uline{\thesubsection{} \color{black}{#1}}}{1em}{}
+{\color{subcolor}\uline{\thesubsection{} \color{black}{#1}}}{1em}{}
 
 \usepackage{ulem}
 \titleformat{\subsubsection}[block]
 {\bfseries\large}
-{\color{darkskyblue}{\thesubsubsection} \color{black}{#1}}{10em}{}
+{\color{subcolor}{\thesubsubsection} \color{black}{#1}}{10em}{}
 
-
-\usepackage[dvipdfm]{hyperref}
-\hypersetup{
-  bookmarks=true,
-  bookmarksnumbered=true,
-  colorlinks=true,
-  linkcolor=darkskyblue,
-  citecolor=darkskyblue,
-  filecolor=darkskyblue,
-  urlcolor=darkskyblue
-}
 
 \let\origemph\emph
 \newcommand{\redemph}[1]
@@ -132,13 +161,12 @@
 \usepackage{framed}
 \usepackage{anyfontsize}
 \newcommand{\bigquotemark}{
-  {\fontsize{32pt}{32pt}\selectfont \color{darkskyblue} \textbf{``}}
+  {\fontsize{32pt}{32pt}\selectfont \color{accentcolor} \textbf{``}}
   \vskip -2.2em
   \hskip 0.5zw
 }
 \renewenvironment{quote}{
   \def\FrameCommand{
-    \color{gray}\vrule width 4pt \hspace{0pt}\color{black}
     \fboxsep=\FrameSep
     \fcolorbox{gray}{gainsboro}
   }
@@ -200,6 +228,7 @@
 }
 
 \usepackage{listings,jlisting}
+\usepackage{mdframed}
 \def\lstlistingname{リスト}
 
 \makeatletter
@@ -213,9 +242,31 @@
 \makeatother
 
 
+\definecolor{shadecolor}{named}{gainsboro}
+
+\mdfsetup{
+  linecolor=gray,
+  innerleftmargin=0.5zw,
+  innerrightmargin=0.5zw,
+  backgroundcolor=gainsboro
+}
+
+\BeforeBeginEnvironment{lstlisting}{
+  \fontsize{10.5truept}{1.2em}
+  \begin{mdframed}
+}
+
+\AfterEndEnvironment{lstlisting}{
+  \end{mdframed}
+}
+
 \lstset{
-  backgroundcolor=\color{gainsboro},
-  basicstyle=\tt\small,
+  frame=single,
+  rulecolor=\color{gainsboro},
+  framesep=0pt,
+  xleftmargin=0pt,
+  basicstyle=\tt,
+  belowskip=-0.5em,
   identifierstyle=\color{black}
 }
 
@@ -232,8 +283,7 @@
   stringstyle=\color{purple}\small,
   showstringspaces=false,
   breaklines=true,
-  columns=[l]{fullflexible},
-  frame=single
+  columns=[l]{fullflexible}
 }
 
 \endinput

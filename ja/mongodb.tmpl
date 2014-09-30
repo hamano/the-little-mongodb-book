@@ -1,28 +1,23 @@
-\documentclass[a4paper,12pt,uplatex,oneside]{jsbook}
-
-\usepackage[dvipdfmx]{color}
+\documentclass[a4paper,12pt,uplatex]{jsbook}
 \usepackage[dvipdfmx]{graphicx}
-\usepackage[dvipdfm]{hyperref}
-
+\usepackage{hamacro}
 \usepackage{pxjahyper}
 
 \hypersetup{
   pdfstartview={FitV},
   pdftitle={$title$},
-  pdfsubject={$date$},
-  pdfauthor={$pdf_author$},
-  pdfkeywords={$pdf_keywords$},
+  pdfsubject={$subtitle$},
+  pdfauthor={$authors$},
+  pdfkeywords={$keywords$},
 }
 
-\usepackage{ctable}
+%\usepackage{ctable}
 \usepackage{enumerate}
-\usepackage{listings, jlisting}
-\usepackage{book}
 
 % title
 \title{$title$}
 \author{$author$}
-\date{$date$}
+\date{\today}
 
 % document
 \begin{document}
@@ -33,11 +28,11 @@
 \end{flushright}
 \vspace*{3em}
 \begin{center}
-{\Huge\bf $title$}
+{\Huge\bf{$title$}}
 \smallskip\\
-{\Large\it $date$}
+{\Large\it{$subtitle$}}
 \bigskip\\
-{\Large\bf $author$}
+{\Large\bf{$authors$}}
 
 \vspace{8em}
 \includegraphics{title.eps}
@@ -53,4 +48,23 @@ $if(toc)$
 $endif$
 
 $body$
+
+\clearpage
+\thispagestyle{empty}
+\vspace*{\fill}
+
+{\noindent\Large{$title$}} \\
+\rule[8pt]{14cm}{1pt} \\
+{\noindent
+\today $version$版発行
+\noindent
+}
+\bigskip\\
+\begin{tabular}{ll}
+著者 & $author$ \\
+翻訳 & $translator$ \\
+\end{tabular}
+\bigskip\\
+\rule[0pt]{14cm}{1pt} \\
+
 \end{document}
