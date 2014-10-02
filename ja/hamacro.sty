@@ -8,24 +8,22 @@
 %% 
 %% This is a generated file.
 %% 
-%% Copyright (C) 2004 by Scott Pakin <scott+dtx@pakin.org>
+%% Copyright (C) 2004-2014 HAMANO Tsukasa <hamano@cuspy.org>
 %% 
-%% This file may be distributed and/or modified under the conditions of
-%% the LaTeX Project Public License, either version 1.2 of this license
-%% or (at your option) any later version.  The latest version of this
-%% license is in:
-%% 
-%%    http://www.latex-project.org/lppl.txt
-%% 
-%% and version 1.2 or later is part of all distributions of LaTeX version
-%% 1999/12/01 or later.
+%% Apache License
+%% Version 2.0, January 2004
+%% http://www.apache.org/licenses/
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesPackage{hamacro}
     [2004/11/05 v1.0 .dtx skeleton file]
 
-\usepackage{color}
-\usepackage{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{here}
+
+\usepackage[dvipdfmx]{color}
+\usepackage[dvipdfmx]{xcolor}
 \definecolor{lightgray}{HTML}{D3D3D3}
 \definecolor{gainsboro}{HTML}{DCDCDC}
 \definecolor{azure}{HTML}{F0FFFF}
@@ -40,14 +38,33 @@
 \definecolor{green}{HTML}{008000}
 \definecolor{darkgreen}{HTML}{006400}
 
+\usepackage[dvipdfm]{hyperref}
+\hypersetup{
+  setpagesize=false,
+  bookmarksnumbered=true,
+  colorlinks=true,
+  linkcolor=linkcolor,
+  citecolor=linkcolor,
+  filecolor=linkcolor,
+  urlcolor=linkcolor
+}
 
 \colorlet{framerule}{gray}
 \colorlet{framebg}{gainsboro}
-
 \colorlet{linkcolor}{blue}
-\colorlet{accentcolor}{green}
-\colorlet{subcolor}{darkgreen}
 
+\colorlet{accentcolor}{black}
+\colorlet{subcolor}{black}
+
+\DeclareOption{green}{
+  \colorlet{accentcolor}{green}
+  \colorlet{subcolor}{darkgreen}
+}
+\DeclareOption{blue}{
+  \colorlet{accentcolor}{lightskyblue}
+  \colorlet{subcolor}{midnightblue}
+}
+\ProcessOptions
 
 \setlength{\oddsidemargin}{-1truein}
 \addtolength{\oddsidemargin}{0.11\paperwidth}
@@ -71,17 +88,6 @@
 \message{\marginparwidth: \the\marginparwidth^^J}
 \message{\marginparsep: \the\marginparsep^^J}
 \message{***********************^^J}
-
-\usepackage[dvipdfm]{hyperref}
-\hypersetup{
-  setpagesize=false,
-  bookmarksnumbered=true,
-  colorlinks=true,
-  linkcolor=linkcolor,
-  citecolor=linkcolor,
-  filecolor=linkcolor,
-  urlcolor=linkcolor
-}
 
 \def\@maketitle{
   \newpage
@@ -139,7 +145,8 @@
 \usepackage{ulem}
 \titleformat{\subsection}[block]
 {\bfseries\Large\def\ULthickness{1.5pt}}
-{\color{subcolor}\uline{\thesubsection{} \color{black}{#1}}}{1em}{}
+{\uline{\color{subcolor}\thesubsection{} \color{black}{#1}}}
+{1em}{}
 
 \usepackage{ulem}
 \titleformat{\subsubsection}[block]
@@ -162,8 +169,8 @@
 \usepackage{anyfontsize}
 \newcommand{\bigquotemark}{
   {\fontsize{32pt}{32pt}\selectfont \color{accentcolor} \textbf{``}}
-  \vskip -2.2em
-  \hskip 0.5zw
+  \vskip -2.3em
+  \hskip 0.3zw
 }
 \renewenvironment{quote}{
   \def\FrameCommand{
@@ -173,7 +180,7 @@
   \MakeFramed {\advance\hsize-\width \FrameRestore}
   \parindent 0zw % quoteマークがインデント代わり
   \vskip -.5em
-  \hskip -1.5zw
+  \hskip -1zw
   {\bigquotemark}
 }
 {
@@ -183,7 +190,6 @@
 
 
 \usepackage{fancyvrb}
-\usepackage{relsize}
 
 \renewenvironment{verbatim}{
   \VerbatimEnvironment
@@ -227,24 +233,37 @@
   \endMakeFramed
 }
 
-\usepackage{listings,jlisting}
 \usepackage{mdframed}
-\def\lstlistingname{リスト}
+\newenvironment{Shaded}{\begin{mdframed}}{\end{mdframed}}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
 
-\makeatletter
-\lst@CCPutMacro\lst@ProcessOther {"2D}{\lst@ttfamily{-{}}{-{}}}
-\@empty\z@\@empty
-\makeatother
-
-\makeatletter
-\lst@CCPutMacro\lst@ProcessOther {"2A}{\lst@ttfamily{*{}}{*{}}}
-\@empty\z@\@empty
-\makeatother
+\usepackage{upquote}
+\usepackage{listings,jlisting}
+\AtBeginDocument{
+  \def\lstlistingname{}
+  \def\thelstlisting{}
+}
 
 
-\definecolor{shadecolor}{named}{gainsboro}
+
+
 
 \mdfsetup{
+  linewidth=1truept,
   linecolor=gray,
   innerleftmargin=0.5zw,
   innerrightmargin=0.5zw,
@@ -252,7 +271,6 @@
 }
 
 \BeforeBeginEnvironment{lstlisting}{
-  \fontsize{10.5truept}{1.2em}
   \begin{mdframed}
 }
 
@@ -263,27 +281,45 @@
 \lstset{
   frame=single,
   rulecolor=\color{gainsboro},
+  backgroundcolor=\color{gainsboro},
   framesep=0pt,
   xleftmargin=0pt,
-  basicstyle=\tt,
+  basicstyle=\fontsize{10.5truept}{1.2em}\tt,
   belowskip=-0.5em,
-  identifierstyle=\color{black}
-}
-
-\lstset{
-  language=bash,
-  literate={\#}{{\textcolor{black}{\# }}}1
-}
-
-\lstset{
-  language=C,
+  identifierstyle=\color{black},
   commentstyle=\color{brown},
   keywordstyle=\color{olivegreen},
   ndkeywordstyle=\color{red},
-  stringstyle=\color{purple}\small,
+  stringstyle=\color{purple},
   showstringspaces=false,
   breaklines=true,
   columns=[l]{fullflexible}
+}
+
+\lstdefinestyle{command}{
+  language=command,
+  commentstyle=\color{black}
+}
+
+\lstdefinelanguage{command}
+{
+  morekeywords={\#, \$}
+}
+
+\lstdefinelanguage{httpd.conf}
+{
+  morekeywords={VirtualHost, Include, Directory, LogFormat, CustomLog},
+  morecomment=[l]{\#}
+}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]\"
 }
 
 \endinput
