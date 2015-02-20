@@ -19,8 +19,8 @@
     [2004/11/05 v1.0 .dtx skeleton file]
 
 \usepackage[T1]{fontenc}
+\usepackage[deluxe]{otf}
 \usepackage[dvipdfmx]{graphicx}
-\usepackage{here}
 
 \usepackage[dvipdfmx]{color}
 \usepackage[dvipdfmx]{xcolor}
@@ -48,6 +48,13 @@
   filecolor=linkcolor,
   urlcolor=linkcolor
 }
+
+\usepackage{pxjahyper}
+
+\usepackage{here}
+\usepackage{ctable}
+\usepackage{longtable}
+\usepackage{ulem}
 
 \colorlet{framerule}{gray}
 \colorlet{framebg}{gainsboro}
@@ -120,39 +127,45 @@
   \color{subcolor}
   \mghrulefill{\RW}\par\nobreak
   \CTV\FmTi{#1}\par\nobreak
-  \vskip 60\p@
+  \vskip 1\baselineskip
 }
 \renewcommand{\DOTIS}[1]{
   \color{subcolor}
   \mghrulefill{\RW}\par\nobreak
   \CTV\FmTi{#1}\par\nobreak
-  \vskip 60\p@
+  \vskip 1\baselineskip
 }
 
 \usepackage[explicit]{titlesec}
 \titleformat{name=\section}[block]
-{\bfseries\LARGE}
+{\gtfamily\bfseries\LARGE}
 {\color{subcolor}{\thesection} \color{black}{#1}}
 {1em}{}
 [\titleline{\color{subcolor}\titlerule[1.5pt]}]
 
 \titleformat{name=\section,numberless}[block]
-{\bfseries\LARGE}
+{\gtfamily\bfseries\LARGE}
 {#1}
 {1em}{}
 [\titleline{\color{subcolor}\titlerule[1.5pt]}]
 
-\usepackage{ulem}
 \titleformat{\subsection}[block]
-{\bfseries\Large\def\ULthickness{1.5pt}}
-{\uline{\color{subcolor}\thesubsection{} \color{black}{#1}}}
+{\gtfamily\bfseries\Large\def\ULthickness{1.5pt}}
+{\color{subcolor}\uline{\thesubsection{} \color{black}{#1}}}
 {1em}{}
 
-\usepackage{ulem}
+\titleformat{name=\subsection,numberless}[block]
+{\gtfamily\bfseries\Large\def\ULthickness{1.5pt}}
+{\color{subcolor}\uline{\color{black}{#1}}}
+{1em}{}
+
 \titleformat{\subsubsection}[block]
-{\bfseries\large}
+{\gtfamily\bfseries\large}
 {\color{subcolor}{\thesubsubsection} \color{black}{#1}}{10em}{}
 
+\titleformat{name=\subsubsection,numberless}[block]
+{\gtfamily\bfseries\large}
+{\color{black}{#1}}{10em}{}
 
 \let\origemph\emph
 \newcommand{\redemph}[1]
@@ -187,7 +200,6 @@
   \smallskip
   \endMakeFramed
 }
-
 
 \usepackage{fancyvrb}
 
@@ -303,13 +315,8 @@
 
 \lstdefinelanguage{command}
 {
-  morekeywords={\#, \$}
-}
-
-\lstdefinelanguage{httpd.conf}
-{
-  morekeywords={VirtualHost, Include, Directory, LogFormat, CustomLog},
-  morecomment=[l]{\#}
+  morekeywords={\$},
+  otherkeywords={\#, \%}
 }
 
 \lstdefinelanguage{JavaScript}{
@@ -320,6 +327,20 @@
   morecomment=[s]{/*}{*/},
   morestring=[b]',
   morestring=[b]\"
+}
+
+\lstdefinelanguage{httpd.conf}
+{
+  morekeywords={VirtualHost, Include, Directory, LogFormat, CustomLog},
+  morecomment=[l]{\#}
+}
+
+\lstdefinelanguage{nginx.conf}
+{
+  morekeywords={
+    server,server_name,listen,location,
+    rewrite,proxy_pass, proxy_set_header},
+  morecomment=[l]{\#}
 }
 
 \endinput
