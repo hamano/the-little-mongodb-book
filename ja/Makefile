@@ -17,7 +17,7 @@ EPUB=$(NAME).epub
 HTML=$(NAME).html
 
 TEX_TEMPLATE=template.tex
-EPUB_TEMPLATE=template.epub3
+EPUB_TEMPLATE=template.html
 
 %.dvi: %.tex
 	$(PLATEX) $<
