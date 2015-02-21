@@ -3,8 +3,6 @@
 PLATEX=uplatex
 PANDOC=~/.cabal/bin/pandoc
 #PANDOC=pandoc
-PANDOC_OPT=-f markdown+yaml_metadata_block --toc --listings -N --chapters
-PANDOC_EPUB_OPT=
 DVIPDFMX=dvipdfmx
 DVIPDFMX_OPT=-f uptex-hiragino
 #DVIPDFMX_OPT=-f uptex-hiramaru.map
@@ -18,6 +16,11 @@ HTML=$(NAME).html
 
 TEX_TEMPLATE=template.tex
 EPUB_TEMPLATE=template.html
+EPUB_CSS=test.css
+
+PANDOC_OPT=-f markdown+yaml_metadata_block --toc -N --chapters
+PANDOC_TEX_OPT=$(PANDOC_OPT) -t latex --template=$(TEX_TEMPLATE) --listings
+PANDOC_EPUB_OPT=$(PANDOC_OPT) -t epub3 --template=$(EPUB_TEMPLATE)
 
 %.dvi: %.tex
 	$(PLATEX) $<
@@ -32,13 +35,13 @@ clean:
 	rm -rf *.log *.out *.aux *.toc $(TEX) $(DVI) $(PDF) $(EPUB) $(HTML)
 
 $(EPUB): $(SRC) $(EPUB_TEMPLATE)
-	$(PANDOC) $(PANDOC_OPT) -t epub3 --template=$(EPUB_TEMPLATE) -o $@ $<
+	$(PANDOC) $(PANDOC_EPUB_OPT) -o $@ $<
 
 $(HTML): $(SRC)
 	$(PANDOC) -o $@ $<
 
 $(TEX): $(SRC) $(TEX_TEMPLATE)
-	$(PANDOC) $(PANDOC_OPT) -t latex --template=$(TEX_TEMPLATE) $< > $@
+	$(PANDOC) $(PANDOC_TEX_OPT) $< > $@
 
 $(DVI): $(TEX)
 

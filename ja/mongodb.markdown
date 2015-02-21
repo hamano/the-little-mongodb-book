@@ -6,6 +6,7 @@ translator: HAMANO Tsukasa
 authors: Karl Seguin 著 / 濱野　司 訳
 keywords: MongoDB 薄い本 チュートリアル
 version: 2.0.3
+stylesheet: stylesheet.css
 ---
 
 # この本について # {-}
