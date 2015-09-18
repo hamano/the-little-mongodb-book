@@ -32,7 +32,7 @@ PANDOC_EPUB_OPT=$(PANDOC_OPT) -t epub3 --template=$(EPUB_TEMPLATE)
 all: $(PDF) $(EPUB) $(THUMB)
 
 clean:
-	rm -rf *.log *.out *.aux *.toc $(TEX) $(DVI) $(PDF) $(EPUB) $(HTML)
+	rm -rf *.log *.out *.aux *.toc $(TEX) $(DVI) $(PDF) $(EPUB) $(HTML) $(THUMB)
 
 $(EPUB): $(SRC) $(EPUB_TEMPLATE)
 	$(PANDOC) $(PANDOC_EPUB_OPT) -o $@ $<
