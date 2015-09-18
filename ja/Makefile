@@ -1,14 +1,10 @@
-#include meta.mk
-
 PLATEX=uplatex
-PANDOC=~/.cabal/bin/pandoc
-#PANDOC=pandoc
+PANDOC=pandoc
 DVIPDFMX=dvipdfmx
-DVIPDFMX_OPT=-f uptex-hiragino
-#DVIPDFMX_OPT=-f uptex-hiramaru.map
+DVIPDFMX_OPT=-f otf-up-hiragino
 
-NAME=mongodb
-SRC=$(NAME).markdown
+NAME=the-little-mongodb-book-ja
+SRC=mongodb.markdown
 TEX=$(NAME).tex
 PDF=$(NAME).pdf
 EPUB=$(NAME).epub
