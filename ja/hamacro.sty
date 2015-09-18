@@ -8,17 +8,15 @@
 %% 
 %% This is a generated file.
 %% 
-%% Copyright (C) 2004-2014 HAMANO Tsukasa <hamano@cuspy.org>
+%% Copyright (C) 2004-2015 HAMANO Tsukasa <hamano@cuspy.org>
 %% 
-%% Apache License
-%% Version 2.0, January 2004
-%% http://www.apache.org/licenses/
+%% This file is released under the MIT License.
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesPackage{hamacro}
-    [2004/11/05 v1.0 .dtx skeleton file]
+\ProvidesPackage{hamacro}[2004/11/05 hamano]
 
 \usepackage[T1]{fontenc}
+\usepackage{txfonts}
 \usepackage[deluxe]{otf}
 \usepackage[dvipdfmx]{graphicx}
 
@@ -55,6 +53,7 @@
 \usepackage{ctable}
 \usepackage{longtable}
 \usepackage{ulem}
+\usepackage{soul}
 
 \colorlet{framerule}{gray}
 \colorlet{framebg}{gainsboro}
@@ -149,14 +148,17 @@
 {1em}{}
 [\titleline{\color{subcolor}\titlerule[1.5pt]}]
 
+\newcommand\subseculine{\bgroup\markoverwith
+  {\textcolor{subcolor}{\rule[-1ex]{2pt}{1.5pt}}}\ULon}
+
 \titleformat{\subsection}[block]
-{\gtfamily\bfseries\Large\def\ULthickness{1.5pt}}
-{\color{subcolor}\uline{\thesubsection{} \color{black}{#1}}}
+{\gtfamily\bfseries\Large}
+{\subseculine{\textcolor{subcolor}{\thesubsection{}} {#1}}}
 {1em}{}
 
 \titleformat{name=\subsection,numberless}[block]
-{\gtfamily\bfseries\Large\def\ULthickness{1.5pt}}
-{\color{subcolor}\uline{\color{black}{#1}}}
+{\gtfamily\bfseries\Large}
+{\subseculine{#1}}
 {1em}{}
 
 \titleformat{\subsubsection}[block]
@@ -183,7 +185,7 @@
 \newcommand{\bigquotemark}{
   {\fontsize{32pt}{32pt}\selectfont \color{accentcolor} \textbf{``}}
   \vskip -2.3em
-  \hskip 0.3zw
+  \hskip 0.5zw
 }
 \renewenvironment{quote}{
   \def\FrameCommand{
@@ -191,8 +193,8 @@
     \fcolorbox{gray}{gainsboro}
   }
   \MakeFramed {\advance\hsize-\width \FrameRestore}
-  \parindent 0zw % quoteマークがインデント代わり
-  \vskip -.5em
+  \parindent 0zw
+  \vskip -0.5em
   \hskip -1zw
   {\bigquotemark}
 }
@@ -264,11 +266,14 @@
 \newcommand{\NormalTok}[1]{{#1}}
 
 \usepackage{upquote}
-\usepackage{listings,jlisting}
+\usepackage{listings}
 \AtBeginDocument{
   \def\lstlistingname{}
   \def\thelstlisting{}
 }
+
+\providecommand{\tightlist}{
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 
 
