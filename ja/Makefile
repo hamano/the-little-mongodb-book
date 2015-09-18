@@ -9,6 +9,7 @@ TEX=$(NAME).tex
 PDF=$(NAME).pdf
 EPUB=$(NAME).epub
 HTML=$(NAME).html
+THUMB=$(NAME).png
 
 TEX_TEMPLATE=template.tex
 EPUB_TEMPLATE=template.html
@@ -25,7 +26,10 @@ PANDOC_EPUB_OPT=$(PANDOC_OPT) -t epub3 --template=$(EPUB_TEMPLATE)
 %.pdf: %.dvi
 	$(DVIPDFMX) $(DVIPDFMX_OPT) $^
 
-all: $(PDF) $(EPUB)
+%.png: %.pdf
+	pdftoppm -png -l 1 $^ > $@
+
+all: $(PDF) $(EPUB) $(THUMB)
 
 clean:
 	rm -rf *.log *.out *.aux *.toc $(TEX) $(DVI) $(PDF) $(EPUB) $(HTML)
