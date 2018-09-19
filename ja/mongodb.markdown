@@ -5,9 +5,12 @@ author: Karl Seguin
 translator: HAMANO Tsukasa
 authors: Karl Seguin 著 / 濱野　司 訳
 keywords: MongoDB 薄い本 チュートリアル
-version: 2.0.4
+version: 2.0.5
 stylesheet: stylesheet.css
 ---
+
+\frontmatter
+\tableofcontents
 
 # この本について # {-}
 
@@ -20,7 +23,7 @@ MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてラ�
 <http://creativecommons.org/licenses/by-nc/3.0/legalcode>
 
 ## 著者について ## {-}
-カール・セガンは幅広い経験と技術を持った開発者です。 彼は.Netのエキスパートであると同時にRubyの開発者です。彼はOSSプロジェクトのセミアクティブな貢献者であり、テクニカルライターや時々講演を行っています。MongoDBに関して、彼はC#のMongoDBライブラリNoRMの主要な貢献者であり、インタラクティブ・チュートリアル[mongly](http://mongly.com)や[Mongo Web Admin](https://github.com/karlseguin/Mongo-Web-Admin)を書きました。彼のカジュアルなゲーム開発者の為のサービス、[mogade.com](http://mogade.com/)はMongoDBで稼動しています。
+カール・セガンは幅広い経験と技術を持った開発者です。 彼は.Netのエキスパートであると同時にRubyの開発者です。彼はOSSプロジェクトのセミアクティブな貢献者であり、テクニカルライターや時々講演を行っています。MongoDBに関して、彼はC#のMongoDBライブラリNoRMの主要な貢献者であり、インタラクティブ・チュートリアル[mongly](http://openmymind.net/mongly/)や[Mongo Web Admin](https://github.com/karlseguin/Mongo-Web-Admin)を書きました。彼のカジュアルなゲーム開発者の為のサービス、[mogade.com](http://mogade.com/)はMongoDBで稼動しています。
 
 カールは過去に[Redisの薄い本](http://openmymind.net/2012/1/23/The-Little-Redis-Book/)も書いています。
 
@@ -44,6 +47,8 @@ MongoDBの薄い本はAttribution-NonCommercial 3.0 Unportedに基づいてラ�
 
 原書のソース:
 <http://github.com/karlseguin/the-little-mongodb-book>
+
+\mainmatter
 
 # 序章 # {-}
  > この章が短いことは私の誤りではありません、MongoDBを学ぶ事はとても簡単です。
@@ -469,9 +474,6 @@ db.employees.find({'family.mother': 'Chani'})
 
 後ほど、埋め込みドキュメントがどの様な場所に適合し、どの様に使用するかを簡単に説明します。
 
-### DBRef ###
-MongoDBは`DBRef`と言われる習慣を多くのドライバでサポートしています。ドライバが`DBRef`に遭遇すると、自動的に参照先のドキュメントを取得します。`DBRef`はコレクションやドキュメントの参照IDを含みます。これは一般的に特定の目的に対して提供される機能です。例えばドキュメントが同じコレクションのドキュメントから参照され、異なるコレクションからも同じドキュメントを参照するような場合です。つまり、ドキュメント1が`managers`のドキュメントを指し示す`DBRef`である一方、ドキュメント2が`employees`のドキュメントを指し示す事が出来ます。
-
 ### 非正規化 ###
 joinを使う事の代わりのもうひとつの代替は、データを非正規化する事です。従来、非正規化はパフォーマンス特化の為やデータの速記(ログの様な)の為に利用されてきました。ところが、NoSQLの人気が高まるにつれて、joinを行わないことや非正規化は次第に一般的なモデリング手法として認められるようになってきました。これは全てのドキュメントであらゆる情報が重複するという意味ではありません。けれども、その方がかえって重複を恐れずに、データがどの情報に基づいていて、どのドキュメントに属しているかをよく考えてモデリングし、設計を行う傾向があります。
 
@@ -566,7 +568,7 @@ MongoDBはデータ処理の仕事の殆んどをMapReduceに頼っています�
 もちろん並列データ処理はリレーショナルデータベースの得意とするものでもありません。MongoDBの将来のバージョンで巨大なデータセットをもっと上手く扱えるようにする計画があります。
 
 ## 位置情報 ##
-非常に強力な機能としてMongoDBは位置情報インデックスをサポートしています。xとyの座標をドキュメントに格納し、`$near`で指定した座標で検索したり、`$within`で指定した四角や円で検索を行えます。この機能は図で説明したほうが分かりやすいので[5分間位置情報チュートリアル](http://tutorial.mongly.com/geo/index)を試すことをお勧めします。
+非常に強力な機能としてMongoDBは位置情報インデックスをサポートしています。xとyの座標をドキュメントに格納し、`$near`で指定した座標で検索したり、`$within`で指定した四角や円で検索を行えます。この機能は図で説明したほうが分かりやすいので[5分間位置情報チュートリアル](http://mongly.openmymind.net/geo/index)を試すことをお勧めします。
 
 ## ツールと成熟度 ##
 既に知っていると思いますが、MongoDBはリレーショナルデータベースより新しいシステムです。何をどの様に行いたいかに依りますが、この事はよく理解しておくべきでしょう。それにしても率直に評価するとMongoDBは新しく、あまり良いツールが在るとは言えません。(とはいえ、成熟したリレーショナルデータベースのツールにも怖ろしく酷いものはあります!)例を挙げると、10進数での浮動小数点の欠如はお金を扱うシステムでは明らかな懸念点です。(それほど致命的ではありませんが)
@@ -937,14 +939,10 @@ NoSQLは必要性によってのみ生み出されただけではなく、新し
 思うにこれは、私たちがプロとして活躍するための賢明な方法となるでしょう。
 
 <!--
-# translate status
-commit 35406d70b1269788613769d5de94771cc93fd64e
-Merge: 1a6c466 fd22ad8
-Author: Karl Seguin <karl@openmymind.net>
-Date:   Sat Feb 2 18:08:16 2013 -0800
+# translation status
+commit b57047e9502acddd36a8c7d333d43ebfafa67dcf
+Author: Karl Seguin <karl@openmymind.io>
+Date:   Sat May 3 11:02:21 2014 +0800
 
-    Merge pull request #29 from meonkeys/master
-        
-            Fix typo: imput -> input
-            
+    updated links to mongly (#37)
 -->
