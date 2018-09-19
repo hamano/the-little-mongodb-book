@@ -1,4 +1,4 @@
-\documentclass[oneside,12pt,uplatex]{jsbook}
+\documentclass[a4j,oneside,11ptj,uplatex]{jsbook}
 \usepackage[green]{hamacro}
 
 \hypersetup{
@@ -14,6 +14,26 @@
 \author{$author$}
 \date{\today}
 
+\makeatletter
+% jsbookで目次をブックマークするための修正
+% chapterのスターを消しただけ
+\renewcommand{\tableofcontents}{%
+  \settowidth\jsc@tocl@width{\headfont\prechaptername\postchaptername}%
+  \settowidth\@tempdima{\headfont\appendixname}%
+  \ifdim\jsc@tocl@width<\@tempdima \setlength\jsc@tocl@width{\@tempdima}\fi
+  \ifdim\jsc@tocl@width<2zw \divide\jsc@tocl@width by 2 \advance\jsc@tocl@width 1zw\fi
+  \if@twocolumn
+  \@restonecoltrue\onecolumn
+  \else
+  \@restonecolfalse
+  \fi
+  \chapter{\contentsname}%
+  \@mkboth{\contentsname}{}%
+  \@starttoc{toc}%
+  \if@restonecol\twocolumn\fi
+}
+\makeatother
+
 % document
 \begin{document}
 %\maketitle
@@ -23,11 +43,12 @@
 \end{flushright}
 \vspace*{3em}
 \begin{center}
-{\HUGE\gtfamily\bfseries{$title$}}
+%{\HUGE\sffamily\gtfamily\bf{$title$}}
+{\HUGE\gt\sf\textbf{$title$}}
 \bigskip\\
 {\LARGE\it{$subtitle$}}
 \bigskip\\
-{\LARGE\gtfamily\bfseries{$authors$}}
+{\LARGE\gt\sf{$authors$}}
 
 \vspace{8em}
 \includegraphics{title.eps}
@@ -36,11 +57,6 @@
 \end{titlepage}
 
 \clearpage
-
-$if(toc)$
-\tableofcontents
-\clearpage
-$endif$
 
 $body$
 
