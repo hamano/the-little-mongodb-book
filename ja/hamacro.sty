@@ -16,14 +16,27 @@
 \ProvidesPackage{hamacro}[2004/11/05 hamano]
 
 \usepackage[T1]{fontenc}
-\usepackage{txfonts}
+\usepackage{newtxmath}
+\usepackage{tgtermes}
+\usepackage{tgheros}
+\renewcommand{\bfdefault}{bx} % 和文がBoldにならない問題回避、tgtermesのバグ?
+\usepackage{inconsolata} % only ttdefault
 \usepackage[deluxe]{otf}
 \usepackage[dvipdfmx]{graphicx}
 
 \usepackage[dvipdfmx]{color}
 \usepackage[dvipdfmx]{xcolor}
+\definecolor{dimgray}{HTML}{696969}
 \definecolor{lightgray}{HTML}{D3D3D3}
 \definecolor{gainsboro}{HTML}{DCDCDC}
+\definecolor{gray90}{gray}{0.90} % E5E5E5
+\definecolor{gray91}{gray}{0.91} % E8E8E8
+\definecolor{gray92}{gray}{0.92} % EBEBEB
+\definecolor{gray93}{gray}{0.93} % EDEDED
+\definecolor{gray94}{gray}{0.94} % F0F0F0
+\definecolor{gray95}{gray}{0.95} % F2F2F2
+\definecolor{floralwhite}{HTML}{FFFAF0}
+
 \definecolor{azure}{HTML}{F0FFFF}
 \definecolor{darkblue}{HTML}{00008B}
 \definecolor{midnightblue}{HTML}{191970}
@@ -35,6 +48,7 @@
 \definecolor{lightgreen}{HTML}{90EE90}
 \definecolor{green}{HTML}{008000}
 \definecolor{darkgreen}{HTML}{006400}
+\definecolor{samuraiblue}{HTML}{1D327D}
 
 \usepackage[dvipdfm]{hyperref}
 \hypersetup{
@@ -55,8 +69,9 @@
 \usepackage{ulem}
 \usepackage{soul}
 
-\colorlet{framerule}{gray}
-\colorlet{framebg}{gainsboro}
+\colorlet{sectionbg}{gray90}
+\colorlet{framerule}{dimgray}
+\colorlet{framebg}{gray90}
 \colorlet{linkcolor}{blue}
 
 \colorlet{accentcolor}{black}
@@ -70,16 +85,29 @@
   \colorlet{accentcolor}{lightskyblue}
   \colorlet{subcolor}{midnightblue}
 }
+\DeclareOption{samuraiblue}{
+  \colorlet{accentcolor}{lightskyblue}
+  \colorlet{subcolor}{samuraiblue}
+}
+
+\DeclareOption{nomargin}{
+  \setlength{\oddsidemargin}{-0.1\paperwidth}
+  \setlength{\evensidemargin}{-0.1\paperwidth}
+  \setlength{\marginparwidth}{0pt}
+  \setlength{\marginparsep}{0pt}
+  \setlength{\textwidth}{0.9\paperwidth}
+  \setlength{\topmargin}{-1truein}
+  \setlength{\textheight}{0.9\paperheight}
+}
+
 \ProcessOptions
 
-\setlength{\oddsidemargin}{-1truein}
-\addtolength{\oddsidemargin}{0.11\paperwidth}
-\setlength{\evensidemargin}{-1truein}
-\addtolength{\evensidemargin}{0.11\paperwidth}
-\setlength{\marginparwidth}{0.10\paperwidth}
-\setlength{\marginparsep}{0.005\paperwidth}
-\setlength{\textwidth}{\paperwidth}
-\addtolength{\textwidth}{-0.22\paperwidth}
+\renewcommand{\footnoterule}{
+  \kern -3pt
+  \hrule width \columnwidth
+  \kern 2.6pt
+}
+
 
 \message{^^J}
 \message{***** Layout Info *****^^J}
@@ -99,7 +127,7 @@
   \newpage
   \null
   \begin{center}
-    {\LARGE \@title \par}
+    {\LARGE\gtfamily\bfseries{\@title}\par}
   \end{center}
   \begin{flushright}
     {\large \@date \par}
@@ -114,6 +142,7 @@
 \ChTitleVar{\centering\Huge\sffamily\color{black}}
 
 \renewcommand{\DOCH}{
+  \vskip -0.5truein
   \color{subcolor}
   \mghrulefill{3\RW}\par\nobreak
   \vskip -0.5\baselineskip
@@ -124,50 +153,82 @@
 }
 \renewcommand{\DOTI}[1]{
   \color{subcolor}
-  \mghrulefill{\RW}\par\nobreak
+  \vskip 0.5\baselineskip
   \CTV\FmTi{#1}\par\nobreak
+  \vskip -0.4\baselineskip
+  \color{subcolor}
+  \mghrulefill{\RW}\par\nobreak
   \vskip 1\baselineskip
 }
 \renewcommand{\DOTIS}[1]{
+  \vskip -0.5truein
   \color{subcolor}
   \mghrulefill{\RW}\par\nobreak
   \CTV\FmTi{#1}\par\nobreak
+  \vskip -0.4\baselineskip
+  \color{subcolor}
+  \mghrulefill{\RW}\par\nobreak
   \vskip 1\baselineskip
 }
 
-\usepackage[explicit]{titlesec}
-\titleformat{name=\section}[block]
-{\gtfamily\bfseries\LARGE}
-{\color{subcolor}{\thesection} \color{black}{#1}}
-{1em}{}
-[\titleline{\color{subcolor}\titlerule[1.5pt]}]
+\usepackage{etex}
+\usepackage[explicit,calcwidth]{titlesec}
 
-\titleformat{name=\section,numberless}[block]
-{\gtfamily\bfseries\LARGE}
-{#1}
-{1em}{}
-[\titleline{\color{subcolor}\titlerule[1.5pt]}]
+%% section formatting
+\newcommand\sectionformat[2]{
+  \tikz {
+    \node [
+      draw=subcolor,
+      line width=1.5pt,
+      fill=sectionbg,
+      align=left,
+      rounded corners=6pt,
+      text width=\columnwidth
+    ] {\textcolor{subcolor}{#2}\;\textcolor{black}{#1}};
+  }
+}
 
-\newcommand\subseculine{\bgroup\markoverwith
-  {\textcolor{subcolor}{\rule[-1ex]{2pt}{1.5pt}}}\ULon}
+\titleformat{name=\section}
+            {\sf\gtfamily\bfseries\LARGE}{}{0pt}
+            {\sectionformat{#1}{\thesection}}
+\titleformat{name=\section,numberless}
+            {\sf\gtfamily\bfseries\LARGE}{}{0pt}
+            {\sectionformat{#1}{}}
+\titlespacing*{\section}{-1em}{3ex}{-5ex}
 
-\titleformat{\subsection}[block]
-{\gtfamily\bfseries\Large}
-{\subseculine{\textcolor{subcolor}{\thesubsection{}} {#1}}}
-{1em}{}
-
+\titleformat{name=\subsection}[block]
+            {\sf\gtfamily\bfseries\Large}
+            {\textcolor{subcolor}{\thesubsection}}
+            {0.5em}
+            {#1}
+            [{\addtolength{\titlewidth}{0.2em}
+                \titleline*[l]{\color{subcolor}\titlerule[1.5pt]}}]
 \titleformat{name=\subsection,numberless}[block]
-{\gtfamily\bfseries\Large}
-{\subseculine{#1}}
-{1em}{}
+            {\sf\gtfamily\bfseries\Large}
+            {}
+            {0.5em}
+            {#1}
+            [{\addtolength{\titlewidth}{0.2em}
+                \titleline*[l]{\color{subcolor}\titlerule[1.5pt]}}]
+\titlespacing*{\subsection}{0em}{1ex}{2ex}
 
 \titleformat{\subsubsection}[block]
-{\gtfamily\bfseries\large}
-{\color{subcolor}{\thesubsubsection} \color{black}{#1}}{10em}{}
-
+            {\sf\gtfamily\bfseries\large}
+            {\color{subcolor}{\thesubsubsection}}
+            {0.5em}
+            {#1}
 \titleformat{name=\subsubsection,numberless}[block]
-{\gtfamily\bfseries\large}
-{\color{black}{#1}}{10em}{}
+            {\sf\gtfamily\bfseries\large}
+            {}
+            {0.5em}
+            {#1}
+
+%% paragraph formatting
+\setcounter{secnumdepth}{4}
+\titleformat{name=\paragraph}[block]
+            {\sf\gtfamily\bfseries\normalsize}{\color{subcolor}{\theparagraph} \color{black}{#1}}{1em}{}
+\titleformat{name=\paragraph,numberless}[block]
+            {\sf\gtfamily\bfseries\normalsize}{#1}{1em}{}
 
 \let\origemph\emph
 \newcommand{\redemph}[1]
@@ -180,111 +241,122 @@
            {\origemph{\bou{#1}}}
 
 
-\usepackage{framed}
+\let\origtableofcontents\tableofcontents
+\renewcommand{\tableofcontents}{\textsf\origtableofcontents}
+
+\usepackage[framemethod=TikZ]{mdframed}
+\mdfsetup{
+  middlelinewidth=2pt,
+  middlelinecolor=framerule,
+  backgroundcolor=framebg,
+  roundcorner=3pt}
+
 \usepackage{anyfontsize}
 \newcommand{\bigquotemark}{
-  {\fontsize{32pt}{32pt}\selectfont \color{accentcolor} \textbf{``}}
+  {\fontsize{3em}{3em}\selectfont \color{accentcolor} \textbf{``}}
   \vskip -2.3em
-  \hskip 0.5zw
+  \hskip 1.5zw
 }
 \renewenvironment{quote}{
-  \def\FrameCommand{
-    \fboxsep=\FrameSep
-    \fcolorbox{gray}{gainsboro}
-  }
-  \MakeFramed {\advance\hsize-\width \FrameRestore}
+  \begin{mdframed}
   \parindent 0zw
   \vskip -0.5em
-  \hskip -1zw
   {\bigquotemark}
 }
 {
   \smallskip
-  \endMakeFramed
+  \end{mdframed}
 }
 
-\usepackage{fancyvrb}
 
 \renewenvironment{verbatim}{
   \VerbatimEnvironment
-  \def\FrameCommand{
-    \fboxsep=4truept
-    \fcolorbox{gray}{gainsboro}
-  }
-  \MakeFramed{\advance\hsize-\width \FrameRestore}
-  \tt\fontsize{10.5truept}{1.2em}
+  \begin{mdframed}[innerleftmargin=0.5ex]
+  \tt\fontsize{11truept}{1.2em}
   \begin{Verbatim}}
 {
   \end{Verbatim}
-  \endMakeFramed
+  \end{mdframed}
 }
 
 \newenvironment{verbatim60}{
   \VerbatimEnvironment
-  \def\FrameCommand{
-    \fboxsep=4truept
-    \fcolorbox{gray}{gainsboro}
-  }
-  \MakeFramed{\advance\hsize-\width \FrameRestore}
-  \tt\fontsize{14truept}{1.5em}
+  \begin{mdframed}[innerleftmargin=0.8ex]
+  \tt\fontsize{14.5truept}{1.5em}
   \begin{Verbatim}}
 {
   \end{Verbatim}
-  \endMakeFramed
+  \end{mdframed}
 }
 
 \newenvironment{verbatim40}{
   \VerbatimEnvironment
-  \def\FrameCommand{
-    \fboxsep=4truept
-    \fcolorbox{gray}{gainsboro}
-  }
-  \MakeFramed{\advance\hsize-\width \FrameRestore}
-  \tt\fontsize{21truept}{21truept}
+  \begin{mdframed}[innerleftmargin=1ex]
+  \tt\fontsize{22truept}{1.5em}
   \begin{Verbatim}}
 {
   \end{Verbatim}
-  \endMakeFramed
+  \end{mdframed}
 }
 
-\usepackage{mdframed}
-\newenvironment{Shaded}{\begin{mdframed}}{\end{mdframed}}
+\usepackage{fancyvrb}
+\newenvironment{Shaded}
+{
+  \begin{mdframed}[innerleftmargin=1ex]
+  \tt\fontsize{11truept}{1.2em}
+}{\end{mdframed}}
 \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
 \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
 \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
 \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
 \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
 \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
 \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
 \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
 \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
 \newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
 \newcommand{\NormalTok}[1]{{#1}}
-
-\usepackage{upquote}
-\usepackage{listings}
-\AtBeginDocument{
-  \def\lstlistingname{}
-  \def\thelstlisting{}
-}
 
 \providecommand{\tightlist}{
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
+\usepackage{upquote}
+\usepackage{listings}
 
 
 
+
+\AtBeginDocument{
+  \def\lstlistingname{リスト}
+}
 
 \mdfsetup{
   linewidth=1truept,
   linecolor=gray,
   innerleftmargin=0.5zw,
   innerrightmargin=0.5zw,
-  backgroundcolor=gainsboro
+  backgroundcolor=framebg
 }
 
 \BeforeBeginEnvironment{lstlisting}{
@@ -297,11 +369,11 @@
 
 \lstset{
   frame=single,
-  rulecolor=\color{gainsboro},
-  backgroundcolor=\color{gainsboro},
+  rulecolor=\color{framebg},
+  backgroundcolor=\color{framebg},
   framesep=0pt,
-  xleftmargin=0pt,
-  basicstyle=\fontsize{10.5truept}{1.2em}\tt,
+  xleftmargin=-0.1ex,
+  basicstyle=\fontsize{11truept}{1.2em}\tt,
   belowskip=-0.5em,
   identifierstyle=\color{black},
   commentstyle=\color{brown},
@@ -320,8 +392,11 @@
 
 \lstdefinelanguage{command}
 {
+  keywords={\#, export, if, while, for},
   morekeywords={\$},
-  otherkeywords={\#, \%}
+  otherkeywords={\#},
+  morestring=[b]',
+  morestring=[b]\"
 }
 
 \lstdefinelanguage{JavaScript}{
@@ -345,6 +420,17 @@
   morekeywords={
     server,server_name,listen,location,
     rewrite,proxy_pass, proxy_set_header},
+  morecomment=[l]{\#}
+}
+
+\lstdefinelanguage{slapd.conf}
+{
+  morekeywords={
+    include,loglevel,timelimit,sizelimit,
+    database,suffix,rootdn,rootpw,directory,
+    overlay,index,
+  },
+  morestring=[b]\",
   morecomment=[l]{\#}
 }
 
