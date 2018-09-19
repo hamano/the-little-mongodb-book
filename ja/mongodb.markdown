@@ -122,7 +122,7 @@ MongoDBの動作の基本的な仕組みを知ることからはじめましょ�
 
 私たちは最初にグローバルな`use`メソッドを利用してデータベースを切り替えます。どうぞ`use learn`と入力してみて下さい。そのデータベースが実際に存在していなくても構いません。最初のコレクションを`learn`に作成しましょう。今あなたはデータベースの中にいて、`db.getCollectionNames()`という様なデータベースコマンドを発行できます。これを実行すると、恐らく空の配列(`[ ]`)が返ってくるでしょう。コレクションはスキーマレスですので、それらを明確に作成する必要はありません。私たちは、単純にドキュメントをコレクションに作成する事が出来ます。それでは、`insert`コマンドを使ってコレクションにドキュメント挿入してみましょう。
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.insert({name: 'Aurora', gender: 'f', weight: 450})
 ~~~
 
@@ -130,13 +130,13 @@ db.unicorns.insert({name: 'Aurora', gender: 'f', weight: 450})
 
 これで、`unicorns`に対し`find`コマンドを使用してドキュメントのリストを取得出来るようになりました。
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.find()
 ~~~
 
 あなたが指定したデータには`_id`フィールドが追加されていることに注目して下さい。全てのドキュメントはユニークな`_id`フィールドを持たなければなりません。あなたは、MongoDBに生成させるかこの`ObjectID`を自分自身で生成する事になります。先程`system.indexes`コレクションが作成された理由は、デフォルトで`_id`フィールドはインデックス化されているからであると説明できます。あなたは以下のようにして`system.indexes`を参照できます:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.system.indexes.find()
 ~~~
 
@@ -144,7 +144,7 @@ db.system.indexes.find()
 
 スキーマレスコレクションの話に戻りましょう。`unicorns`コレクションに以下の様な完全に異なるドキュメントを入れてみます:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.insert({name: 'Leto', gender: 'm', home: 'Arrakeen', worm: false})
 ~~~
 
@@ -155,7 +155,7 @@ db.unicorns.insert({name: 'Leto', gender: 'm', home: 'Arrakeen', worm: false})
 
 セレクターについて掘り下げていく前に、演習の為の幾つかのデータをセットアップしましょう。まず最初に、これまでに`unicorns`コレクションに入れたドキュメントを`db.unicorns.remove()`を実行して削除します(セレクターを指定していないので、全てのドキュメントが削除されます)。さて、以下を実行して演習に必要なデータを挿入しましょう(コピペ推奨):
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.insert({name: 'Horny', dob: new Date(1992,2,13,7,47),
                     loves: ['carrot','papaya'], weight: 600,
                     gender: 'm', vampires: 63});
@@ -196,7 +196,7 @@ db.unicorns.insert({name: 'Dunx', dob: new Date(1976, 6, 18, 18, 18),
 
 さて、データが入りましたのでセレクターを習得しましょう。`{field: value}`は`field`というフィールドが`value`と等しいドキュメントを検索します。`{field1: value1, field2: value2}`は`and`式で検索します。`$lt`、 `$lte`、 `$gt`、 `$gte`、 `$ne`はそれぞれ、未満、以下、より大きい、以上、非等価、を意味する特別な演算子です。例えば、性別が男で体重が700ポンドより大きいユニコーンを探すにはこのようにします:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.find({gender: 'm', weight: {$gt: 700}})
 // このセレクターは以下と同等です。
 db.unicorns.find({gender: {$ne: 'f'}, weight: {$gte: 701}})
@@ -204,13 +204,13 @@ db.unicorns.find({gender: {$ne: 'f'}, weight: {$gte: 701}})
 
 `$exists`演算子はフィールドの存在や欠如のマッチに利用します。例えば:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.find({vampires: {$exists: false}})
 ~~~
 
 ひとつのドキュメントが返ってくるはずです。ANDではなくORを利用したい場合、`$or`演算子を利用して、ORをとりたい式を配列で指定します。
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.find({gender: 'f', $or: [{loves: 'apple'},
                                      {loves: 'orange'},
                                      {weight: {$lt: 500}}]})
@@ -226,7 +226,7 @@ db.unicorns.find({gender: 'f', $or: [{loves: 'apple'},
 
 `ObjectId`はMongoDBが生成した`_id`フィールドを選択するために利用します:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.find({_id: ObjectId("TheObjectId")})
 ~~~
 
@@ -242,7 +242,7 @@ db.unicorns.find({_id: ObjectId("TheObjectId")})
 ## 置換 と $set ##
 最も単純な形式では、`update`は2つの引数をとります: セレクター(where条件)とアップデートするフィールドです。もしRoooooodlesの体重を少し増やしたい場合、これを実行します:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.update({name: 'Roooooodles'}, {weight: 590})
 ~~~
 
@@ -250,13 +250,13 @@ db.unicorns.update({name: 'Roooooodles'}, {weight: 590})
 
 実際のコードでは`_id`を指定してレコードを更新するでしょうが、MongoDBが生成する`_id`はまだ知らないので、ここでは`name`を指定します。アップデートされたレコードを確認する場合、以下のようにします:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.find({name: 'Roooooodles'})
 ~~~
 
 あなたは最初の`update`に驚いてしまうでしょう。2番目に指定したパラメータは元のデータを**置き換える**為に使われてしまい、元のドキュメントは見つかりません。言い換えると、`update`はドキュメントを`name`で検索し、ドキュメント全体を2番目のパラメータで置き換えます。これはSQLの`update`文と異なる動作です。忠実に動的な更新を行う目的の幾つかの状況では、これは理想的な動作です。しかし、ひとつか複数のフィールドの値を変更したい場合は、MongoDBの`$set`修飾子を利用するのが最適でしょう:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.update({weight: 590}, {$set: {name: 'Roooooodles',
                                           dob: new Date(1979, 7, 18, 18, 44),
                                           loves: ['apple'],
@@ -266,26 +266,26 @@ db.unicorns.update({weight: 590}, {$set: {name: 'Roooooodles',
 
 これで、失われたフィールドをリセットします。`weight`を指定しなければ上書きできません。以下を実行します:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.find({name: 'Roooooodles'})
 ~~~
 
 期待する結果が得られました。従って、最初に行いたかった体重を変更する正しい方法は以下の通りです:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.update({name: 'Roooooodles'}, {$set: {weight: 590}})
 ~~~
 
 ## 更新修飾子 ##
 `$set`に加えて、その他の修飾子を利用するともっと粋なことが出来ます。これらの更新修飾子は、フィールドに対して作用します。なのでドキュメント全体が消えてしまうことはありません。例えば、`$inc`修飾子はフィールドの値を増やしたり、負の値で減らす事が出来ます。もしPilotが`vampire`を倒した数が間違っていて2つ多かった場合、以下のようにして間違いを修正します:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.update({name: 'Pilot'}, {$inc: {vampires: -2}})
 ~~~
 
 もしAuroraが突然甘党になったら、`$push`修飾子を使って、`loves`フィールドに値を追加することが出来ます:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.update({name: 'Aurora'}, {$push: {loves: 'sugar'}})
 ~~~
 
@@ -296,21 +296,21 @@ db.unicorns.update({name: 'Aurora'}, {$push: {loves: 'sugar'}})
 
 一般的な例はWebサイトのカウンターです。複数のページのカウンターをリアルタイムに動作させたい場合、ページのレコードが既に存在しているか確認し、更新を行うか挿入を行うか決めなければなりません。3番目の引数を省略(もしくはfalseに設定)して実行すると、以下のようにうまくいきません:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.hits.update({page: 'unicorns'}, {$inc: {hits: 1}});
 db.hits.find();
 ~~~
 
 しかし、`upsert`を有効にすると違った結果になります。
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.hits.update({page: 'unicorns'}, {$inc: {hits: 1}}, true);
 db.hits.find();
 ~~~
 
 `page`というフィールドの値が`unicorns`のドキュメントが存在していなければ、新しいドキュメントが挿入されます。2回目を実行すると既存のドキュメントが更新され、`hits`は2に増えます。
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.hits.update({page: 'unicorns'}, {$inc: {hits: 1}}, true);
 db.hits.find();
 ~~~
@@ -318,14 +318,14 @@ db.hits.find();
 ## 複数同時更新 ##
 最後の驚きは、`update`はデフォルトで一つのドキュメントに対してのみ更新を行う事です。これまでの様に、まず例を見ていきましょう。以下のように実行します:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.update({}, {$set: {vaccinated: true }});
 db.unicorns.find({vaccinated: true});
 ~~~
 
 あなたは全てのかわいいユニコーン達が予防接種を受けた(vaccinated)と期待するでしょう。あなたが望む様な振る舞いを行うには、4番目のパラメータをtrueに設定する必要があります:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.update({}, {$set: {vaccinated: true }}, false, true);
 db.unicorns.find({vaccinated: true});
 ~~~
@@ -337,13 +337,13 @@ db.unicorns.find({vaccinated: true});
 
 例えば、Rubyのドライバでは最後の2つのパラメータを一つのハッシュにまとめています:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 {:upsert => false, :multi => false}
 ~~~
 
 同様に、PHPのドライバも最後の2つのパラメータを配列にまとめています。
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 array('upsert' => false, 'multiple' => false)
 ~~~
 
@@ -353,7 +353,7 @@ array('upsert' => false, 'multiple' => false)
 ## フィールド選択 ##
 **カーソル**について学ぶ前に、`find`に任意で設定出来る2番目のパラメータについて知る必要があります。このパラメーターは取得したいフィールドのリストです。例えば、以下の様に実行して、全てのユニコーンの名前を取得出来ます。
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.find(null, {name: 1});
 ~~~
 
@@ -364,7 +364,7 @@ db.unicorns.find(null, {name: 1});
 ## 順序 ##
 これまでに何度か、`find`が必要な時に遅延して実行されるカーソルを返却する事に言及しました。しかし、まだあなたはこれをシェルから直接'find'を実行して自分の目で観測していません。この振る舞いはシェルのみとなります。カーソルの本当の振る舞いは`find`に一つのメソッドを連結することで観測することが出来ます。昇順でソートを行いたい場合はフィールドと1を指定し、降順で行いたい場合は-1を指定します。例えば:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 //重いユニコーンの順
 db.unicorns.find().sort({weight: -1})
 
@@ -377,7 +377,7 @@ db.unicorns.find().sort({name: 1, vampires: -1})
 ## ページング ##
 ページングの結果はcursorの`limit`メソッドや`skip`メソッドを利用して遂行できます。2番目と3番目に重いユニコーンを得るにはこうやります:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.find().sort({weight: -1}).limit(2).skip(1)
 ~~~
 
@@ -386,13 +386,13 @@ db.unicorns.find().sort({weight: -1}).limit(2).skip(1)
 ## カウント ##
 シェルではcollectionに対して直接`count`を呼び出す事が出来ます。例えば:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.count({vampires: {$gt: 50}})
 ~~~
 
 実際には`count`は`cursor`のメソッドであり、シェルは単純なショートカットを提供しているだけです。この様なショートカットを提供しないドライバでは以下の様に実行する必要があります(これはシェルでも動きます):
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.find({vampires: {$gt: 50}}).count()
 ~~~
 
@@ -409,13 +409,13 @@ db.unicorns.find({vampires: {$gt: 50}}).count()
 
 とにかく、Join無しの世界で生活するためにはアプリケーションのコード内でJoinを行わなくてはなりません。それには基本的に2度目の`find`クエリーを発行してデータを取得する必要があります。これから準備するデータはリレーショナルデータベースの外部キーと違いはありません。しばらく素敵な`unicorns`コレクションから視点を外して、`employees`コレクションに注目してみましょう。まず最初に、社員を作成します。(分かり易く説明する為に、`_id`フィールドを明示的に指定しています)
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d730"), name: 'Leto'})
 ~~~
 
 さて、`Leto`がマネージャーとなる様に設定した社員を何人か追加してみましょう:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d731"), name: 'Duncan',
                      manager: ObjectId("4d85c7039ab0fd70a117d730")});
 db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d732"), name: 'Moneo',
@@ -427,7 +427,7 @@ db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d732"), name: 'Moneo',
 
 言うまでもなく、Letoの社員を検索するには単純に以下を実行します:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.employees.find({manager: ObjectId("4d85c7039ab0fd70a117d730")})
 ~~~
 
@@ -438,7 +438,7 @@ db.employees.find({manager: ObjectId("4d85c7039ab0fd70a117d730")})
 ### 配列と埋め込みドキュメント ###
 MongoDBがjoinを持たないからといって、切り札が無いという意味ではありません。MongoDBのドキュメントがファーストクラスオブジェクトとしての配列をサポートしている事を簡単に確認したのを思い出してください。これは、多対一、多対多の関係を表現する際にとても器用に役立つ事が分かります。簡単な例として、社員が複数のマネージャーを持つ場合、単純にこれらを配列で格納する事が出来ます:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d733"), name: 'Siona',
                      manager: [ObjectId("4d85c7039ab0fd70a117d730"),
                                ObjectId("4d85c7039ab0fd70a117d732")]})
@@ -446,7 +446,7 @@ db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d733"), name: 'Siona',
 
 特に興味深い事は、ドキュメントはスカラ値であっても構わないし、配列であっても構わないという点です。最初の`find`クエリーはどちらであっても動作します:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.employees.find({manager: ObjectId("4d85c7039ab0fd70a117d730")})
 ~~~
 
@@ -454,7 +454,7 @@ db.employees.find({manager: ObjectId("4d85c7039ab0fd70a117d730")})
 
 配列に加えて、MongoDBは埋め込みドキュメントをサポートしています。次に進んで入れ子になったドキュメントを挿入してみてください:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d734"), name: 'Ghanima',
                      family: {mother: 'Chani',
                               father: 'Paul',
@@ -463,7 +463,7 @@ db.employees.insert({_id: ObjectId("4d85c7039ab0fd70a117d734"), name: 'Ghanima',
 
 驚くでしょうが、埋め込みドキュメントはクエリーにドット表記を使用できます:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.employees.find({'family.mother': 'Chani'})
 ~~~
 
@@ -477,7 +477,7 @@ joinを使う事の代わりのもうひとつの代替は、データを非正�
 
 例えば、掲示板のWEBアプリケーションを作っているとします。伝統的な方法では、`posts`テーブルにある**ユーザーID**によって**ユーザー**と**投稿**を紐付けます。この様なモデルでは`users`テーブルを検索(もしくはjoin)しなければ**投稿**を表示することが出来ません。埋め込みドキュメントがあればこういう事も出来るでしょう:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 `user: {id: ObjectId('Something'), name: 'Leto'}`
 ~~~
 
@@ -491,7 +491,7 @@ joinを使う事の代わりのもうひとつの代替は、データを非正�
 まず、個々のドキュメントのサイズは16MByteまでに制限されていることを知らなければなりません。ドキュメントのサイズに制限があるとわかった所で、気前よく替りにどの様にすれば良いかのアイディアを提供しましょう。現在の所、開発者が巨大なリレーションを行いたい場合、大抵は手動で参照しなければならない様に思われます。埋め込みドキュメントは頻繁に利用されますが、データの小片は親ドキュメントと同時に取得したい場合が殆どです。
 実例として、ユーザーのアカウント情報を格納する例を利用します。
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.users.insert({name: 'leto', email: 'leto@dune.gov',
                  account: {allowed_gholas: 5, spice_ration: 10}})
 ~~~
@@ -533,7 +533,7 @@ MongoDBが適合する専門的な役割のひとつはロギングです。Mong
 
 パフォーマンスに加え、ログデータはスキーマレスの利点を活かす事が出来るデータセットの一つです。最後に、MongoDBの[Cappedコレクション](http://www.mongodb.org/display/DOCS/Capped+Collections)と呼ばれる機能を紹介します。これまで作成してきたコレクションは暗黙的に普通のコレクションを作成してきました。cappedコレクションは`db.createCollection`コマンドにフラグを指定して作成します:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 // このCappedコレクションを1Mbyteで制限します
 db.createCollection('logs', {capped: true, size: 1048576})
 ~~~
@@ -590,7 +590,7 @@ MapReduceは2段階の処理に分かれています。最初にmapを行い、�
 
 `hits`に以下のデータがあります:
 
-~~~ {language="javascript"}
+~~~
 resource     date
 index        Jan 20 2010 4:30
 index        Jan 20 2010 5:30
@@ -606,7 +606,7 @@ index        Jan 22 2010 5:00
 
 以下の出力を期待しているとします:
 
-~~~ {language="javascript"}
+~~~
 resource  year   month   day   count
 index     2010   1       20    3
 about     2010   1       20    1
@@ -621,7 +621,7 @@ index     2010   1       22    1
 
 まず初めに、以下のmap関数を見てください。mapの目的はreduce出来るような値を生成し、emitする事です。mapは0回以上emitする事が可能です。今回の場合、全て共通に一度だけemitを行います。このmap関数はhitsコレクションのドキュメント毎にループしていると想像して下さい。ドキュメント毎に、キーをresource, year, month, day指定し、値には単純に1を指定してemitします:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 function() {
     var key = {
         resource: this.resource,
@@ -635,7 +635,7 @@ function() {
 
 `this`はループ中のドキュメントを参照します。恐らくは、map段階の後にどの様なデータが出力されるかを確認する事が、理解の助けになるでしょう。前記した入力データを利用すると、map完了後のデータは以下の様になり、`emit`された値はキー毎に配列としてグループ化されます:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 {resource: 'index', year: 2010, month: 0, day: 20}
 => [{count: 1}, {count: 1}, {count:1}]
 
@@ -656,7 +656,7 @@ function() {
 
 それでは、map関数を不自然に変更してみましょう:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 function() {
     var key = {
         resource: this.resource,
@@ -674,7 +674,7 @@ function() {
 
 中間段階の出力は以下の様に変わります:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 {resource: 'index', year: 2010, month: 0, day: 20}
 => [{count: 5}, {count: 1}, {count:1}]
 ~~~
@@ -684,7 +684,7 @@ function() {
 reduce関数はこれらの中間結果を受け取り、最終的な結果として出力します。
 以下を見て下さい:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 function(key, values) {
     var sum = 0;
     values.forEach(function(value) {
@@ -696,7 +696,7 @@ function(key, values) {
 
 以下の出力を得られます:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 {resource: 'index', year: 2010, month: 0, day: 20} => {count: 3}
 {resource: 'about', year: 2010, month: 0, day: 20} => {count: 1}
 {resource: 'about', year: 2010, month: 0, day: 21} => {count: 3}
@@ -706,7 +706,7 @@ function(key, values) {
 
 正確には、MongoDBはこの様に出力します:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 _id: {resource: 'index', year: 2010, month: 0, day: 20}, value: {count: 3}
 ~~~
 
@@ -718,14 +718,14 @@ reduce関数の結果は同じreduce関数にフィードバックされます�
 
 例に戻ると、reduceは以下のような入力で呼び出されるかもしれません:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 {resource: 'index', year: 2010, month: 0, day: 20}
 => [{count: 1}, {count: 1}, {count:1}]
 ~~~
 
 もしくは以下のように2段階に分かれて呼ばれるかもしれません:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 // ステップ1
 {resource: 'index', year: 2010, month: 0, day: 20}
  => [{count: 1}, {count: 1}]
@@ -744,7 +744,7 @@ reduce関数の結果は同じreduce関数にフィードバックされます�
 ## ひたすら練習 ##
 MongoDBでは、コレクションに対して`mapReduce`コマンドを呼び出してMapReduceを実行します。`mapReduce`には引数にmap関数とreduce関数、そして出力ディレクティブを引き渡します。mongodbのシェルではJavaScriptの関数を定義して解釈します。多くのライブラリでは関数を文字列で引き渡します(ちょっとカッコ悪いけど)。まずはこれらのデータを入力してみましょう:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.hits.insert({resource: 'index', date: new Date(2010, 0, 20, 4, 30)});
 db.hits.insert({resource: 'index', date: new Date(2010, 0, 20, 5, 30)});
 db.hits.insert({resource: 'about', date: new Date(2010, 0, 20, 6, 0)});
@@ -759,7 +759,7 @@ db.hits.insert({resource: 'index', date: new Date(2010, 0, 22, 5, 0)});
 
 続いてmapとreduce関数を定義します(MongoDBのシェルは複数行の命令文を解釈します。**...**は引き続きテキストが入力される事を期待しています):
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 var map = function() {
     var key = {resource: this.resource,
                year: this.date.getFullYear(),
@@ -780,13 +780,13 @@ var reduce = function(key, values) {
 
 この`map`、`reduce`関数を`mapReduce`コマンドに渡して実行します:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.hits.mapReduce(map, reduce, {out: {inline:1}})
 ~~~
 
 上記を実行すると、期待した出力が表示されます。`out: {inline:1}`を設定すると、`mapReduce`の処理結果が順次表示されます。この機能は現在の所結果のサイズが4MByte以下に制限されています。代わりに、`{out: 'hit_stats'}`と指定することで結果を`hit_stats`コレクションに格納することが出来ます:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.hits.mapReduce(map, reduce, {out: 'hit_stats'});
 db.hit_stats.find();
 ~~~
@@ -804,27 +804,27 @@ db.hit_stats.find();
 ## インデックス ##
 まず最初に、特別な`system.indexes`コレクションの中に含まれるデータベースのインデックス情報を見ていきましょう。MongoDBのインデックスはリレーショナルデータベースのインデックスと同じように動作します。すなわち、これらはクエリーやソートのパフォーマンスを改善するのに役立ちます。インデックスは`ensureIndex`を呼んで作成されます:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 // この "name" はフィールド名です
 db.unicorns.ensureIndex({name: 1});
 ~~~
 
 そして、`dropIndex`を呼んで削除します:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.dropIndex({name: 1});
 ~~~
 
 2番目のパラメーターに`{unique: true}`に設定することでユニークインデックスを作成できます。
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.ensureIndex({name: 1}, {unique: true});
 ~~~
 
 インデックスは埋めこまれたフィールドと配列フィールドに対して作成できます。
 複合インデックスも作成できます:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.ensureIndex({name: 1, vampires: -1});
 ~~~
 
@@ -835,7 +835,7 @@ db.unicorns.ensureIndex({name: 1, vampires: -1});
 ## Explain ##
  インデックスを使用しているかに関わらず、カーソルに対し`explain`メソッドを使うことが出来ます:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.find().explain()
 ~~~
 
@@ -843,7 +843,7 @@ db.unicorns.find().explain()
 
 もしインデックスを利用するように変更した場合`BtreeCursor`が利用されていることを確認できます。この場合、インデックスはうまく利用できているでしょう:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.find({name: 'Pilot'}).explain()
 ~~~
 
@@ -869,19 +869,19 @@ MongoDBを起動すると、Webベースの管理ツールに関する情報が�
 ## プロファイラ ##
 以下を実行をすることでMongoDBプロファイラを有効にできます:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.setProfilingLevel(2);
 ~~~
 
 有効にした後に、以下のコマンドを実行します:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.unicorns.find({weight: {$gt: 600}});
 ~~~
 
 そして、プロファイラを観察して下さい:
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 db.system.profile.find()
 ~~~
 
@@ -889,7 +889,7 @@ db.system.profile.find()
 
 再度、`setProfileLevel`の引数を`0`に変えて呼び出すことでプロファイラを無効に出来ます。他のオプションは`1`を指定することで100ミリ秒以上のクエリーのみをプロファイリングします。さらに、2番目のパラメータに最小時間をミリ秒で指定することが出来ます。
 
-~~~ {language="javascript"}
+~~~ {.javascript}
 // 1秒以上のクエリーをプロファイルする
 db.setProfilingLevel(1, 1000);
 ~~~
@@ -899,25 +899,25 @@ MongoDBには`bin`の中に`mongodump`という実行ファイルが付属して
 
 例えば、`learn`データベースを`backup`フォルダにバックアップするには以下を実行します(これは実行ファイルですのでmongoシェルではなく、ターミナルウィンドウでコマンドを実行します):
 
-~~~ {language=command}
+~~~ {.bash}
 mongodump --db learn --out backup
 ~~~
 
 `unicorns`コレクションのみをリストアするにはこの様に実行します:
 
-~~~ {language=command}
+~~~ {.bash}
 mongorestore --collection unicorns backup/learn/unicorns.bson
 ~~~
 
 `mongoexport`と`mongoimport`という２つの実行ファイルはJSONまたはCSV形式でエクスポートとインポートできることを指摘しておきます。例えばJSON形式で出力するには以下のようにします:
 
-~~~ {language=command}
+~~~ {.bash}
 mongoexport --db learn -collection unicorns
 ~~~
 
 そして、CSV形式での出力はこうします:
 
-~~~ {language=command}
+~~~ {.bash}
 mongoexport --db learn -collection unicorns --csv -fields name,weight,vampires
 ~~~
 
