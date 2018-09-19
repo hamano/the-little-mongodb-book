@@ -1,7 +1,7 @@
 PLATEX=uplatex
 PANDOC=pandoc
 DVIPDFMX=dvipdfmx
-DVIPDFMX_OPT=-f otf-up-hiragino
+DVIPDFMX_OPT=-f noto
 
 NAME=the-little-mongodb-book-ja
 SRC=mongodb.markdown
@@ -16,7 +16,7 @@ EPUB_TEMPLATE=template.html
 EPUB_CSS=test.css
 
 PANDOC_OPT=-f markdown+yaml_metadata_block --toc -N --chapters
-PANDOC_TEX_OPT=$(PANDOC_OPT) -t latex --template=$(TEX_TEMPLATE) --listings
+PANDOC_TEX_OPT=$(PANDOC_OPT) -t latex --template=$(TEX_TEMPLATE)
 PANDOC_EPUB_OPT=$(PANDOC_OPT) -t epub3 --template=$(EPUB_TEMPLATE)
 
 %.dvi: %.tex
